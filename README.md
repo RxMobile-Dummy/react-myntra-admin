@@ -1,5 +1,3 @@
-## Word of advice
- I wouldn't do exactly like this in production. I am just share one way this could be done, may not be the best, but it's a realistic way. I Recommend looking for other implementations as well to complement your research. The repo is also a bit outdated and many conventions have changed over time.
 
 # React Clean Architecture
 Applying clean architecture to a react codebase brings lots of benefits, most of them you can find by simply googling what's clean architecture and what should we adopt architectural patterns.
