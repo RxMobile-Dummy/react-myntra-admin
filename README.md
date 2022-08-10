@@ -1,5 +1,5 @@
 
-# React Clean Architecture
+# React-myntra-admin
 Applying clean architecture to a react codebase brings lots of benefits, most of them you can find by simply googling what's clean architecture and what should we adopt architectural patterns.
 One advantage that strikes me is having business rules isolated from framework-specific things. This means that our core logic is not coupled to React, React Native etc...  
 This gives you enough flexibility to, for example, move specific parts of the application to a backend, change libraries without too much pain, test once and reuse as many times as you want, share code between React and React Native applications, among others.   
