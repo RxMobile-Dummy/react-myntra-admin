@@ -49,7 +49,7 @@ export default function LoginPage(props: PropsType) {
     // const checkLogin = (event: any) => {
     // console.log("event:", event)
     // event.preventDefault();
-    // LoginService.login({ ...user })
+     //LoginService.login({ ...user })
     //     .then((res) => {
     //         // console.log(res);
     //         let token = res.data.token;
