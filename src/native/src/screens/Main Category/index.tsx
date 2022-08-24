@@ -9,7 +9,6 @@ const MainCategory: React.FC<Props> = ({navigation}) => {
   return (
     <Animated.View style={styles.container}>
       <Text>{"Welcome to Main Categories"}</Text>
-     
     </Animated.View>
   );
 };

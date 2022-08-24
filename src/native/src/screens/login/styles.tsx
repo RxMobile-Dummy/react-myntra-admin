@@ -1,48 +1,66 @@
 import {Platform, StyleSheet} from 'react-native';
 import {Colors} from '../../Constants/Color';
+import { normalize } from '../../utils/commonStyle';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
   },
-  signInBtn: {
-    backgroundColor: Colors.cyan,
-    borderColor: Colors.turquoise,
-    alignSelf: 'center',
+  subContainer : { 
+    alignItems: "center", 
+    justifyContent: "center", 
+    flex: 1, 
+    width: "90%", 
+    alignSelf: "center" 
   },
-  googleBtn: {
-    width: '70%',
-    height: 50,
-    alignSelf: 'center',
-    marginTop: 10,
+  img : { 
+    height: normalize(105), 
+    width: "100%" 
   },
-  fbBtn: {
-    width: '70%',
-    height: 50,
-    marginTop: 10,
-    borderRadius: 30,
-    alignItems: 'center',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    borderWidth: 0.5,
-    borderColor: 'white',
-    backgroundColor: Colors.tertiary,
-    ...Platform.select({
-      ios: {
-        shadowOffset: {width: 0, height: 2},
-        shadowColor: Colors.black,
-        shadowOpacity: 0.2,
-      },
-      android: {
-        elevation: 5,
-      },
-    }),
+  header : { 
+    backgroundColor: Colors.white, 
+    paddingTop: normalize(15), 
+    width: "100%", 
+    height: normalize(350) 
   },
-  fbBtnView: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    width: '100%',
-    alignItems: 'center',
+  lgTxt: { 
+    fontSize: normalize(18), 
+    color: Colors.pink, 
+    fontWeight: "600" 
   },
+  box : { 
+    width: "90%", 
+    alignSelf: "center", 
+  },
+  elContainer : { 
+    marginTop: normalize(15), 
+    height: normalize(65) 
+  },
+  elTxt : { 
+    fontSize: normalize(14), 
+    color: "#585757" 
+  },
+  footer : { 
+    marginTop: normalize(20), 
+    paddingLeft: normalize(5) 
+  },
+  txt : { 
+    fontSize: normalize(14), 
+    color: "#585757" 
+  },
+  subTxt : { 
+    fontSize: normalize(14), 
+    color: Colors.pink, 
+    fontWeight: "800" 
+  },
+  top : { 
+    marginTop: normalize(20) 
+  },
+  lgContainer : { 
+    alignItems: "center", 
+    justifyContent: "center", 
+    height: normalize(45) 
+  },
+  lg : { fontSize: normalize(14), color: "#fff" }
 });
 export default styles;

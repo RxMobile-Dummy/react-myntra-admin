@@ -12,4 +12,6 @@ export const Colors = {
   gold: '#FFD700',
   orange: '#FFA500',
   cyan: '#00CED1',
+  pink : "#FF3F6B",
+  bgColor : "#fffafc"
 };

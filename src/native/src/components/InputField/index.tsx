@@ -5,8 +5,8 @@ import { normalize } from "../../utils/commonStyle";
 export type Props = {
     value : any,
     onChange : any,
-    isPassword : boolean,
-    showPassord : boolean,
+    // isPassword : boolean,
+    // showPassord : boolean,
     top : number
   };
 

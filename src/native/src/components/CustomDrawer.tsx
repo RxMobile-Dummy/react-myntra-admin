@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   conContainer: {
-    backgroundColor: Colors.turquoise,
+    backgroundColor: Colors.tertiary,
   },
   imgBg: {
     padding: 20,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   userName: {
-    color: "#FF3F6B",
+    color: Colors.pink,
   },
   drawerItem: {
     flex: 1,
