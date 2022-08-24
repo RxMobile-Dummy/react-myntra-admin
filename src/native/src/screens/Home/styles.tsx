@@ -1,21 +1,32 @@
 import {StyleSheet} from 'react-native';
 import {Colors} from '../../Constants/Color';
+import { normalize } from '../../utils/commonStyle';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
   },
-  btn: {
-    backgroundColor: Colors.primary,
-    width: '80%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-    borderRadius: 15,
+  flContainer : { 
+    marginTop: "15%", 
+    width: "95%", 
+    alignSelf: "center", 
   },
+  item : {
+    justifyContent : "center",
+    alignItems : "center",
+    height: normalize(110),
+    flex: 1,
+    margin : normalize(8),
+  },
+  blankDiv : {
+    backgroundColor: 'transparent'
+  },
+  linear : {
+    width : "100%", 
+    height : normalize(110),
+    borderRadius : normalize(10)
+  }
 });
 
 export default styles;
