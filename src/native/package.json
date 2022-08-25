@@ -7,12 +7,17 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "clean:android": "cd android && ./gradlew clean && cd ..",
+    "clean:ios": "cd ios && xcodebuild clean && cd ..",
+    "debug:android": "cd android/ && ./gradlew assembleDebug && cd ..",
+    "release:android": "cd android/ && ./gradlew assembleRelease && cd ..",
+    "bundle:ios": "react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios",
+    "build:android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "postinstall": "npm run bundle:ios"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.11",
-    "@react-native-firebase/app": "^14.11.0",
-    "@react-native-google-signin/google-signin": "^7.2.2",
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/drawer": "^6.4.1",
     "@react-navigation/native": "^6.0.10",
