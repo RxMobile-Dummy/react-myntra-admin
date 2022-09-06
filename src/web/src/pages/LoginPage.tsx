@@ -1,34 +1,26 @@
 import React, { useState } from "react";
 import { ChangeEvent } from "react";
-// import { setUserSession } from "../../Utils/Storage";
-// import LoginService from "../../services/LoginService";
+import { useDispatch } from "react-redux";
 import Navbar from "../components/NavBar";
-//import { NotificationManager } from "react-notifications";
+// import {login} from "core"
+import { Login } from "core"
+import axios from "axios"
+import { useNavigate } from "react-router-dom";
 
 interface PropsType {
     // onClick: (email: string, password: string) => void;
 }
 
-// interface StateType {
-//     email: string;
-//     password: string;
-// }
 
 export default function LoginPage(props: PropsType) {
-    // const [user, setUser] = useState({
-    //     // role: "seller",
-    //     email: "",
-    //     password: "",
-    // });
-    // const [email, setEmail] = React.useState<PropsType | {}>()
+
+    const dispatch = useDispatch()
+    let navigate = useNavigate();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const [error, setError] = useState(null);
-
-    // const handleChange = (event: any) => {
-    //     setUser({ ...user, [event.target.name]: event.target.value });
-    // };
 
     const handleChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -40,45 +32,18 @@ export default function LoginPage(props: PropsType) {
         event.preventDefault();
     };
 
-    const handleSubmit = (event: any) => {
-        alert(email)
-        // const { email, password } = this.state;
-        //  props.onClick(email, password);
+    const handleSubmit = async (event: any) => {
+        const paramData: any = {
+            email: "Developer5@gmail.com",
+            password: "123456",
+        };
+        dispatch<any>(Login(paramData))
+        navigate("dashboard/add-product")
     };
-
-    // const checkLogin = (event: any) => {
-    // console.log("event:", event)
-    // event.preventDefault();
-     //LoginService.login({ ...user })
-    //     .then((res) => {
-    //         // console.log(res);
-    //         let token = res.data.token;
-    //         let userId = res.data.id;
-    //         let isAdmin = true;
-    //         setUserSession(token, userId, isAdmin);
-    //         if (isAdmin) {
-    //             NotificationManager.success("Logged in successfully", "", 2000);
-    //             props.history.push("/dashboard");
-    //         } else {
-    //             props.history.push("/");
-    //         }
-
-    //         // props.history.push(props.location.state.from.pathname);
-    //     })
-    //     .catch((error) => {
-    //         console.error(error);
-    //         // if (error.response.status === 400) {
-    //         //   setError("Invalid Email or Password");
-    //         // } else {
-    //         //   setError("Something went wrong. Please try again later.");
-    //         // }
-    //     });
-    // };
 
     return (
         <>
             <Navbar />
-
             <div className="login-container py-5">
                 <div className="container bg-white p-0" style={{ width: "360px" }}>
                     <img
@@ -94,21 +59,7 @@ export default function LoginPage(props: PropsType) {
                             <span>Login</span>
                         </div>
                         <form onSubmit={handleSubmit}>
-                            {/* <div className="form-group mt-4">
-                <label className="form-control-label " htmlFor="usertype">
-                  Select User Type
-                </label>
-                <select
-                  className="form-control login-form-control"
-                  name="role"
-                  id="role"
-                  value={user.role}
-                  onChange={handleChange}
-                >
-                  <option value="seller">Admin</option>
-                  <option value="customer">User</option>
-                </select>
-              </div> */}
+
                             <div className="form-group mt-3">
                                 <label className="form-control-label" htmlFor="email">
                                     Email

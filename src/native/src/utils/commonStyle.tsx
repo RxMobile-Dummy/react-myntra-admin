@@ -15,9 +15,7 @@ export const commonStyles = StyleSheet.create({
   scrollviewContainer: {
     // flex: 1,
     width: "100%",
-    marginBottom: normalize(20),
-    marginTop: 20
-    //height: "100%",
+    marginBottom: normalize(30),
   },
   shadow: {
     shadowColor: "#FDEFE6",
