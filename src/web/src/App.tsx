@@ -13,13 +13,14 @@ import UsersPage from './pages/UsersPage';
 import UserOrdersPage from './pages/UserOrdersPage';
 import OffersPage from './pages/OffersPage';
 import ErrorPage from "./pages/ErrorPage";
+import { Provider } from 'react-redux';
 
 function App() {
   return (
+    //  <Provider store={store}>
     <Router>
-      {/* <ScrollToTop /> */}
       <Routes>
-        <Route path="/" element={<AdminHomePage />} />
+        <Route path="/admin" element={<AdminHomePage />} />
         <Route path="/dashboard/add-product" element={<AddProductPage />} />
         <Route path="/dashboard/main-categories" element={<MainCategoriesPage />} />
         <Route path="/dashboard/categories" element={<CategoryPage />} />
@@ -27,10 +28,11 @@ function App() {
         <Route path="/dashboard/users" element={<UsersPage />} />
         <Route path="/dashboard/orders/" element={<UserOrdersPage />} />
         <Route path="/dashboard/offers" element={<OffersPage />} />
-        <Route path="/dashboard/login" element={<AdminLoginPage />} />
+        <Route path="/" element={<AdminLoginPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>
+    //  </Provider>
   );
 }
 

@@ -32,18 +32,15 @@ const LoginScreen: React.FC<Props> = (props) => {
   const [isSigninInProgress, setSignInInProgress] = useState(false);
 
   useEffect(() => {
-    dispatch(login())
+    
   }, []);
 
-  const state = useSelector((state: RootState) => state.auth);
-
-  const onLoginPress = async () => {
-    console.log("Value of all data is", state)
+const onLoginPress = async () => {
     const paramData = {
-      email: inEmail,
-      password: password,
+      email: "hitesh.kanjani@radixweb.com",
+      password: "123456",
     };
-    // dispatch(login(paramData))
+     dispatch<any>(login(paramData))
     props.navigation.navigate("HomeDash")
   };
 

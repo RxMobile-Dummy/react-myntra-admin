@@ -1,13 +1,16 @@
 import React from 'react';
 import { FlatList, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { String } from '../../Constants/String';
 import { Props } from './IHome';
 import styles from './styles';
 import { normalize, commonStyles } from "../../utils/commonStyle"
 import { Colors } from '../../Constants/Color';
 import LinearGradient from 'react-native-linear-gradient';
 import { Icon } from 'react-native-elements';
+import { useSelector } from 'react-redux';
+import { RootState } from 'path-redux/lib/store/reducer';
+
+
 const Home: React.FC<Props> = ({ navigation }) => {
 
   const data = [
@@ -47,6 +50,11 @@ const Home: React.FC<Props> = ({ navigation }) => {
       onPress : () => navigation.navigate("Offers")
     }
   ]
+
+  const state = useSelector((state: RootState) => state.auth);
+
+  console.log("State is", state)
+
   const numberOfColumn = 2
   const WIDTH = Dimensions.get("window").width
 
