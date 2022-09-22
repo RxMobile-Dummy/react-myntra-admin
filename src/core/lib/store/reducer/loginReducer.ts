@@ -3,6 +3,7 @@ import { Action } from "../actions/loginAction";
 
 const initialState = {
   loginData: [],
+  registerData : [],
 };
 
 const reducer = (state: any = initialState, action: Action): any => {
@@ -11,6 +12,11 @@ const reducer = (state: any = initialState, action: Action): any => {
       return {
         ...state,
         loginData: action.payload,
+      };
+      case ActionType.REGISTER:
+      return {
+        ...state,
+        registerData: action.payload,
       };
     default:
       return state;

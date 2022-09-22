@@ -14,7 +14,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 export default function Navigation() {
   return (
-    <Stack.Navigator  screenOptions={{headerShown : false, headerStyle : {backgroundColor : Colors.tertiary}}}>
+    <Stack.Navigator screenOptions={{headerShown : false, headerStyle : {backgroundColor : Colors.tertiary}}}>
       <Stack.Screen
         name="Splash"
         component={Splash}

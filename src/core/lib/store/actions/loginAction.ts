@@ -5,4 +5,9 @@ interface Login {
   payload: any;
 }
 
-export type Action =  Login;
+interface Register {
+  type : ActionType.REGISTER;
+  payload : any
+}
+
+export type Action =  Login | Register;
