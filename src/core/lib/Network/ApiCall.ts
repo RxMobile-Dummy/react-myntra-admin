@@ -3,51 +3,47 @@ import URL from './URL';
 import axios from 'axios';
 
 const axiosApi = axios.create({
-  baseURL: 'https://2111-180-211-112-179.in.ngrok.io',
+  baseURL: 'https://d224-180-211-112-179.in.ngrok.io/admin/',
   timeout: 10000,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
     Authorization: ``,
+    'Access-Control-Allow-Origin': '*'
   },
 });
+
 
 axiosApi.interceptors.request.use(function (config: any) {
   config.headers.Authorization;
   return config;
 });
 
-export const PostApi = async (reqUrl: String, paramData: any) => {
+export const GraphPost = async (query: any, variables: any) => {
+  const {data, request} = await axios.post(`${URL.BASE_URL}`, {
+    query: query,
+    variables: variables
+  }, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  console.log("Value of request is", data)
+  return JSON.stringify(data)
+}
 
-  const res = await axiosApi.post(`${URL.BASE_URL}${reqUrl}`, paramData, {
+export const PostApi = async (reqUrl: String, paramData: any) => {
+  const res = await axiosApi.post(`${URL.BASE_URL}`, {
     headers: {
       Authorization: 'Bearer ' + 'sad',
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
     },
   });
   console.log("Request is", reqUrl, paramData)
   return JSON.stringify(res.data);
 };
 
-export const PutApi = async (reqUrl: String, paramData: any) => {
-  const res = await axiosApi.put(`${URL.BASE_URL}${reqUrl}`, paramData, {
-    headers: {
-      Authorization: 'Bearer ' + 'sad',
-      'Content-Type': 'application/json',
-    },
-  });
-
-  return JSON.stringify(res.data);
-};
-
-// export const GetApi = async (reqUrl: String, paramData: any) => {
-//   const res = await axiosApi.get(`${URL.BASE_URL}${reqUrl}`, paramData, {
-//     // headers: {
-//     //   //Authorization: 'Bearer ' + 'sad',
-//     // },
-//   });
-//   return JSON.stringify(res.data);
-// };
 
 export const getRequest = async (endpoint: any, parameter = {}) => {
   try {
@@ -64,7 +60,7 @@ export const getRequest = async (endpoint: any, parameter = {}) => {
 export const postRequest = async (endpoint: any, body: any) => {
   try {
     console.log("Endpoint is", endpoint)
-    const { data, request } = await axiosApi.post(`${URL.BASE_URL}${endpoint}`, body);
+    const { data, request } = await axiosApi.post(`${endpoint}`, body);
     console.log("Request is", request)
     return data;
   } catch (e) {

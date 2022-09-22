@@ -5,11 +5,11 @@ import { normalize } from "../../utils/commonStyle";
 export type Props = {
     value : any,
     onChange : any,
-    top : number,
-    isProduct : boolean,
-    placeholder : string,
-    placeholderColor : string,
-    isMultiline : boolean
+    top ?: number,
+    isProduct? : boolean,
+    placeholder? : string,
+    placeholderColor? : string,
+    isMultiline?: boolean
   };
 
 const InputField = (props : Props) => {

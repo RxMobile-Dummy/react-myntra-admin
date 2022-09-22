@@ -12,36 +12,32 @@ import {
 import styles from './styles';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useSelector, useDispatch } from 'react-redux';
-
-//import {ApplicationState, onLogin} from '../../Redux';
 import { Props } from './ILogin';
-import { PostApi } from '../../../../core/lib/Network/ApiCall';
 import LinearGradient from 'react-native-linear-gradient';
 import { commonStyles, normalize } from '../../utils/commonStyle';
 import InputField from '../../components/InputField';
 import Button from '../../components/Button';
-import { login } from "path-redux/lib/store/actionCreator/loginActionCretor"
-import { RootState } from "path-redux/lib/store/reducer/index"
+import { REGISTER, Register, RootState } from 'core';
 
 const LoginScreen: React.FC<Props> = (props) => {
 
   const dispatch = useDispatch()
-
+  //const state = useSelector()
   const [inEmail, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isSigninInProgress, setSignInInProgress] = useState(false);
+
+
 
   useEffect(() => {
-    
   }, []);
 
-const onLoginPress = async () => {
+  const onLoginPress = async () => {
     const paramData = {
       email: "hitesh.kanjani@radixweb.com",
       password: "123456",
     };
-     dispatch<any>(login(paramData))
-    props.navigation.navigate("HomeDash")
+    // dispatch<any>(login(paramData))
+    props.navigation.navigate("SignUp")
   };
 
   return (

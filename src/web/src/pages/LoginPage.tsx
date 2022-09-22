@@ -34,7 +34,7 @@ export default function LoginPage(props: PropsType) {
 
     const handleSubmit = async (event: any) => {
         const paramData: any = {
-            email: "Developer5@gmail.com",
+            email: "hitesh.kanjani@radixweb.com",
             password: "123456",
         };
         dispatch<any>(Login(paramData))
@@ -105,21 +105,6 @@ export default function LoginPage(props: PropsType) {
                                     value="Login"
                                 />
                             </div>
-                            {/* <div className="text-muted mt-3 text-center">
-                Don't have an account?{" "}
-                <Link className="text-highlighted register-link" to="/register">
-                  Register
-                </Link>
-              </div>
-              <div className="text-muted mt-1 text-center">
-                Forget Password?{" "}
-                <Link
-                  className="text-highlighted register-link"
-                  to="/forget-password"
-                >
-                  Change Password
-                </Link>
-              </div> */}
                             <div style={{ paddingTop: "40px" }}></div>
                         </form>
                     </div>
