@@ -26,7 +26,7 @@ const Splash: React.FC<Props> = ({navigation}) => {
           resizeMode="contain"
           style={styles.welcomeImg}
         />
-       
+
       </View>
     </SafeAreaView>
   );

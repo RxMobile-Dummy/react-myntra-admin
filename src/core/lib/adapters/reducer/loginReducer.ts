@@ -1,5 +1,8 @@
-import { ActionType } from "../actionType/loginActionTypes";
-import { Action } from "../actions/loginAction";
+// import { ActionType } from "../actionType/loginActionTypes";
+// import { Action } from "../actions/loginAction";
+
+import {ActionType} from "../../useCases/actionType"
+import {Action} from "../../useCases/actions"
 
 const initialState = {
   loginData: [],

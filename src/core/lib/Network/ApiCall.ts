@@ -28,7 +28,6 @@ export const GraphPost = async (query: any, variables: any) => {
       'Content-Type': 'application/json'
     }
   })
-  console.log("Value of request is", data)
   return JSON.stringify(data)
 }
 
@@ -40,17 +39,14 @@ export const PostApi = async (reqUrl: String, paramData: any) => {
       'Access-Control-Allow-Origin': '*'
     },
   });
-  console.log("Request is", reqUrl, paramData)
   return JSON.stringify(res.data);
 };
-
 
 export const getRequest = async (endpoint: any, parameter = {}) => {
   try {
     const { data, request } = await axiosApi.get(`${URL.BASE_URL}${endpoint}`, {
       params: parameter,
     });
-    console.log("Request", request);
     return data;
   } catch (e) {
     return false;
@@ -59,9 +55,7 @@ export const getRequest = async (endpoint: any, parameter = {}) => {
 
 export const postRequest = async (endpoint: any, body: any) => {
   try {
-    console.log("Endpoint is", endpoint)
     const { data, request } = await axiosApi.post(`${endpoint}`, body);
-    console.log("Request is", request)
     return data;
   } catch (e) {
     return false;
