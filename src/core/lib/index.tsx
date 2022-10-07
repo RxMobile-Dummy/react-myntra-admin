@@ -4,3 +4,4 @@ export * from "./store/actionType"
 export * from "./store/reducer"
 export * from "./store/actions"
 export * from "./store/configStore/store"
+export * from './entities/validators'
