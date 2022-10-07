@@ -14,6 +14,7 @@ import UserOrdersPage from './pages/UserOrdersPage';
 import OffersPage from './pages/OffersPage';
 import ErrorPage from "./pages/ErrorPage";
 import { Provider } from 'react-redux';
+import RegisterPage from './pages/RegisterPage';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/dashboard/offers" element={<OffersPage />} />
         <Route path="/" element={<AdminLoginPage />} />
         <Route path="*" element={<ErrorPage />} />
+        <Route path='/register' element={<RegisterPage/>} />
       </Routes>
     </Router>
     //  </Provider>
