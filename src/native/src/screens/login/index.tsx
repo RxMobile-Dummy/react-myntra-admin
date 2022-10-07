@@ -17,28 +17,54 @@ import LinearGradient from 'react-native-linear-gradient';
 import { commonStyles, normalize } from '../../utils/commonStyle';
 import InputField from '../../components/InputField';
 import Button from '../../components/Button';
-import { REGISTER, Register, RootState } from 'core';
+import { isEmail, isEmpty, LOGIN, Login, Register, RootState,  } from 'core';
+import Toast from 'react-native-toast-message'
 
 const LoginScreen: React.FC<Props> = (props) => {
 
   const dispatch = useDispatch()
   //const state = useSelector()
-  const [inEmail, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState("")
 
-
+  const state = useSelector((state: RootState) => state.auth.registerData);
 
   useEffect(() => {
-  }, []);
+  }, [state]);
 
   const onLoginPress = async () => {
-    const paramData = {
-      email: "hitesh.kanjani@radixweb.com",
-      password: "123456",
-    };
-    // dispatch<any>(login(paramData))
-    props.navigation.navigate("SignUp")
+    if(isEmpty(email)){
+      Toast.show({
+        type : "error",
+        text1 : "Please enter email address"
+      })
+    }
+    else if(!isEmail(email)){
+      Toast.show({
+        type : "error",
+        text1 : "Please enter valid email address"
+      })
+    }
+    else if(isEmpty(password)){
+      Toast.show({
+        type : "error",
+        text1 : "Please enter password"
+      })
+    }
+    else{
+      var loginVariables = {
+        email : email,
+        password : password,
+        fcmToken : "",
+        deviceId : "",
+        role : role,
+      }
+      await dispatch<any>(Login(LOGIN,loginVariables))
+    }
   };
+
+
 
   return (
     <LinearGradient colors={["#FEEDF6", "#FCEEE5"]} style={{ flex: 1 }}>
@@ -55,7 +81,7 @@ const LoginScreen: React.FC<Props> = (props) => {
                   Email
                 </Text>
                 <InputField
-                  value={inEmail}
+                  value={email}
                   onChange={(email: any) => setEmail(email)}
                   top={10}
                 />
@@ -68,6 +94,17 @@ const LoginScreen: React.FC<Props> = (props) => {
                 <InputField
                   value={password}
                   onChange={(email: any) => setPassword(email)}
+                  top={10}
+                />
+              </View>
+
+              <View style={styles.elContainer}>
+                <Text style={styles.elTxt}>
+                  Role
+                </Text>
+                <InputField
+                  value={role}
+                  onChange={(role: any) => setRole(role)}
                   top={10}
                 />
               </View>
