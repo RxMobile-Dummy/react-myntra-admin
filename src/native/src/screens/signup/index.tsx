@@ -21,7 +21,7 @@ import { CountryCode, Country } from "./ISignUp"
 import moment from "moment"
 import DatePicker from 'react-native-date-picker'
 import { useDispatch, useSelector } from 'react-redux';
-import { isEmail, isEmpty, isPhone, Register, REGISTER, RootState } from 'core';
+import { isEmail, isEmpty, isPhone, Register, REGISTER, RootState } from "core";
 import Toast from 'react-native-toast-message';
 
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {

@@ -1,1 +1,2 @@
-export * from "./loginActionCretor";
+export * from "./loginActionCreator";
+export * from "./registerActionCreator";
