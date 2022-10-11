@@ -32,6 +32,15 @@ export default function RegisterPage(props: Props) {
   const [value, setValue] = useState<any>("");
   const options = useMemo(() => countryList().getData(), []);
 
+  const dispatch = useDispatch();
+
+  let { data, error } = useSelector(
+    (state: RootState) => state.auth.registerData
+  );
+
+  console.log("data:::", data);
+  // console.log("error:::", error);
+
   const changeHandler = (value: any) => {
     console.log("value: ", value);
     console.log("countryList: ", countryList().getData());
@@ -47,12 +56,12 @@ export default function RegisterPage(props: Props) {
 
     let isValidForm = validateForm();
     // let isValidForm = true
-
-    console.log("country ::", country);
+    console.log("register function");
+    // console.log("country ::", country);
     if (isValidForm) {
       try {
         let reqData = {
-          customerName: name,
+          fullName: name,
           email,
           contactNumber,
           dob,
@@ -63,7 +72,7 @@ export default function RegisterPage(props: Props) {
           fcmToken: "3243242asdsa",
           deviceId: "348723784238",
         };
-        await dispatch<any>(Register(reqData, "a"));
+        await dispatch<any>(Register(reqData));
       } catch (error: any) {
         console.error(error.message);
       }
@@ -71,13 +80,6 @@ export default function RegisterPage(props: Props) {
       // NotificationManager.error("Invalid Input", "", 2000);
     }
   };
-
-  const dispatch = useDispatch();
-
-  let { data, error } = useSelector((state: RootState) => state.auth);
-
-  console.log("data:::", data);
-  console.log("error:::", error);
 
   // useEffect(() => {
   //   if (isUserSessions()) {

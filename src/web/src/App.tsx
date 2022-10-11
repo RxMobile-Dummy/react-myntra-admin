@@ -32,6 +32,7 @@ function App() {
         <Route path="/" element={<AdminLoginPage />} />
         <Route path="*" element={<ErrorPage />} />
         <Route path='/register' element={<RegisterPage/>} />
+        
       </Routes>
     </Router>
     //  </Provider>
