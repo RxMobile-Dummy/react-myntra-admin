@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import 'react-notifications/lib/notifications.css';
 // import ScrollToTop from "./components/ScrollToTop";
 import AdminHomePage from "./pages/HomePage";
 import AdminLoginPage from "./pages/LoginPage";
@@ -15,11 +16,13 @@ import OffersPage from './pages/OffersPage';
 import ErrorPage from "./pages/ErrorPage";
 import { Provider } from 'react-redux';
 import RegisterPage from './pages/RegisterPage';
+import { NotificationContainer } from "react-notifications";
 
 function App() {
   return (
     //  <Provider store={store}>
     <Router>
+      <NotificationContainer />
       <Routes>
         <Route path="/admin" element={<AdminHomePage />} />
         <Route path="/dashboard/add-product" element={<AddProductPage />} />
@@ -32,6 +35,7 @@ function App() {
         <Route path="/" element={<AdminLoginPage />} />
         <Route path="*" element={<ErrorPage />} />
         <Route path='/register' element={<RegisterPage/>} />
+      
         
       </Routes>
     </Router>

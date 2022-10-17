@@ -13,7 +13,7 @@ const initialState = {
 };
 
 const registerReducer = (state: UserState = initialState, action: RegisterAction): any => {
-  console.log("action payload:", action.payload);
+  // console.log("action payload:", action.payload);
   switch (action.type) {
     case RegisterActionType.REGISTER:
       return {

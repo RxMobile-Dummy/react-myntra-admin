@@ -9,34 +9,32 @@ interface Props {
   mobileNo: string;
   gender: string;
   dob: string;
-  country: string;
+  country:string;
   password: string;
+  isVerified: Boolean;
   fcmToken: string;
   deviceId: string;
   platform: string;
-  role: string;
 }
 
 export const Register = (user: Props) => {
-  const query = `mutation registerAdminCall($fullName: String!, $email: String!, $mobileNo: String!, $gender: String!, $dob: String!, $country: String!, $password: String!, $role: String!, $isVerified: Boolean!, $fcmToken: String!, $deviceId: String!, $platform: String!) {
-    registerAdmin(fullName: $fullName, email: $email, mobileNo: $mobileNo, gender: $gender, dob: $dob, country: $country, password: $password, role: $role, isVerified: $isVerified, fcmToken: $fcmToken, deviceId: $deviceId, platform: $platform) {
-       statusCode
-       message
-       data {
+  const query = `mutation RegisterAdmin($fullName: String!, $email: String!, $mobileNo: String!, $gender: String!, $dob: String!, $country: String!, $password: String!, $isVerified: Boolean!, $fcmToken: String!, $deviceId: String!, $platform: String!) {
+    registerAdmin(fullName: $fullName, email: $email, mobileNo: $mobileNo, gender: $gender, dob: $dob, country: $country, password: $password, isVerified: $isVerified, fcmToken: $fcmToken, deviceId: $deviceId, platform: $platform) {
+      data {
         _id
         fullName
         email
         mobileNo
         gender
         dob
-        country
-        isVerified
         token
-        deviceId
-        platform
-       }
-     }
-   }`;
+        isVerified
+      }
+      statusCode
+      message
+    }
+  }
+  `;
 
   const requestData = {
     fullName: user.fullName,
@@ -46,7 +44,6 @@ export const Register = (user: Props) => {
     dob: user.dob,
     country: user.country,
     password: user.password,
-    role: "admin",
     isVerified: false,
     fcmToken: user.fcmToken,
     deviceId: user.deviceId,
@@ -57,7 +54,7 @@ export const Register = (user: Props) => {
     console.log("Register called .....");
     try {
       const data = await postRequestGraphQL(query, requestData);
-      const response = data.registerUser;
+      const response = data.registerAdmin;
       console.log("Value of response is", response);
       if (response && response.statusCode === 200) {
         dispatch({
