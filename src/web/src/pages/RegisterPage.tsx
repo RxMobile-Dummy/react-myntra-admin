@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import RegisterForm from "../components/RegisterForm";
-// import { NotificationManager } from "react-notifications";
-
+import { NotificationManager } from "react-notifications";
 import countryList from "react-select-country-list";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +14,7 @@ import {
   passwordValidation,
   confirmPasswordValidation,
   selectionValidation,
+  ResetRegisterState
 } from "core";
 import { useDispatch, useSelector } from "react-redux";
 // import {
@@ -35,19 +35,19 @@ export default function RegisterPage(props: Props) {
   const dispatch = useDispatch();
 
   let { data, error } = useSelector(
-    (state: RootState) => state.auth.registerData
+    (state: RootState) => state.registerReducer
   );
 
-  console.log("data:::", data);
+  // console.log("data:::", data);
   // console.log("error:::", error);
 
   const changeHandler = (value: any) => {
-    console.log("value: ", value);
-    console.log("countryList: ", countryList().getData());
+    // console.log("value: ", value);
+    // console.log("countryList: ", countryList().getData());
     setValue(value);
     setCustomer({
       ...customer,
-      country: value.label,
+      // country: value.label,
     });
   };
 
@@ -63,21 +63,22 @@ export default function RegisterPage(props: Props) {
         let reqData = {
           fullName: name,
           email,
-          contactNumber,
+          mobileNo,
           dob,
           gender,
           password,
-          country,
+          country:"",
           platform: "web",
           fcmToken: "3243242asdsa",
           deviceId: "348723784238",
+          isVerified:false
         };
         await dispatch<any>(Register(reqData));
       } catch (error: any) {
         console.error(error.message);
       }
     } else {
-      // NotificationManager.error("Invalid Input", "", 2000);
+      NotificationManager.error("Invalid Input", "", 2000);
     }
   };
 
@@ -89,15 +90,16 @@ export default function RegisterPage(props: Props) {
 
   useEffect(() => {
     if (data) {
-      console.log("data:::us: ", data);
-      // NotificationManager.success("User registered successfully", "", 1000);
+      // console.log("data:::us: ", data);
+      NotificationManager.success("User registered successfully", "", 1000);
+      console.log("User registered successfully")
       // setUserSession(data.token, data._id);
       // setUserData(data);
-      navigate("/");
+      navigate("/dashboard/add-product");
     } else if (error) {
       console.log("error:::us: ", error);
-      // NotificationManager.error(error, "", 2000);
-      // dispatch<any>(ResetRegisterState());
+      NotificationManager.error(error, "", 2000);
+      dispatch<any>(ResetRegisterState());
     }
   }, [data, error]);
 
@@ -106,30 +108,30 @@ export default function RegisterPage(props: Props) {
   const [customer, setCustomer] = useState({
     name: "",
     email: "",
-    contactNumber: "",
+    mobileNo: "",
     dob: "",
+    country:"",
     gender: "male",
     password: "",
-    confirmPassword: "",
-    country: "select",
+    confirmPassword: ""
   });
 
   const [errors, setErrors] = useState({
     name: "",
     email: "",
-    contactNumber: "",
+    mobileNo: "",
     dob: "",
     gender: "",
     password: "",
     confirmPassword: "",
-    country: "",
+    country:""
   });
 
   const validate = {
     name: (name: string) => nameValidation("Name", name),
     email: (email: string) => emailValidation(email),
-    contactNumber: (contactNumber: string) =>
-      contactNumberValidation(contactNumber),
+    mobileNo: (mobileNo: string) =>
+      contactNumberValidation(mobileNo),
     dob: (dob: string) => dobValidation(dob),
     gender: () => {},
     password: (password: string) => passwordValidation(password),
@@ -186,7 +188,7 @@ export default function RegisterPage(props: Props) {
   };
 
   // ********** DESTRUCTRING OF CUSTOMER **********
-  const { name, email, contactNumber, dob, gender, password, country } =
+  const { name, email, mobileNo, dob, gender, password } =
     customer;
 
   return (

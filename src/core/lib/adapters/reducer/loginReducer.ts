@@ -1,10 +1,9 @@
-import { ActionType } from '../../useCases/actionType';
+import { ActionType } from "../../useCases/actionType";
 import { Action } from "../../useCases/actions";
-
 
 type UserState = {
   loginData: any;
-  error: string | undefined;
+  error: any;
 };
 
 const initialState = {
@@ -13,8 +12,8 @@ const initialState = {
 };
 
 const loginReducer = (state: UserState = initialState, action: Action): any => {
-  console.log("action payload:", action.payload);
-  
+  // console.log("action payload:", action.payload);
+
   switch (action.type) {
     case ActionType.LOGIN:
       return {
@@ -22,16 +21,16 @@ const loginReducer = (state: UserState = initialState, action: Action): any => {
         loginData: action.payload,
       };
     case ActionType.LOGIN_FAILED:
-        return {
-          ...state,
-          error: action.payload,
-        };
+      return {
+        ...state,
+        error: action.payload,
+      };
     case ActionType.LOGIN_RESET:
-        return {
-          ...state,
-          error: action.payload,
-          loginData: action.payload,
-        };
+      return {
+        ...state,
+        error: action.payload,
+        loginData: action.payload,
+      };
     default:
       return state;
   }
