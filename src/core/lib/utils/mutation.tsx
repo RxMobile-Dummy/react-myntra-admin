@@ -44,3 +44,13 @@ export const LOGIN = `mutation LoginUser($email: String!, $password: String!, $f
     }
   }
 }`
+
+export const CATEGORY = `mutation categoryAdmin($category: String!, $id: String!) {
+  categoryAdmin(category: $category, id: $id) {
+  statusCode
+  message
+  data {
+     _id
+  }
+  }
+}`
