@@ -5,12 +5,10 @@ import Navbar from "../components/NavBar";
 import { Login, RootState, ResetLoginState } from "core";
 import { useNavigate, Link } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
+import {setUserSession, setUserData} from '../utils/Storage'
 
-interface PropsType {
-  // onClick: (email: string, password: string) => void;
-}
 
-export default function LoginPage(props: PropsType) {
+export default function LoginPage() {
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
@@ -24,8 +22,8 @@ export default function LoginPage(props: PropsType) {
   useEffect(() => {
     if (loginData) {
       console.log("data:::us: ", loginData);
-      // setUserSession(loginData.token, loginData._id);
-      // setUserData(loginData);
+      setUserSession(loginData.token, loginData._id);
+      setUserData(loginData);
       navigate("/dashboard/add-product");
     } else if (error) {
       // console.log("error:::us: ", error);
