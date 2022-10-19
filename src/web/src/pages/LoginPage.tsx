@@ -21,13 +21,13 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (loginData) {
-      console.log("data:::us: ", loginData);
+      // console.log("data:::us: ", loginData);
       setUserSession(loginData.token, loginData._id);
       setUserData(loginData);
       navigate("/dashboard/add-product");
     } else if (error) {
       // console.log("error:::us: ", error);
-      console.log("error:::us: ");
+      // console.log("error:::us: ");
 
       NotificationManager.error(error, "", 2000);
 

@@ -51,11 +51,11 @@ export const Register = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<RegisterAction>) => {
-    console.log("Register called .....");
+    // console.log("Register called .....");
     try {
       const data = await postRequestGraphQL(query, requestData);
       const response = data.registerAdmin;
-      console.log("Value of response is", response);
+      // console.log("Value of response is", response);
       if (response && response.statusCode === 200) {
         dispatch({
           type: RegisterActionType.REGISTER,

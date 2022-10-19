@@ -35,13 +35,13 @@ export const Login = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<Action>) => {
-    console.log("Login called .....", requestData);
+    // console.log("Login called .....", requestData);
     try {
       const data = await postRequestGraphQL(query, requestData);
 
-      console.log("login response data", data);
+      // console.log("login response data", data);
       const response = data.loginAdmin;
-      console.log("Value of response is", response);
+      // console.log("Value of response is", response);
       if (response && response.statusCode === 200) {
         dispatch({
           type: ActionType.LOGIN,

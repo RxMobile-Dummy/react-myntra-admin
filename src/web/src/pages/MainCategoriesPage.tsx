@@ -36,7 +36,7 @@ export default function MainCategoriesPage(props: any) {
 
     const filterMainCategoryNameChange = (event: any) => {
         console.log("event:", event)
-        // let value = event.target.value;
+        let value = event.target.value;
 
         // let filteredMainCategories = mainCategories;
         // if (value.length > 0) {
@@ -60,14 +60,14 @@ export default function MainCategoriesPage(props: any) {
 
     const handleChange = (event: any) => {
         console.log("event:", event)
-        // setMainCategoryName(event.target.value);
+        setMainCategoryName(event.target.value);
     };
 
     const addMainCategory = async () => {
-        // if (mainCategoryName === "") {
-        //   setError("Main Category name should not be empty");
-        //   return;
-        // }
+        if (mainCategoryName === "") {
+          setError("Main Category name should not be empty");
+          return;
+        }
 
         // if (isUpdate) {
         //   try {

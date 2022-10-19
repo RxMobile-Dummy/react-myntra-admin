@@ -1,62 +1,68 @@
 import { Dispatch } from "redux";
-import { ActionType } from "../../useCases/actionType/categoryActionTypes";
+import { CategoryActionType } from "../../useCases/actionType/categoryActionTypes";
 import { postRequestGraphQL } from "../../Network/ApiCall";
-import { Action } from "../../useCases/actions";
+import { CategoryAction } from "../../useCases/actions/categoryAction";
 
 interface Props {
-    id: string;
-    name: string;
+  categoryname: string;
+  maincategoryname: string;
 }
 
-export const Login = (user: Props) => {
-    const query = `mutation categoryAdminCall($id: String!, $name: String!) {
-    categoryAdmin(id: $id,  name: $name) {
-    statusCode
-    message
-    data {
-       _id
-    }
+export const AddCategory = (user: Props) => {
+  const query = `mutation AddProductCategory($maincategoryname: String, $categoryname: String) {
+    addProductCategory(maincategoryname: $maincategoryname, categoryname: $categoryname) {
+      message
+      statusCode
+      data {
+        _id
+        Categoryname
+        mainCategory {
+          mainCategory
+        }        
+      }
     }
   }`;
 
-    const requestData = {
-        id: user.id,
-        name: user.name
-    };
+  const requestData = {
+    categoryname: user.categoryname,
+    maincategoryname: user.maincategoryname,
+  };
 
-    return async (dispatch: Dispatch<Action>) => {
-        // console.log("Login called .....", requestData);
-        try {
-            const data = await postRequestGraphQL(query, requestData);
+  return async (dispatch: Dispatch<CategoryAction>) => {
+    console.log("Category called .....", requestData);
+    try {
+      const data = await postRequestGraphQL(query, requestData);
 
-            //   console.log("login response data", data);
-            const response = data.loginAdmin;
-            // console.log("Value of response is", response);
-            if (response && response.statusCode === 200) {
-                dispatch({
-                    type: ActionType.CATEGORY,
-                    payload: response.data,
-                });
-            } else {
-                dispatch({
-                    type: ActionType.CATEGORY_FAILED,
-                    payload: response.message,
-                });
-            }
-        } catch (error) {
-            dispatch({
-                type: ActionType.CATEGORY_FAILED,
-                payload: error,
-            });
-        }
-    };
+      const response = data.addProductCategory;
+      console.log("Value of response is", response);
+      if (response && response.statusCode === 200) {
+        dispatch({
+          type: CategoryActionType.CATEGORY,
+          payload: response.data,
+        });
+      } else {
+        dispatch({
+          type: CategoryActionType.CATEGORY_FAILED,
+          payload: response.message,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: CategoryActionType.CATEGORY_FAILED,
+        payload: error,
+      });
+    }
+  };
 };
 
-export const ResetLoginState = () => {
-    return async (dispatch: Dispatch<Action>) => {
-        dispatch({
-            type: ActionType.LOGIN_RESET,
-            payload: undefined,
-        });
-    };
+
+
+
+export const ResetCategoryState = () => {
+  return async (dispatch: Dispatch<CategoryAction>) => {
+    dispatch({
+      type: CategoryActionType.CATEGORY_RESET,
+      payload: undefined,
+    });
+  };
 };

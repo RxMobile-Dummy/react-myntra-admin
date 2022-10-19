@@ -3,3 +3,4 @@ export * from "./loginAction"
 export * from './forgotPasswordAction'
 export * from './resetPasswordAction'
 export * from './changePasswordAction'
+export * from './categoryAction'

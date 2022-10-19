@@ -4,6 +4,7 @@ import registerReducer from "./registerReducer";
 import forgotPasswordReducer from "./forgotPasswordReducer";
 import resetPasswordReducer from "./resetPasswordReducer";
 import changePasswordReducer from "./changePasswordReducer";
+import categoryReducer from "./categoryReducer";
 
 
 const reducers = combineReducers({
@@ -12,6 +13,7 @@ const reducers = combineReducers({
   changePasswordReducer: changePasswordReducer,
   forgotPasswordReducer: forgotPasswordReducer,
   resetPasswordReducer: resetPasswordReducer,
+  categoryReducer :categoryReducer
   
 });
 
