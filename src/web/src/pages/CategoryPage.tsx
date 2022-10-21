@@ -12,10 +12,17 @@ import { NotificationManager } from "react-notifications";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  Category,
-  ResetCategoryState,
+  AddCategory,
+  ResetAddCategoryState,
+  GetAllCategory,
+  ResetGetCategoryState,
+  DeleteCategory,
+  ResetDeleteCategoryState,
+  UpdateCategory,
+  ResetUpdateCategoryState,
   selectionValidation,
   RootState,
+  GetAllMainCategory,
 } from "core";
 
 export default function CategoryPage(props: any) {
@@ -41,22 +48,26 @@ export default function CategoryPage(props: any) {
     filterCategoryName: "",
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   let { data, error } = useSelector(
-    (state: RootState) => state.categoryReducer
+    (state: RootState) => state.addCategoryReducer
   );
-  const dispatch = useDispatch();
 
   // async function getData() {
   //   try {
   //     setLoading(true);
 
-  //     let res = await CategoryService.getAllCategories();
-  //     setCategories(res.data);
-  //     setData(res.data);
+  //     let ress = await dispatch<any>(GetAllCategory());
+  //     console.log("get all category disptched called/.....");
+  //     NotificationManager.success("get all Category  successfully", "", 2000);
+  //     setCategories(ress.data);
+  //     setpgData(ress.data);
 
-  //     let mainCategories = await MainCategoryService.getAllMainCategories();
-  //     setMainCategories(mainCategories.data);
+  //     let resp = await dispatch<any>(GetAllMainCategory());
+  //     console.log("add category disptched called/.....");
+  //     NotificationManager.success("Category updated successfully", "", 2000);
+  //     setMainCategories(mainCategories);
 
   //     setLoading(false);
   //   } catch (error) {
@@ -122,6 +133,7 @@ export default function CategoryPage(props: any) {
 
   const mainCategoryChange = (event: any) => {
     setMainCategory(event.target.value);
+    console.log("main catregory ",mainCategory)
   };
 
   const addCategory = async () => {
@@ -146,79 +158,57 @@ export default function CategoryPage(props: any) {
     }
 
     if (isUpdate) {
+      // try {
+      //   setLoading(true);
+      //   let reqData = {
+      //     categoryid:id,
+      //     updatedcategoryname: categoryName,
+      //   };
+      //   await dispatch<any>(UpdateCategory(reqData));
+      //   console.log("add category disptched called/.....");
+      //   NotificationManager.success("Category updated successfully", "", 2000);
+      //   // getData();
+      //   closeModel();
+      //   setCategoryName("");
+      //   setLoading(false);
+      //   setErrors("");
+      //   setIsUpdate(false);
+      // } catch (error) {
+      //   console.log("error message", error)
+      //   navigate("/");
+      //   setLoading(false);
+      // }
+    } else {
       try {
+        setLoading(true);
+
         let reqData = {
           categoryname: categoryName,
           maincategoryname: mainCategory,
         };
-        await dispatch<any>(Category(reqData));
-        console.log("category disptched called/.....");
+        await dispatch<any>(AddCategory(reqData));
+        console.log("add category disptched called.....");
+        NotificationManager.success("Category added successfully", "", 2000);
+        // getData();
+        closeModel();
+        setCategoryName("");
+        setLoading(false);
+        setErrors("");
       } catch (error: any) {
-        console.error(error.message);
+        dispatch<any>(ResetAddCategoryState());
+        removeUserSession();
+        navigate("/");
+        setLoading(false);
       }
-    } else {
-      NotificationManager.error("Invalid Input", "", 2000);
     }
-
-    // if (isUpdate) {
-    //   try {
-    //     setLoading(true);
-    //     await CategoryService.updateCategory(
-    //       id,
-    //       {
-    //         mainCategory: mainCategory,
-    //         categoryName: categoryName,
-    //         inCategoriesToBag: inCategoriesToBag,
-    //       },
-    //       getToken()
-    //     );
-    //     NotificationManager.success("Category updated successfully", "", 2000);
-    //     getData();
-    //     closeModel();
-    //     setCategoryName("");
-    //     setLoading(false);
-    //     setError("");
-    //     setIsUpdate(false);
-    //   } catch (error) {
-    //     if (error.response.status === 401) {
-    //       removeUserSession();
-    //       props.history.push("/dashboard/login");
-    //     }
-    //     setLoading(false);
-    //   }
-    // } else {
-    //   try {
-    //     setLoading(true);
-    //     await CategoryService.addCategory(
-    //       {
-    //         mainCategory: mainCategory,
-    //         categoryName: categoryName,
-    //         inCategoriesToBag: false,
-    //       },
-    //       getToken()
-    //     );
-    //     NotificationManager.success("Category added successfully", "", 2000);
-    //     getData();
-    //     closeModel();
-    //     setCategoryName("");
-    //     setLoading(false);
-    //     setError("");
-    //   } catch (error: any) {
-    //     if (error.response.status === 401) {
-    //       removeUserSession();
-    //       props.history.push("/dashboard/login");
-    //     }
-    //     setLoading(false);
-    //   }
-    // }
   };
 
   const updateCategory = ({
     id,
     categoryName,
     mainCategory,
-    inCategoriesToBag,
-  }: any) => {
+  }: // inCategoriesToBag,
+  any) => {
     setIsUpdate(true);
     setId(id);
     setShowModal(true);

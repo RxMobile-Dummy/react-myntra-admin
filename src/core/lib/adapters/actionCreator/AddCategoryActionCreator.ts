@@ -1,11 +1,12 @@
 import { Dispatch } from "redux";
-import { CategoryActionType } from "../../useCases/actionType/categoryActionTypes";
-import { postRequestGraphQL } from "../../Network/ApiCall";
-import { CategoryAction } from "../../useCases/actions/categoryAction";
+import { AddCategoryActionType } from "../../useCases/actionType/addCategoryActionType";
+import { postRequestGraphQLAuth } from "../../Network/ApiCall";
+import { AddCategoryAction } from "../../useCases/actions/addCategoryAction";
 
 interface Props {
   categoryname: string;
   maincategoryname: string;
+  authToken: string;
 }
 
 export const AddCategory = (user: Props) => {
@@ -28,40 +29,41 @@ export const AddCategory = (user: Props) => {
     maincategoryname: user.maincategoryname,
   };
 
-  return async (dispatch: Dispatch<CategoryAction>) => {
-    console.log("Category called .....", requestData);
+  return async (dispatch: Dispatch<AddCategoryAction>) => {
+    console.log("Add Category called .....", requestData);
     try {
-      const data = await postRequestGraphQL(query, requestData);
+      const data = await postRequestGraphQLAuth(
+        query,
+        requestData,
+        user.authToken
+      );
 
       const response = data.addProductCategory;
       console.log("Value of response is", response);
       if (response && response.statusCode === 200) {
         dispatch({
-          type: CategoryActionType.CATEGORY,
+          type: AddCategoryActionType.ADD_CATEGORY_SUCCESS,
           payload: response.data,
         });
       } else {
         dispatch({
-          type: CategoryActionType.CATEGORY_FAILED,
+          type: AddCategoryActionType.ADD_CATEGORY_FAILED,
           payload: response.message,
         });
       }
     } catch (error) {
       dispatch({
-        type: CategoryActionType.CATEGORY_FAILED,
+        type: AddCategoryActionType.ADD_CATEGORY_FAILED,
         payload: error,
       });
     }
   };
 };
 
-
-
-
-export const ResetCategoryState = () => {
-  return async (dispatch: Dispatch<CategoryAction>) => {
+export const ResetAddCategoryState = () => {
+  return async (dispatch: Dispatch<AddCategoryAction>) => {
     dispatch({
-      type: CategoryActionType.CATEGORY_RESET,
+      type: AddCategoryActionType.ADD_CATEGORY_RESET,
       payload: undefined,
     });
   };

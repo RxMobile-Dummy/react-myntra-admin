@@ -65,6 +65,10 @@ export const postRequest = async (endpoint: any, body: any) => {
 };
 
 export const postRequestGraphQL = async (query: any, body: any) => {
+  // let token = await localStorage.getItem("token");
+  // let token = getToken()
+  // console.log("Token inside APICall", token);
+  // console.log(token);
   const data = await axios.post(
     URL.BASE_URL,
     {
@@ -73,11 +77,14 @@ export const postRequestGraphQL = async (query: any, body: any) => {
     },
     {
       headers: {
+        Authorization:
+          "Bearer " +
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjM0ZTU2Yjc4YWRiNGU0YTNmOTRmNjBhIiwiZW1haWwiOiJwcmFneWFAeW9wbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NjYzMzI1NTZ9.3N-JmF26Dtn66k7snUj-W5isLxT2Hljh5W1TiPv0DoQ",
         "Content-Type": "application/json",
       },
     }
   );
-  console.log("res ::::::", JSON.stringify(data.data.data));
+  // console.log("res ::::::", JSON.stringify(data.data.data));
   return data.data.data;
 };
 
@@ -99,7 +106,6 @@ export const postRequestGraphQLAuth = async (
       },
     }
   );
-  console.log("res ::::::", JSON.stringify(data.data.data));
+  // console.log("res ::::::", JSON.stringify(data.data.data));
   return data.data.data;
 };
-

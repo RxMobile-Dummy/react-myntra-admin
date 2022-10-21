@@ -68,7 +68,7 @@ export default function AddProductPage(props: any) {
     } = product;
 
     useEffect(() => {
-        console.log("data")
+        // console.log("data")
         //   async function getData() {
         //     try {
         //       setLoading(true);

@@ -5,8 +5,7 @@ import Navbar from "../components/NavBar";
 import { Login, RootState, ResetLoginState } from "core";
 import { useNavigate, Link } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
-import {setUserSession, setUserData} from '../utils/Storage'
-
+import { setUserSession, setUserData } from "../utils/Storage";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -21,7 +20,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (loginData) {
-      // console.log("data:::us: ", loginData);
+      //  console.log("data:::us: ", loginData);
       setUserSession(loginData.token, loginData._id);
       setUserData(loginData);
       navigate("/dashboard/add-product");
@@ -55,9 +54,12 @@ export default function LoginPage() {
       deviceId: "",
       fcmToken: "",
     };
-    console.log("ParamData is", paramData);
-    dispatch<any>(Login(paramData));
-   
+    let loginResponse = await dispatch<any>(Login(paramData));
+    if (loginResponse.status) {
+      localStorage.setItem("token", loginResponse.data.token);
+      // console.log("Login response", loginResponse.data)
+      // console.log("Token data", token)
+    }
   };
 
   return (
