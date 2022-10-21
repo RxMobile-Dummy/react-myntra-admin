@@ -82,6 +82,7 @@ export default function RegisterPage(props: Props) {
     }
   };
 
+  
   // useEffect(() => {
   //   if (isUserSessions()) {
   //     navigate("/");

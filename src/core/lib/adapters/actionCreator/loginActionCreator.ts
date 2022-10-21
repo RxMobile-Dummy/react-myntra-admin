@@ -11,19 +11,19 @@ interface Props {
 }
 
 export const Login = (user: Props) => {
-  const query = `mutation loginAdminCall($fcmToken: String!, $password: String!, $email: String!, $deviceId: String!) {
-    loginAdmin(fcmToken: $fcmToken,  password: $password, email: $email, deviceId: $deviceId) {
-    statusCode
-    message
-    data {
-       _id
-     fullName
-     email
-     mobileNo
-     gender
-     dob
-     deviceId  
-    }
+  const query = `mutation LoginAdmin($email: String!, $password: String!, $fcmToken: String!, $deviceId: String!) {
+    loginAdmin(email: $email, password: $password, fcmToken: $fcmToken, deviceId: $deviceId) {
+      message
+      statusCode
+      data {
+        fullName
+        email
+        token
+        mobileNo
+        gender
+        dob
+        deviceId
+      }
     }
   }`;
 
@@ -35,29 +35,33 @@ export const Login = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<Action>) => {
-    console.log("Login called .....", requestData);
+    // console.log("Login called .....", requestData);
     try {
       const data = await postRequestGraphQL(query, requestData);
-
-      console.log("login response data", data);
+      // console.log("login response data", data);
       const response = data.loginAdmin;
-      console.log("Value of response is", response);
+      
+      // console.log("Value of response is", response);
       if (response && response.statusCode === 200) {
         dispatch({
           type: ActionType.LOGIN,
           payload: response.data,
         });
+        return { status: true, data: response.data };
+          // getToken(response.data)
       } else {
         dispatch({
           type: ActionType.LOGIN_FAILED,
           payload: response.message,
         });
+        return { status: false, data: response.message };
       }
     } catch (error) {
       dispatch({
         type: ActionType.LOGIN_FAILED,
         payload: error,
       });
+      return { status: false, data: error };
     }
   };
 };

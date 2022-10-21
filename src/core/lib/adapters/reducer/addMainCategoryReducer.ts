@@ -1,5 +1,5 @@
-import { ForgotPasswordActionType } from "../../useCases/actionType/forgotPasswordActionType";
-import { ForgotPasswordAction } from "../../useCases/actions/forgotPasswordAction";
+import { AddMainCategoryActionType } from "../../useCases/actionType/addMainCategoryActionsTypes";
+import { AddMainCategoryAction } from "../../useCases/actions/addMainCategoryAction";
 
 type UserState = {
   data: any;
@@ -11,23 +11,23 @@ const initialState = {
   error: undefined,
 };
 
-const forgotPasswordReducer = (
+const addMainCategoryReducer = (
   state: UserState = initialState,
-  action: ForgotPasswordAction
+  action: AddMainCategoryAction
 ): any => {
   // console.log("action payload:", action.payload);
   switch (action.type) {
-    case ForgotPasswordActionType.FORGOT_PASSWORD_SUCCESS:
+    case AddMainCategoryActionType.ADD_MAIN_CATEGORY_SUCCESS:
       return {
         ...state,
         data: action.payload,
       };
-    case ForgotPasswordActionType.FORGOT_PASSWORD_FAILED:
+    case AddMainCategoryActionType.ADD_MAIN_CATEGORY_FAILED:
       return {
         ...state,
         error: action.payload,
       };
-    case ForgotPasswordActionType.FORGOT_PASSWORD_RESET:
+    case AddMainCategoryActionType.ADD_MAIN_CATEGORY_RESET:
       return {
         ...state,
         data: action.payload,
@@ -38,4 +38,4 @@ const forgotPasswordReducer = (
   }
 };
 
-export default forgotPasswordReducer;
+export default addMainCategoryReducer;

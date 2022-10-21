@@ -3,8 +3,3 @@ export enum ActionType {
   LOGIN_FAILED = "LOGIN_FAILED",
   LOGIN_RESET = "LOGIN_RESET",
 }
-
-// export enum ActionType {
-//   LOGIN = "LOGIN",
-//   REGISTER = "REGISTER"
-// }
