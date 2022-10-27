@@ -19,7 +19,7 @@ export const AddCategory = (user: Props) => {
         Categoryname
         mainCategory {
           mainCategory
-        }        
+        }
       }
     }
   }`;

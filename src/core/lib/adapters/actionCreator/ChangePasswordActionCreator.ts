@@ -38,17 +38,21 @@ export const ChangePassword = (user : Props) => {
         type: ChangePasswordActionType.CHANGE_PASSWORD_SUCCESS,
         payload: response.message
       });
+      return { status : true, message : response.message }
     }else{
       dispatch({
         type: ChangePasswordActionType.CHANGE_PASSWORD_FAILED,
         payload: response.message,
       });
+      return { status : false, message : response.message }
     }
   } catch (error) {
     dispatch({
       type: ChangePasswordActionType.CHANGE_PASSWORD_FAILED,
       payload: error,
     });
+    return { status : false, message : error }
+
   }
   };
 };

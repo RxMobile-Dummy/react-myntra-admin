@@ -19,7 +19,7 @@ export const GetAllCategory = (user: Props) => {
         mainCategory {
           mainCategory
           _id
-        }        
+        }
       }
     }
   }`;

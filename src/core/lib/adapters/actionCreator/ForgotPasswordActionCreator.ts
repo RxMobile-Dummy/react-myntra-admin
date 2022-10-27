@@ -33,17 +33,22 @@ export const ForgotPassword = (user: Props) => {
           type: ForgotPasswordActionType.FORGOT_PASSWORD_SUCCESS,
           payload: response.message,
         });
+        return { status : true, resultData : response.message }
       } else {
         dispatch({
           type: ForgotPasswordActionType.FORGOT_PASSWORD_FAILED,
           payload: response.message,
         });
+        return { status : false, resultData : response.message }
+
       }
     } catch (error) {
       dispatch({
         type: ForgotPasswordActionType.FORGOT_PASSWORD_FAILED,
         payload: error,
       });
+      return { status : true, resultData : error }
+
     }
   };
 };

@@ -73,7 +73,7 @@ export default function RegisterPage(props: Props) {
           deviceId: "348723784238",
           isVerified:false
         };
-        await dispatch<any>(Register(reqData));
+         await dispatch<any>(Register(reqData));
       } catch (error: any) {
         console.error(error.message);
       }
@@ -82,7 +82,7 @@ export default function RegisterPage(props: Props) {
     }
   };
 
-  
+
   // useEffect(() => {
   //   if (isUserSessions()) {
   //     navigate("/");

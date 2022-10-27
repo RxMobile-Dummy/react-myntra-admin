@@ -11,7 +11,7 @@ interface Props {
 
 export const GetMainCategoryById = (user: Props) => {
   /////NOT WORKING
-  const query = `query GetMainCategoryById($productid: String) { 
+  const query = `query GetMainCategoryById($productid: String) {
     getMainCategoryById(productid: $productid) {
       message
       statusCode

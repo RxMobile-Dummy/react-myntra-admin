@@ -61,17 +61,20 @@ export const Register = (user: Props) => {
           type: RegisterActionType.REGISTER,
           payload: response.data,
         });
+        return { status : true, resultData : response.data}
       } else {
         dispatch({
           type: RegisterActionType.REGISTER_FAILED,
           payload: response.message,
         });
+        return { status : false, resultData : response.message}
       }
     } catch (error) {
       dispatch({
         type: RegisterActionType.REGISTER_FAILED,
         payload: error,
       });
+      return { status : false, resultData : error}
     }
   };
 };

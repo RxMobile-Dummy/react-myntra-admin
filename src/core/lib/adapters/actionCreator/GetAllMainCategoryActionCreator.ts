@@ -15,7 +15,7 @@ export const GetAllMainCategory = (user: Props) => {
       statusCode
       data {
         _id
-        mainCategory        
+        mainCategory
       }
     }
   }`;

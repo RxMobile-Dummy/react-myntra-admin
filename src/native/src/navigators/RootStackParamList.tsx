@@ -5,4 +5,6 @@ export type RootStackParamList = {
   SignUp: undefined;
   HomeDash: undefined;
   Home: undefined;
+  ForgetPassword : undefined;
+  ChangePassword : undefined;
 };
