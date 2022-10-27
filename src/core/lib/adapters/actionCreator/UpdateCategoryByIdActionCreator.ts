@@ -1,11 +1,12 @@
 import { Dispatch } from "redux";
 import { UpdateCategoryActionType } from "../../useCases/actionType/updateCategoryByIdActionType";
-import { postRequestGraphQL } from "../../Network/ApiCall";
+import { postRequestGraphQLAuth } from "../../Network/ApiCall";
 import { UpdateCategoryAction } from "../../useCases/actions/updateCategoryByIdAction";
 
 interface Props {
   categoryid: string;
   updatedcategoryname: string;
+  authToken: string;
 }
 
 export const UpdateCategory = (user: Props) => {
@@ -28,7 +29,11 @@ export const UpdateCategory = (user: Props) => {
   return async (dispatch: Dispatch<UpdateCategoryAction>) => {
     console.log("Update Category called .....", requestData);
     try {
-      const data = await postRequestGraphQL(query, requestData);
+      const data = await postRequestGraphQLAuth(
+        query,
+        requestData,
+        user.authToken
+      );
 
       const response = data.updateProductCategoryById;
       console.log("Value of response is", response);

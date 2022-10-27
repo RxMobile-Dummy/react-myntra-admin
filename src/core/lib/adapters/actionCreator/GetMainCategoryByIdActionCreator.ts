@@ -1,16 +1,17 @@
 import { Dispatch } from "redux";
 import { GetMainCategoryByIdActionType } from "../../useCases/actionType/getMainCategoryByIdActionType";
 // import { postRequestGraphQL } from "../../Network/ApiCall";
-import { getRequest } from "../../Network/ApiCall";
+import { getRequest, postRequestGraphQLAuth } from "../../Network/ApiCall";
 import { GetMainCategoryByIdAction } from "../../useCases/actions/getMainCategoryByIdAction";
 
 interface Props {
   productid: string;
+  authToken: string;
 }
 
 export const GetMainCategoryById = (user: Props) => {
   /////NOT WORKING
-  const query = `query GetMainCategoryById($productid: String) { 
+  const query = `query GetMainCategoryById($productid: String) {
     getMainCategoryById(productid: $productid) {
       message
       statusCode
@@ -28,7 +29,11 @@ export const GetMainCategoryById = (user: Props) => {
   return async (dispatch: Dispatch<GetMainCategoryByIdAction>) => {
     console.log("Get Category by id called .....");
     try {
-      const data = await getRequest(query);
+      const data = await postRequestGraphQLAuth(
+        query,
+        requestData,
+        user.authToken
+      );
 
       const response = data.getMainCategoryById;
       console.log("Value of response is", response);

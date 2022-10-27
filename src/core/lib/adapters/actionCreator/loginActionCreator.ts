@@ -58,7 +58,6 @@ export const Login = (user: Props) => {
       const data = await postRequestGraphQL(query, requestData);
       // console.log("login response data", data);
       const response = data.loginAdmin;
-
       // console.log("Value of response is", response);
       if (response && response.statusCode === 200) {
         dispatch({

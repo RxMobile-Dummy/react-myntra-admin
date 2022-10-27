@@ -1,14 +1,14 @@
 import { Dispatch } from "redux";
 import { GetCategoryActionType } from "../../useCases/actionType/getAllCategoryActionType";
-// import { postRequestGraphQL } from "../../Network/ApiCall";
+import { postRequestGraphQLAuth } from "../../Network/ApiCall";
 import { getRequest } from "../../Network/ApiCall";
 import { GetCategoryAction } from "../../useCases/actions/getAllCategoryAction";
 
-// interface Props {
-//   categoryid: string;
-// }
+interface Props {
+  authToken: string;
+}
 
-export const GetAllCategory = () => {
+export const GetAllCategory = (user: Props) => {
   const query = `query GetAllProductCategories {
     getAllProductCategories {
       message
@@ -19,19 +19,23 @@ export const GetAllCategory = () => {
         mainCategory {
           mainCategory
           _id
-        }        
+        }
       }
     }
   }`;
 
-  // const requestData = {
-  //   categoryid: user.categoryid,
-  // };
+  const requestData = {
+    authToken: user.authToken,
+  };
 
   return async (dispatch: Dispatch<GetCategoryAction>) => {
     console.log("Get Category called .....");
     try {
-      const data = await getRequest(query);
+      const data = await postRequestGraphQLAuth(
+        query,
+        requestData,
+        user.authToken
+      );
 
       const response = data.getAllProductCategories;
       console.log("Value of response is", response);

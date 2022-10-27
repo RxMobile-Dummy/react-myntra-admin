@@ -1,42 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChangeEvent } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../components/NavBar";
-// import {login} from "core"
-// import { Login } from "core";
-import axios from "axios";
+import { Login, RootState, ResetLoginState } from "core";
 import { useNavigate, Link } from "react-router-dom";
+import { NotificationManager } from "react-notifications";
+import { setUserSession, setUserData } from "../utils/Storage";
 
-interface PropsType {
-  // onClick: (email: string, password: string) => void;
-}
-
-export default function LoginPage(props: PropsType) {
+export default function LoginPage() {
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState(null);
+
+  let { loginData, error } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (loginData) {
+      //  console.log("data:::us: ", loginData);
+      setUserSession(loginData.token, loginData._id);
+      setUserData(loginData);
+      navigate("/dashboard/add-product");
+    } else if (error) {
+      // console.log("error:::us: ", error);
+      // console.log("error:::us: ");
+
+      NotificationManager.error(error, "", 2000);
+
+      dispatch<any>(ResetLoginState());
+    }
+  }, [loginData, error]);
 
   const handleChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
     event.preventDefault();
+    setEmail(event.target.value);
   };
 
   const handleChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
     event.preventDefault();
+    setPassword(event.target.value);
   };
 
   const handleSubmit = async (event: any) => {
+    event.preventDefault();
     const paramData: any = {
-      email: "hitesh.kanjani@radixweb.com",
-      password: "123456",
+      // email: "hitesh.kanjani@radixweb.com",
+      // password: "123456",
+      email: email,
+      password: password,
+      deviceId: "",
+      fcmToken: "",
     };
-    // dispatch<any>(Login(paramData));
-    navigate("dashboard/add-product");
+    let loginResponse = await dispatch<any>(Login(paramData));
+    if (loginResponse.status) {
+      localStorage.setItem("token", loginResponse.data.token);
+      // console.log("Login response", loginResponse.data)
+      // console.log("Token data", token)
+    }
   };
 
   return (

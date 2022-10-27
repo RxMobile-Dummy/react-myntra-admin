@@ -11,6 +11,8 @@ import updateCategoryReducer from "./updateCategoryByIdReducer";
 import addMainCategoryReducer from "./addMainCategoryReducer";
 import getAllMainCategoryReducer from "./getAllMainCategoryReducer";
 import getMainCategoryByIdReducer from "./getMainCategoryByIdReducer";
+import deleteMainCategoryReducer from "./deleteMainCategoryByIdReducer";
+import updateMainCategoryReducer from "./updateMainCategoryByIdReducer";
 
 const reducers = combineReducers({
   auth: loginReducer,
@@ -25,6 +27,8 @@ const reducers = combineReducers({
   addMainCategoryReducer: addMainCategoryReducer,
   getAllMainCategoryReducer: getAllMainCategoryReducer,
   getMainCategoryByIdReducer: getMainCategoryByIdReducer,
+  deleteMainCategoryReducer: deleteMainCategoryReducer,
+  updateMainCategoryReducer: updateMainCategoryReducer,
 });
 
 export default reducers;

@@ -1,5 +1,3 @@
-console.log("Indise inedx.tsx")
-
 export * from "./adapters/actionCreator";
 export * from "./adapters/reducer";
 export * from "./useCases/actionType";

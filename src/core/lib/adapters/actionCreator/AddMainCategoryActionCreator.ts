@@ -29,7 +29,7 @@ export const AddMainCategory = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<AddMainCategoryAction>) => {
-    // console.log("Add Main Category called .....", requestData);
+    console.log("Add Main Category called .....", requestData);
     try {
       const data = await postRequestGraphQLAuth(query, requestData, user.authToken);
 

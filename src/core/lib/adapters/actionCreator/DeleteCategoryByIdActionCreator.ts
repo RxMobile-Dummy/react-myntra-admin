@@ -1,10 +1,11 @@
 import { Dispatch } from "redux";
 import { DeleteCategoryActionType } from "../../useCases/actionType/deleteCategoryByIdActionType";
-import { postRequestGraphQL } from "../../Network/ApiCall";
+import { postRequestGraphQLAuth } from "../../Network/ApiCall";
 import { DeleteCategoryAction } from "../../useCases/actions/deleteCategoryByIdAction";
 
 interface Props {
   categoryid: string;
+  authToken: string;
 }
 
 export const DeleteCategory = (user: Props) => {
@@ -20,12 +21,17 @@ export const DeleteCategory = (user: Props) => {
 
   const requestData = {
     categoryid: user.categoryid,
+    authToken: user.authToken,
   };
 
   return async (dispatch: Dispatch<DeleteCategoryAction>) => {
     console.log("Category called .....", requestData);
     try {
-      const data = await postRequestGraphQL(query, requestData);
+      const data = await postRequestGraphQLAuth(
+        query,
+        requestData,
+        user.authToken
+      );
 
       const response = data.deleteProductCategoryById;
       console.log("Value of response is", response);

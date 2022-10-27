@@ -1,11 +1,12 @@
 import { Dispatch } from "redux";
 import { AddCategoryActionType } from "../../useCases/actionType/addCategoryActionType";
-import { postRequestGraphQL } from "../../Network/ApiCall";
+import { postRequestGraphQLAuth } from "../../Network/ApiCall";
 import { AddCategoryAction } from "../../useCases/actions/addCategoryAction";
 
 interface Props {
   categoryname: string;
   maincategoryname: string;
+  authToken: string;
 }
 
 export const AddCategory = (user: Props) => {
@@ -18,7 +19,7 @@ export const AddCategory = (user: Props) => {
         Categoryname
         mainCategory {
           mainCategory
-        }        
+        }
       }
     }
   }`;
@@ -31,7 +32,11 @@ export const AddCategory = (user: Props) => {
   return async (dispatch: Dispatch<AddCategoryAction>) => {
     console.log("Add Category called .....", requestData);
     try {
-      const data = await postRequestGraphQL(query, requestData);
+      const data = await postRequestGraphQLAuth(
+        query,
+        requestData,
+        user.authToken
+      );
 
       const response = data.addProductCategory;
       console.log("Value of response is", response);

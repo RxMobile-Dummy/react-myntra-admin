@@ -31,7 +31,7 @@ export default function RegisterForm(props: Props) {
   const {
     name,
     email,
-    contactNumber,
+    mobileNo,
     dob,
     gender,
     password,
@@ -122,6 +122,7 @@ export default function RegisterForm(props: Props) {
                     </label>
                   </div>
                   <div className="col-md-9 register-form-control-container">
+                    {/* country selector */}
                     <Select
                       styles={customStyles}
                       options={countries}
@@ -139,7 +140,7 @@ export default function RegisterForm(props: Props) {
                   <div className="col-md-3">
                     <label
                       className="register-form-control-label"
-                      htmlFor="contactNumber"
+                      htmlFor="mobileNo"
                     >
                       Mobile Number
                     </label>
@@ -148,14 +149,14 @@ export default function RegisterForm(props: Props) {
                     <input
                       className="form-control register-form-control"
                       type="text"
-                      id="contactNumber"
-                      name="contactNumber"
-                      value={contactNumber}
+                      id="mobileNo"
+                      name="mobileNo"
+                      value={mobileNo}
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
                     <p className="text-danger mb-0 font-weight-bold">
-                      {errors.contactNumber}
+                      {errors.mobileNo}
                     </p>
                   </div>
                 </div>

@@ -15,7 +15,6 @@ const getAllMainCategoryReducer = (
   state: UserState = initialState,
   action: GetAllMainCategoryAction
 ): any => {
-  // console.log("action payload:", action.payload);
   switch (action.type) {
     case GetAllMainCategoryActionType.GET_MAIN_CATEGORY_SUCCESS:
       return {
