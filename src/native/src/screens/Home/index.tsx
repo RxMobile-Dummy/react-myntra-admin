@@ -53,7 +53,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
 
   const state = useSelector((state: RootState) => state.auth);
 
-  console.log("State is", state)
+  // console.log("State is", state)
 
   const numberOfColumn = 2
   const WIDTH = Dimensions.get("window").width

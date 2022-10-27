@@ -9,8 +9,19 @@ import {
 import {Images} from '../../assets/images';
 import {Colors} from '../Constants/Color';
 import { Icon } from 'react-native-elements';
+import { useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { isLoggedIn } from 'core';
 
-const CustomDrawer = props => {
+const CustomDrawer = (props : any) => {
+
+  const dispatch = useDispatch()
+
+  const onSignout = async () => {
+   await AsyncStorage.setItem("token", "")
+   dispatch<any>(isLoggedIn(false))
+  }
+
   return (
     <View style={styles.mainContainer}>
       <DrawerContentScrollView
@@ -32,14 +43,14 @@ const CustomDrawer = props => {
               size={22}
               color={Colors.grayDark}
             /> */}
-            <Icon name="home" size={22} color={Colors.grayDark} />
+            <Icon name="home" size={22} color={Colors.grayDark} tvParallaxProperties={undefined} />
             <Text style={styles.shareText}>Tell a friend</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.shareBtn}>
+        <TouchableOpacity onPress={() => onSignout()} style={styles.shareBtn}>
           <View style={styles.shareView}>
             {/* <Ionicons name="exit-outline" size={22} color={Colors.grayDark} /> */}
-            <Icon name="home" size={22} color={Colors.grayDark} />
+            <Icon name="home" size={22} color={Colors.grayDark} tvParallaxProperties={undefined} />
             <Text style={styles.shareText}>Signout</Text>
           </View>
         </TouchableOpacity>

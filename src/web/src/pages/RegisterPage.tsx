@@ -63,7 +63,7 @@ export default function RegisterPage(props: Props) {
           fcmToken: "3243242asdsa",
           deviceId: "348723784238",
         };
-        await dispatch<any>(Register(reqData, "a"));
+         await dispatch<any>(Register(reqData));
       } catch (error: any) {
         console.error(error.message);
       }
