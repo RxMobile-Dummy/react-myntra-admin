@@ -73,14 +73,12 @@ const LoginScreen: React.FC<Props> = (props) => {
         role : "admin",
       }
     let loginResponse =  await dispatch<any>(Login(loginVariables))
-    console.log("Login response in", loginResponse)
     if(loginResponse.status){
       showToast({type : "success", message : "Admin user login successfully"})
       setIsLoading(false)
       dispatch<any>(isLoggedIn(true))
-      dispatch<any>(userData(loginResponse.resultData))
-      console.log(">>>>>>>>>>>>>>>>",loginResponse.data.token )
-      await AsyncStorage.setItem("token",loginResponse.data.token )
+      dispatch<any>(userData(loginResponse.data))
+      await AsyncStorage.setItem("token",loginResponse.data.token)
       props.navigation.navigate("HomeDash")
     }
     else{

@@ -4,9 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import Navigation from './src/navigators'
 import { Provider } from 'react-redux';
 import Toast, { ErrorToast } from 'react-native-toast-message';
-import { Text} from 'react-native'
 import { PersistGate } from 'redux-persist/integration/react';
-import {store} from "core"
+import {persistor, store} from "core"
 
 const App = () => {
   const toastConfig = {
@@ -25,10 +24,12 @@ const App = () => {
 
   return (
       <Provider store={store}>
+      <PersistGate persistor={persistor}>
           <NavigationContainer>
             <Navigation />
           </NavigationContainer>
         <Toast config={toastConfig} />
+        </PersistGate>
         </Provider>
 
     // <Text>Hettt</Text>
