@@ -39,22 +39,27 @@ export const GetAllCategory = (user: Props) => {
 
       const response = data.getAllProductCategories;
       console.log("Value of response is", response);
-      if (response && response.statusCode === 200) {
+      if ((response && response.statusCode === 200) || response.statusCode === 201) {
         dispatch({
           type: GetCategoryActionType.GET_CATEGORY_SUCCESS,
           payload: response.data,
         });
+        return { status : true, resultData : response.data }
       } else {
         dispatch({
           type: GetCategoryActionType.GET_CATEGORY_FAILED,
           payload: response.message,
         });
+        return { status : false , resultData : response.message }
+
       }
     } catch (error) {
       dispatch({
         type: GetCategoryActionType.GET_CATEGORY_FAILED,
         payload: error,
       });
+      return { status : false , resultData : error }
+
     }
   };
 };

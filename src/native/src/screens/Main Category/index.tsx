@@ -11,26 +11,60 @@ import Modal from "react-native-modal"
 import { FlatList } from 'react-native-gesture-handler';
 import Button from '../../components/Button';
 import SmallModal from '../../components/Modal';
+import { useDispatch, useSelector } from 'react-redux';
+import { AddMainCategory, RootState, GetAllMainCategory } from 'core';
+import showToast from '../../components/Toast';
+import Loader from '../../components/Loader';
 
 const MainCategory: React.FC<Props> = ({ navigation }) => {
+  const dispatch = useDispatch()
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    getAllMainCategory()
+  },[])
+  // console.log("User isss", user)
   const [mnCategory, setMnCategory] = useState("")
   const [isVisible, setVisible] = useState(false)
   const [mnTitle, setMnTitle] = useState("")
-  const [allCategory, setAllCategory] = useState([
-    {
-      id: "",
-      title: "",
-      mnTitle: ""
-    }
-  ])
+  const [allCategory, setAllCategory] = useState([])
   const [ctIndex, setCTIndex] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const onSaveChanges = () => {
-    let category = { id: "", title: "", mnTitle: "" }
-    let data = [...allCategory, category]
-    setCTIndex(ctIndex + 1)
-    setAllCategory(data)
-    setVisible(false)
+
+  const getAllMainCategory = async () => {
+    let userToekn = {
+      authToken : user.token
+    }
+   let allMainCategory = await dispatch<any>(GetAllMainCategory(userToekn))
+   if(allMainCategory.status){
+    setAllCategory(allMainCategory.resultData)
+    showToast({type : "success" , message : "All main category fetch successfully"})
+   }
+   else{
+    showToast({type : "error", message : allMainCategory.resultData})
+   }
+  }
+
+  const onSaveChanges = async () => {
+    let mainCategory = {
+      maincategoryName : mnTitle,
+      authToken : user.token
+    }
+    console.log("Request parameter", mainCategory)
+    let mainResponse = await dispatch<any>(AddMainCategory(mainCategory))
+    console.log("Main res", mainResponse)
+    if(mainResponse.status){
+      showToast({type : "success", message : "Main category added successfully"})
+      getAllMainCategory()
+      setVisible(false)
+      setMnTitle("")
+    }
+    else{
+      showToast({type : "error", message : mainResponse.resultData })
+      setVisible(false)
+      setMnTitle("")
+    }
   }
 
   const onCategoryChange = (mnTxt: any) => {
@@ -45,8 +79,25 @@ const MainCategory: React.FC<Props> = ({ navigation }) => {
     setAllCategory(allData)
   }
 
+  const renderItem = (item : any , ind : number) => {
+    return(
+      <View style={styles.detailHeader}>
+      <View style={styles.detailDiv}>
+        <Text style={styles.detailTxt}>{ind + 1}</Text>
+      </View>
+      <View style={styles.darkLine} />
+      <View style={styles.detailView}>
+        <Text style={styles.detailTxt}>{item.mainCategory}</Text>
+      </View>
+    </View>
+    )
+  }
+
   return (
     <Animated.View style={styles.container}>
+      {
+        isLoading && <Loader/>
+      }
       <ScrollView style={{marginBottom : normalize(20)}}>
       <View style={styles.center}>
         <Button
@@ -55,7 +106,7 @@ const MainCategory: React.FC<Props> = ({ navigation }) => {
         bgColor="#ff3f6c"
           children={
             <View style={styles.btnContainer}>
-             <Icon name="plus" type="antdesign" color={Colors.white} size={normalize(18)} />
+             <Icon name="plus" type="antdesign" color={Colors.white} size={normalize(18)} tvParallaxProperties={undefined} />
           <Text style={styles.btnTxt}>Add Main Category</Text>
             </View>
           }
@@ -78,7 +129,7 @@ const MainCategory: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.titleTxt}>Maincategory</Text>
           </View>
         </View>
-        {
+        {/* {
           allCategory.length > 0 &&
           allCategory.map((item, ind) => {
             if (item.title == "") {
@@ -98,9 +149,13 @@ const MainCategory: React.FC<Props> = ({ navigation }) => {
               )
             }
           })
-        }
+        } */}
+        <FlatList
+          data = {allCategory}
+          renderItem = {({item , index }) => renderItem(item, index)}
+        />
       </View>
-      
+
       <SmallModal
         isVisible = {isVisible}
         children = {
@@ -111,8 +166,10 @@ const MainCategory: React.FC<Props> = ({ navigation }) => {
           <View style={styles.mdSubContainer}>
             <Text style={styles.mdSubTxt}>Main Category Title</Text>
             <InputField
-              value={allCategory[ctIndex].mnTitle}
-              onChange={(mnTitle: string) => onCategoryChange(mnTitle)}
+              // value={allCategory[ctIndex].mnTitle}
+              // onChange={(mnTitle: string) => onCategoryChange(mnTitle)}
+              value={mnTitle}
+              onChange = {(mnTitle : any) => setMnTitle(mnTitle)}
               top={normalize(10)}
             />
           </View>
