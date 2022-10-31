@@ -23,6 +23,7 @@ import {
   selectionValidation,
   RootState,
   GetAllMainCategory,
+  ResetGetAllMainCategoryState,
 } from "core";
 
 export default function CategoryPage(props: any) {
@@ -50,35 +51,53 @@ export default function CategoryPage(props: any) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  let { data2, error2 } = useSelector(
+    (state: RootState) => state.getAllMainCategoryReducer
+  );
+
+  let { getdata2, geterror2 } = useSelector(
+    (state: RootState) => state.getAllCategoryReducer
+  );
+
   let { data, error } = useSelector(
     (state: RootState) => state.addCategoryReducer
   );
 
-  // async function getData() {
-  //   try {
-  //     setLoading(true);
+  async function getData() {
+    try {
+      setLoading(true);
+      let reqData1: any = {
+        authToken: localStorage.getItem("token"),
+      };
+      let ress = await dispatch<any>(GetAllCategory(reqData1));
+      console.log("get all category disptched called/.....", ress);
+      NotificationManager.success("get all Category  successfully", "", 2000);
+      // setCategories(ress.data);
+      // setpgData(ress.data);
 
-  //     let ress = await dispatch<any>(GetAllCategory());
-  //     console.log("get all category disptched called/.....");
-  //     NotificationManager.success("get all Category  successfully", "", 2000);
-  //     setCategories(ress.data);
-  //     setpgData(ress.data);
+      let reqData2: any = {
+        authToken: localStorage.getItem("token"),
+      };
+      await dispatch<any>(GetAllMainCategory(reqData2));
+      NotificationManager.success(
+        "Get All Main Categories  successfully",
+        "",
+        2000
+      );
+      setMainCategories(mainCategories);
+      setLoading(false);
+    } catch (error2) {
+      dispatch<any>(ResetGetAllMainCategoryState());
+      dispatch<any>(ResetGetCategoryState());
+      NotificationManager.error(error2, "", 2000);
 
-  //     let resp = await dispatch<any>(GetAllMainCategory());
-  //     console.log("add category disptched called/.....");
-  //     NotificationManager.success("Category updated successfully", "", 2000);
-  //     setMainCategories(mainCategories);
+      setLoading(false);
+    }
+  }
 
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setLoading(false);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   getData();
-  // }, []);
+  useEffect(() => {
+    getData();
+  }, []);
 
   const filterDataChange = (event: any) => {
     const { name, value } = event.target;
@@ -133,7 +152,8 @@ export default function CategoryPage(props: any) {
 
   const mainCategoryChange = (event: any) => {
     setMainCategory(event.target.value);
-    console.log("main catregory ",mainCategory)
+    getData();
+    console.log("main category ", mainCategory);
   };
 
   const addCategory = async () => {
@@ -182,9 +202,10 @@ export default function CategoryPage(props: any) {
       try {
         setLoading(true);
 
-        let reqData = {
+        let reqData: any = {
           categoryname: categoryName,
           maincategoryname: mainCategory,
+          authToken: localStorage.getItem("token"),
         };
         await dispatch<any>(AddCategory(reqData));
         console.log("add category disptched called.....");

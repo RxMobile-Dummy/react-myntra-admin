@@ -23,6 +23,7 @@ export const UpdateMainCategory = (user: Props) => {
   const requestData = {
     productid: user.productid,
     upatedname: user.upatedname,
+    authToken: user.authToken,
   };
 
   return async (dispatch: Dispatch<UpdateMainCategoryAction>) => {
@@ -33,7 +34,6 @@ export const UpdateMainCategory = (user: Props) => {
         requestData,
         user.authToken
       );
-
       const response = data.updateMainCategoryById;
       console.log("Value of response is", response);
       if (response && response.statusCode === 201) {

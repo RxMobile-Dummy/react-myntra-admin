@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const GetMainCategoryById = (user: Props) => {
-  /////NOT WORKING
+ 
   const query = `query GetMainCategoryById($productid: String) { 
     getMainCategoryById(productid: $productid) {
       message
@@ -24,6 +24,7 @@ export const GetMainCategoryById = (user: Props) => {
 
   const requestData = {
     productid: user.productid,
+    authToken:user.authToken
   };
 
   return async (dispatch: Dispatch<GetMainCategoryByIdAction>) => {
@@ -37,7 +38,7 @@ export const GetMainCategoryById = (user: Props) => {
 
       const response = data.getMainCategoryById;
       console.log("Value of response is", response);
-      if (response && response.statusCode === 200) {
+      if (response && response.statusCode === 201) {
         dispatch({
           type: GetMainCategoryByIdActionType.GET_MAIN_CATEGORY_BYID_SUCCESS,
           payload: response.data,

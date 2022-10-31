@@ -18,7 +18,6 @@ export const DeleteMainCategory = (user: Props) => {
       }
     }
   }`;
-
   const requestData = {
     productid: user.productid,
     authToken: user.authToken,
