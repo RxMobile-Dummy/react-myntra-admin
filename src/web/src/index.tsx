@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import { store} from "core";
+import { store, persistor} from "core";
 import { PersistGate } from "redux-persist/integration/react";
 
 const root = ReactDOM.createRoot(
@@ -12,9 +12,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store as any}>
-    {/* <PersistGate persistor={persistor}> */}
+    <PersistGate persistor={persistor}>
       <App />
-    {/* </PersistGate> */}
+    </PersistGate>
   </Provider>
 );
 
