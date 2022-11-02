@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     paddingTop: normalize(15),
     width: "100%",
-    height: Dimensions.get("screen").height / 1.3
+    height: Dimensions.get("screen").height / 1.2,
+    // marginTop : "10%"
   },
   hdrTxt: {
     fontSize: normalize(18),
@@ -29,18 +30,18 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
   },
-  elContainer : { 
-    marginTop: normalize(15), 
-    height: normalize(65) 
+  elContainer : {
+    marginTop: normalize(15),
+    height: normalize(65)
   },
-  elTxt : { 
-    fontSize: normalize(14), 
-    color: "#585757" 
+  elTxt : {
+    fontSize: normalize(14),
+    color: "#585757"
   },
-  lgContainer : { 
-    alignItems: "center", 
-    justifyContent: "center", 
-    height: normalize(45) 
+  lgContainer : {
+    alignItems: "center",
+    justifyContent: "center",
+    height: normalize(45)
   },
   lg : { fontSize: normalize(14), color: "#fff" }
 });

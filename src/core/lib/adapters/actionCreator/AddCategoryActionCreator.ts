@@ -20,7 +20,6 @@ export const AddCategory = (user: Props) => {
         mainCategory {
           mainCategory
         }
-        
       }
     }
   }`;
@@ -31,7 +30,7 @@ export const AddCategory = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<AddCategoryAction>) => {
-    console.log("Add Category called .....", requestData);
+    // console.log("Add Category called .....", requestData);
     try {
       const data = await postRequestGraphQLAuth(
         query,
@@ -40,7 +39,7 @@ export const AddCategory = (user: Props) => {
       );
 
       const response = data.addProductCategory;
-      console.log("Value of response is", response);
+      // console.log("Value of response is", response);
       if (
         (response && response.statusCode === 200) ||
         response.statusCode === 201

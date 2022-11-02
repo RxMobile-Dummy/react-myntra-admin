@@ -17,16 +17,13 @@ import updateMainCategoryReducer from "./updateMainCategoryByIdReducer";
 const reducers = combineReducers({
   auth: loginReducer,
   registerReducer: registerReducer,
-
   changePasswordReducer: changePasswordReducer,
   forgotPasswordReducer: forgotPasswordReducer,
   resetPasswordReducer: resetPasswordReducer,
-
   addCategoryReducer: addCategoryReducer,
   getAllCategoryReducer: getAllCategoryReducer,
   deleteCategoryReducer: deleteCategoryReducer,
   updateCategoryReducer: updateCategoryReducer,
-
   addMainCategoryReducer: addMainCategoryReducer,
   getAllMainCategoryReducer: getAllMainCategoryReducer,
   getMainCategoryByIdReducer: getMainCategoryByIdReducer,

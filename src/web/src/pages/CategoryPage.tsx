@@ -195,7 +195,7 @@ export default function CategoryPage(props: any) {
           updatedcategoryname: categoryName,
           authToken: localStorage.getItem("token"),
         };
-      //   console.log("reqdata...:", reqData);
+        //   console.log("reqdata...:", reqData);
         await dispatch<any>(UpdateCategory(reqData));
         getData();
         closeModel();
@@ -220,7 +220,7 @@ export default function CategoryPage(props: any) {
           maincategoryname: mainCategory,
           authToken: localStorage.getItem("token"),
         };
-      //   console.log("reqdata of add category....", reqData);
+        //   console.log("reqdata of add category....", reqData);
         await dispatch<any>(AddCategory(reqData));
         // console.log("add category disptched called.....");
         NotificationManager.success("Category added successfully", "", 2000);

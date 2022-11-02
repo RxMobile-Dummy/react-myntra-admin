@@ -21,8 +21,23 @@ import { CountryCode, Country } from "./ISignUp"
 import moment from "moment"
 import DatePicker from 'react-native-date-picker'
 import { useDispatch, useSelector } from 'react-redux';
-import { isEmail, isEmpty, isPhone, Register, REGISTER, RootState } from "core";
+import { contactNumberValidation, dobValidation, isEmail, isEmpty, isLoggedIn, isPhone, passwordValidation, Register, RootState, userData } from 'core';
 import Toast from 'react-native-toast-message';
+import showToast from '../../components/Toast';
+import Loader from '../../components/Loader';
+import { Colors } from '../../Constants/Color';
+
+const genderList = [
+  {
+    name : "Male"
+  },
+  {
+    name : "Female"
+  },
+  {
+    name : "Others"
+  }
+]
 
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
 
@@ -32,7 +47,6 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [mobileNo, setMobileNo] = useState("")
-  const [role, SetRole] = useState("")
   const [countryCode, setCountryCode] = useState<CountryCode>('IN')
   const [country, setCountry] = useState<Country>()
   const [withCountryNameButton, setWithCountryNameButton] = useState<boolean>(
@@ -47,6 +61,8 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
 
   const [date, setDate] = useState<Date>(new Date())
   const [open, setOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [gender,setGender] = useState("")
 
 
   const onSelect = (country: Country) => {
@@ -55,79 +71,93 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   }
 
     const state = useSelector((state: RootState) => state.auth.registerData);
-   // console.log("State is", state)
 
   const onSignUpPress = async() => {
+    setIsLoading(true)
     let select_date = moment(date).format("YYYY-MM-DD")
-    let countryData =   JSON.stringify(country)
     if(isEmpty(firstName)){
       Toast.show({
         type : "error",
         text1 : "Please enter first name"
       })
+      setIsLoading(false)
     }
     else if(!isEmail(email)){
       Toast.show({
         type : "error",
         text1 : "Please enter your valid email address"
       })
+      setIsLoading(false)
     }
     else if(isEmpty(email)){
       Toast.show({
         type : "error",
         text1 : "Please enter valid email address"
       })
+      setIsLoading(false)
     }
-    else if(isEmpty(mobileNo)){
-      Toast.show({
-        type : "error",
-        text1 : "Please enter your mobile number"
-      })
+    else if(contactNumberValidation(mobileNo)){
+     showToast({type : "error", message : contactNumberValidation(mobileNo)})
+     setIsLoading(false)
     }
-    // else if(isPhone(mobileNo)){
-    //   Toast.show({
-
-    //   })
-    // }
-    else if(isEmpty(select_date)){
-      Toast.show({
-        type : "error",
-        text1 : "Please select DOB"
-      })
+    else if(isEmpty(gender)){
+      showToast({type : "error", message : "Please choose your gender"})
+      setIsLoading(false)
     }
-    else if(isEmpty(password)){
-      Toast.show({
-        type : "error",
-        text1 : "Please enter password"
-      })
+    else if(dobValidation(select_date)){
+    showToast({type : "error", message : dobValidation(select_date)})
+    setIsLoading(false)
+    }
+    else if(passwordValidation(password)){
+      showToast({type : "error", message : passwordValidation(password)})
+      setIsLoading(false)
     }
     else{
       var variable = {
-        "fullName": firstName,
-        "email": email,
-        "mobileNo": mobileNo,
-        "gender": "Male",
-        "dob": select_date,
-        "country": country == undefined ? "India" : country,
-        "password": password,
-        "role": role,
-        "isVerified": false,
-        "fcmToken": "",
-        "deviceId": "",
-        "platform": Platform.OS,
+        fullName: firstName,
+        email: email,
+        mobileNo: mobileNo,
+        gender: gender,
+        dob: select_date,
+        country:country == undefined ? "India" : country.name,
+        password: password,
+        isVerified: false,
+        fcmToken: "",
+        deviceId: "",
+        platform: Platform.OS,
+        role : "admin"
       }
       console.log("Variables", variable)
-     let data = await dispatch<any>(Register(REGISTER, variable))
-     console.log("Value of data is",state)
+     let registerResponse = await dispatch<any>(Register(variable))
+     if(registerResponse.status){
+      showToast({type : "success", message : "Admin user register successfully"})
+      setIsLoading(false)
+      dispatch<any>(isLoggedIn(true))
+      dispatch<any>(userData(registerResponse.resultData))
+      navigation.navigate("HomeDash")
+      return
+     }
+     else{
+      showToast({type : "error", message : "Something went wrong"})
+      setIsLoading(false)
+     }
+
     }
   };
 
   useEffect(() => {
-    console.log("Value of data is",state)
-  },[state])
+    // console.log("Value of data is",state)
+  },[])
+
+ const onGender = (name : string) => {
+  setGender(name)
+ }
 
   return (
     <LinearGradient colors={["#FEEDF6", "#FCEEE5"]} style={{ flex: 1 }}>
+      {
+        isLoading && <Loader/>
+      }
       <SafeAreaView style={styles.container}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.subContainer}>
@@ -180,21 +210,26 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
                       isProduct={false}
                     />
                   </View>
-                  <View style={styles.elContainer}>
-                    <Text style={styles.elTxt}>
-                      Password
-                    </Text>
-                    <InputField
-                      value={password}
-                      onChange={(password: any) => setPassword(password)}
-                      top={10}
-                      isMultiline={false}
-                      placeholder="Enter Password"
-                      placeholderColor={"grey"}
-                      isProduct={false}
-                    />
-                  </View>
-                  <View style={styles.elContainer}>
+                  <View style={{ width: "80%", marginTop: normalize(15),  }}>
+                      <Text style={{ fontSize: normalize(14), color: Colors.black }}>Gender</Text>
+                      <View style={{ flexDirection: "row", alignItems: "center", marginRight :normalize(10)}}>
+                        {
+                          genderList.map((item, index) => (
+                            <>
+                              <TouchableOpacity key={"Gender_" + index} onPress={() => onGender(item.name)} style={{ width: normalize(20), height: normalize(20), borderRadius: normalize(20), marginTop: normalize(8), borderColor: item.name == gender ? Colors.pink : Colors.grey, borderWidth: 1, justifyContent : "center", alignItems : "center" }}>
+                             {
+                              item.name == gender && <View style={{width : normalize(10), height : normalize(10), borderRadius : normalize(10), backgroundColor : Colors.pink}} />
+                             }
+
+                              </TouchableOpacity>
+                              <Text style={{ paddingTop: normalize(8), paddingLeft: normalize(6), marginRight : normalize(15),fontSize: normalize(12), color: Colors.black }}>{item.name}</Text>
+                            </>
+                          ))
+                        }
+
+                      </View>
+                    </View>
+                    <View style={styles.elContainer}>
                     <Text style={styles.elTxt}>
                       DOB
                     </Text>
@@ -245,20 +280,23 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
                       </View>
                     </TouchableOpacity>
                   </View>
+
                   <View style={styles.elContainer}>
                     <Text style={styles.elTxt}>
-                      Role
+                      Password
                     </Text>
                     <InputField
-                      value={role}
-                      onChange={(role: any) => SetRole(role)}
+                      value={password}
+                      onChange={(password: any) => setPassword(password)}
                       top={10}
                       isMultiline={false}
-                      placeholder="Enter Email"
+                      placeholder="Enter Password"
                       placeholderColor={"grey"}
                       isProduct={false}
                     />
                   </View>
+
+
                   <View style={{ marginTop: normalize(20), marginBottom: normalize(20) }}>
                     <Button
                       height={normalize(45)}

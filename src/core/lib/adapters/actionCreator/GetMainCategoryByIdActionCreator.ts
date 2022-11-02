@@ -10,7 +10,8 @@ interface Props {
 }
 
 export const GetMainCategoryById = (user: Props) => {
-  const query = `query GetMainCategoryById($productid: String) { 
+  /////NOT WORKING
+  const query = `query GetMainCategoryById($productid: String) {
     getMainCategoryById(productid: $productid) {
       message
       statusCode
@@ -27,7 +28,7 @@ export const GetMainCategoryById = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<GetMainCategoryByIdAction>) => {
-    console.log("Get Category by id called .....");
+    // console.log("Get Category by id called .....");
     try {
       const data = await postRequestGraphQLAuth(
         query,
@@ -36,7 +37,7 @@ export const GetMainCategoryById = (user: Props) => {
       );
 
       const response = data.getMainCategoryById;
-      console.log("Value of response is", response);
+      // console.log("Value of response is", response);
       if (response && response.statusCode === 201){
         dispatch({
           type: GetMainCategoryByIdActionType.GET_MAIN_CATEGORY_BYID_SUCCESS,

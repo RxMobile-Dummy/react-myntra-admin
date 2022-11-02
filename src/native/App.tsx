@@ -1,58 +1,39 @@
-import { NavigationContainer } from "@react-navigation/native";
-import React, { useEffect } from "react";
-import { Provider } from "react-redux";
-import { store } from "core";
-import Navigation from "./src/navigators";
-import {View, Text} from "react-native"
-import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
+import 'react-native-gesture-handler';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import Navigation from './src/navigators'
+import { Provider } from 'react-redux';
+import Toast, { ErrorToast } from 'react-native-toast-message';
+import { PersistGate } from 'redux-persist/integration/react';
+import {persistor, store} from "core"
 
 const App = () => {
-
   const toastConfig = {
-    success: (props : any) => (
-      <BaseToast
-        {...props}
-        style={{ borderLeftColor: 'pink' }}
-        contentContainerStyle={{ paddingHorizontal: 15 }}
-        text1Style={{
-          fontSize: 15,
-          fontWeight: '400'
-        }}
-      />
-    ),
-    error: (props : any) => (
+    error: (props: any) => (
       <ErrorToast
         {...props}
         text1Style={{
-          fontSize: 17
+          fontSize: 13,
         }}
-        text2Style={{
-          fontSize: 15
-        }}
+        text1NumberOfLines={3}
       />
     ),
-
-    tomatoToast: ({ text1 , props } : any) => (
-      <View style={{ height: 60, width: '100%', backgroundColor: 'tomato' }}>
-        <Text>{text1}</Text>
-        <Text>{props.uuid}</Text>
-      </View>
-    )
   };
 
-  useEffect(() => {
-
-  },[])
+    // console.log("store", store )
 
   return (
-    <Provider store={store}>
+      <Provider store={store}>
+      <PersistGate persistor={persistor}>
+          <NavigationContainer>
+            <Navigation />
+          </NavigationContainer>
+        <Toast config={toastConfig} />
+        </PersistGate>
+        </Provider>
 
-      <NavigationContainer>
-        <Navigation />
-      </NavigationContainer>
-      <Toast config={toastConfig}/>
-    </Provider>
-  )
-}
+    // <Text>Hettt</Text>
+  );
+};
 
-export default App
+export default App;

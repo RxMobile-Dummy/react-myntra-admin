@@ -10,6 +10,24 @@ interface Props {
   deviceId: string;
 }
 
+export const isLoggedIn = (payload : boolean) => {
+  return async (dispatch : Dispatch<Action>) => {
+    dispatch({
+      type : ActionType.LOGIN_TOKEN,
+      payload : payload
+    })
+  }
+}
+
+export const userData = (payload : any) => {
+  return async (dispatch : Dispatch<Action>) => {
+    dispatch({
+      type : ActionType.LOGIN_USER,
+      payload : payload
+    })
+  }
+}
+
 export const Login = (user: Props) => {
   const query = `mutation LoginAdmin($email: String!, $password: String!, $fcmToken: String!, $deviceId: String!) {
     loginAdmin(email: $email, password: $password, fcmToken: $fcmToken, deviceId: $deviceId) {
@@ -40,7 +58,6 @@ export const Login = (user: Props) => {
       const data = await postRequestGraphQL(query, requestData);
       // console.log("login response data", data);
       const response = data.loginAdmin;
-      
       // console.log("Value of response is", response);
       if (response && response.statusCode === 200) {
         dispatch({

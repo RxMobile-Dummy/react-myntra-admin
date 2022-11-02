@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Animated from 'react-native-reanimated';
@@ -11,44 +11,59 @@ import { normalize } from '../../utils/commonStyle';
 import { Props } from './ICategories';
 import styles from './styles';
 import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
-
-
-const MainCategory = [
-  {
-    title: "Mens"
-  },
-  {
-    title: "Womens"
-  },
-  {
-    title: "Accessories"
-  },
-  {
-    title: "Home Products"
-  },
-  {
-    title: "Jewellery"
-  },
-  {
-    title: "Beauty Products"
-  }
-]
+import { useDispatch, useSelector } from 'react-redux';
+import { AddCategory, GetAllCategory, GetAllMainCategory, RootState } from 'core';
+import showToast from '../../components/Toast';
 
 const Categories: React.FC<Props> = ({ navigation }) => {
+  const dispatch = useDispatch()
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    getAllMainCategory()
+    getAllCategory()
+  },[])
+
   const [mnCategory, setMnCategory] = useState("")
   const [isVisible, setIsVisible] = useState(false)
   const [category, setCategory] = useState("Select Main Category")
   const [addIsVisible, setAddIsVisible] = useState(false)
   const [visible, setVisible] = useState(false);
   const [cTitle, setCTitle] = useState("")
-  const [bagData, setBagData] = useState([
-    {
-      ctTitle: "",
-      mnTitle: "",
-    }
-  ])
-
+  const [bagData, setBagData] = useState<any>([])
+  const [allCategory, setAllCategory] = useState<any>([])
   const [cTIndex, setCTIndex] = useState(0)
+
+
+  const getAllMainCategory = async () => {
+    let userToekn = {
+      authToken : user.token
+    }
+   let allMainCategory = await dispatch<any>(GetAllMainCategory(userToekn))
+   console.log("All main category",allMainCategory.resultData )
+   if(allMainCategory.status){
+    setAllCategory(allMainCategory.resultData)
+    showToast({type : "success" , message : "All main category fetch successfully"})
+   }
+   else{
+    showToast({type : "error", message : allMainCategory.resultData})
+   }
+  }
+
+  const getAllCategory = async () => {
+    let userToekn = {
+      authToken : user.token
+    }
+    let allCategory = await dispatch<any>(GetAllCategory(userToekn))
+    console.log("All category",allCategory.resultData )
+    if(allCategory.status){
+      showToast({type : "success", message : "All category fetch successfully"})
+      setBagData(allCategory.resultData)
+    }
+    else{
+      showToast({type : "error", message : "Something went wrong"})
+    }
+  }
 
   const hideMenu = (name: string) => {
     setCategory(name)
@@ -62,25 +77,33 @@ const Categories: React.FC<Props> = ({ navigation }) => {
     setIsVisible(false)
   }
 
-  const onSave = () => {
-    let category = { ctTitle: "", mnTitle: "" }
-    let data = [...bagData, category]
-    setCTIndex(cTIndex + 1)
-    setBagData(data)
-    setAddIsVisible(false)
+  const onSave = async () => {
+    let addCategoryReq = {
+      categoryname : cTitle,
+      maincategoryname : category,
+      authToken : user.token
+    }
+   let addCategoryRes = await dispatch<any>(AddCategory(addCategoryReq))
+   if(addCategoryRes.status){
+     setCategory("Select Main Category")
+      setAddIsVisible(false)
+      getAllCategory()
+      showToast({type :"success", message : "Category added successfully"})
+   }
+   else{
+    showToast({type :"success", message : addCategoryRes.resultData})
+   }
   }
 
 
-  const onAdd = (ctTitle: string) => {
-    let data = [...bagData].reduce((acc: any, cur: any, ind) => {
-      if (ind === cTIndex) {
-          cur.ctTitle = ctTitle,
-          cur.mnTitle = category
-      }
-      acc.push(cur)
-      return acc
-    }, [])
-    setBagData(data)
+  const renderItem = (item : any, ind : number) => {
+    return (
+      <View style={styles.smCenter}>
+        <TouchableOpacity onPress={() => hideMenu(item.mainCategory)}>
+          <Text style={{ fontSize: normalize(14), color: Colors.black }}>{item.mainCategory}</Text>
+        </TouchableOpacity>
+      </View>
+    )
   }
 
 
@@ -94,7 +117,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
             bgColor="#ff3f6c"
             children={
               <View style={styles.btnContainer}>
-                <Icon name="plus" type="antdesign" color={Colors.white} size={normalize(18)} />
+                <Icon name="plus" type="antdesign" color={Colors.white} size={normalize(18)} tvParallaxProperties = {undefined} />
                 <Text style={styles.btnTxt}>Add Category</Text>
               </View>
             }
@@ -112,11 +135,11 @@ const Categories: React.FC<Props> = ({ navigation }) => {
             <TouchableOpacity onPress={() => setIsVisible(true)} style={styles.touchContainer}>
               <Text style={{ fontSize: normalize(14), color: Colors.grayDark }}>{category}</Text>
               <View style={styles.iconDown}>
-                <Icon type='material' name="keyboard-arrow-down" size={30} />
+                <Icon type='material' name="keyboard-arrow-down" size={30} tvParallaxProperties = {undefined} />
               </View>
             </TouchableOpacity>
           </View>
-          
+
           <View style={styles.tbHeader}>
             <View style={styles.tbCol1}>
               <Text style={styles.tbDetail}>No</Text>
@@ -130,7 +153,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
               <Text style={styles.tbDetail}>Category</Text>
             </View>
           </View>
-          {
+          {/* {
             bagData.length > 0 &&
             bagData.map((item, ind) => {
               if (item.mnTitle == "") {
@@ -154,8 +177,25 @@ const Categories: React.FC<Props> = ({ navigation }) => {
                 )
               }
             })
-          }
-
+          } */}
+          <FlatList
+            data={bagData}
+            renderItem = {({item , index}) => (
+              <View style={styles.subTb}>
+              <View style={styles.tbCol1}>
+                <Text style={styles.subTbDetail}>{index + 1}</Text>
+              </View>
+              <View style={styles.subLine} />
+              <View style={styles.tbCol2}>
+                <Text style={styles.mnTxt}>{item.mainCategory.mainCategory}</Text>
+              </View>
+              <View style={styles.subLine} />
+              <View style={styles.tbCol2}>
+                <Text style={styles.mnTxt}>{item.Categoryname}</Text>
+              </View>
+            </View>
+            )}
+          />
         </View>
       </ScrollView>
       <SmallModal
@@ -164,11 +204,11 @@ const Categories: React.FC<Props> = ({ navigation }) => {
           <View style={styles.smContainer}>
             <Text style={styles.liTxt}>List of Main Category</Text>
             <FlatList
-              data={MainCategory}
+              data={allCategory}
               renderItem={({ item, index }) => {
                 return (
-                  <TouchableOpacity onPress={() => onCategorySelect(item.title)} style={styles.smTouch}>
-                    <Text style={styles.title}>{item.title}</Text>
+                  <TouchableOpacity onPress={() => onCategorySelect(item.mainCategory)} style={styles.smTouch}>
+                    <Text style={styles.title}>{item.mainCategory}</Text>
                   </TouchableOpacity>
                 )
               }}
@@ -192,28 +232,20 @@ const Categories: React.FC<Props> = ({ navigation }) => {
                 anchor={<TouchableOpacity onPress={() => setVisible(true)} style={styles.menu}>
                   <Text style={styles.title}>{category}</Text>
                   <View style={{ position: "absolute", right: 10 }}>
-                    <Icon type='material' name="keyboard-arrow-down" size={30} />
+                    <Icon type='material' name="keyboard-arrow-down" size={30} tvParallaxProperties = {undefined} />
                   </View>
                 </TouchableOpacity>}
               >
                 <FlatList
-                  data={MainCategory}
-                  renderItem={({ item, index }) => {
-                    return (
-                      <View style={styles.smCenter}>
-                        <TouchableOpacity onPress={() => hideMenu(item.title)}>
-                          <Text style={{ fontSize: normalize(14), color: Colors.black }}>{item.title}</Text>
-                        </TouchableOpacity>
-                      </View>
-                    )
-                  }}
+                  data={allCategory}
+                  renderItem={({ item, index }) => renderItem(item, index)}
                 />
               </Menu>
               <View style={{ marginTop: normalize(15) }}>
                 <Text style={styles.title}>Category Title</Text>
                 <InputField
-                  value={bagData[cTIndex].ctTitle}
-                  onChange={(ctTitle: any) => onAdd(ctTitle)}
+                  value={cTitle}
+                  onChange={(ctTitle: any) => setCTitle(ctTitle)}
                   top={normalize(10)}
                 />
               </View>

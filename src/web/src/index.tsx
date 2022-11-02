@@ -11,10 +11,8 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <Provider store={store as any}>
-    <PersistGate persistor={persistor}>
-      <App />
-    </PersistGate>
+   <Provider store={store as any}>
+     <App/> 
   </Provider>
 );
 

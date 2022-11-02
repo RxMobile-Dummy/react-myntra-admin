@@ -35,17 +35,21 @@ export const ResetPassword = (user: Props) => {
           type: ResetPasswordActionType.RESET_PASSWORD_SUCCESS,
           payload: response.message,
         });
+        return { resultData : response.message, status : true }
       } else {
         dispatch({
           type: ResetPasswordActionType.RESET_PASSWORD_FAILED,
           payload: response.message,
         });
+        return { resultData : response.message, status : false }
       }
     } catch (error) {
       dispatch({
         type: ResetPasswordActionType.RESET_PASSWORD_FAILED,
         payload: error,
       });
+      return { resultData : error, status : false }
+
     }
   };
 };

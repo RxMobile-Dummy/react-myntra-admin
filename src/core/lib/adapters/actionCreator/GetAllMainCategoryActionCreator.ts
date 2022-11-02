@@ -15,7 +15,7 @@ export const GetAllMainCategory = (user: Props) => {
       statusCode
       data {
         _id
-        mainCategory        
+        mainCategory
       }
     }
   }`;
@@ -40,17 +40,20 @@ export const GetAllMainCategory = (user: Props) => {
           type: GetAllMainCategoryActionType.GET_MAIN_CATEGORY_SUCCESS,
           payload: response.data,
         });
+        return { status : true, resultData : response.data }
       } else {
         dispatch({
           type: GetAllMainCategoryActionType.GET_MAIN_CATEGORY_FAILED,
           payload: response.message,
         });
+        return { status : false, resultData : response.message }
       }
     } catch (error) {
       dispatch({
         type: GetAllMainCategoryActionType.GET_MAIN_CATEGORY_FAILED,
         payload: error,
       });
+      return { status : false, resultData : error }
     }
   };
 };
