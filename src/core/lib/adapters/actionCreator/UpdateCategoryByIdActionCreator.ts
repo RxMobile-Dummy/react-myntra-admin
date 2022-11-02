@@ -27,7 +27,7 @@ export const UpdateCategory = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<UpdateCategoryAction>) => {
-    console.log("Update Category called .....", requestData);
+    // console.log("Update Category called .....", requestData);
     try {
       const data = await postRequestGraphQLAuth(
         query,
@@ -36,8 +36,8 @@ export const UpdateCategory = (user: Props) => {
       );
 
       const response = data.updateProductCategoryById;
-      console.log("Value of response is", response);
-      if (response && response.statusCode === 200) {
+      // console.log("Value of response is", response);
+      if (response && response.statusCode === 201) {
         dispatch({
           type: UpdateCategoryActionType.UPDATE_CATEGORY_SUCCESS,
           payload: response.data,

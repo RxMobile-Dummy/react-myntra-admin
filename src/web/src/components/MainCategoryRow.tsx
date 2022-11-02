@@ -3,6 +3,7 @@ import React from "react";
 export default function MainCategoryRow({
   mainCategory,
   index,
+  id,
   deleteCategory,
   updateCategory,
 }: any) {
@@ -15,7 +16,7 @@ export default function MainCategoryRow({
           type="button"
           className="btn btn-sm btn-primary"
           onClick={() =>
-            updateCategory(mainCategory._id, mainCategory.mainCategoryName)
+            updateCategory(id, mainCategory)
           }
         >
           Update
@@ -25,7 +26,7 @@ export default function MainCategoryRow({
         <button
           type="button"
           className="btn btn-sm btn-danger"
-          onClick={() => deleteCategory(mainCategory._id)}
+          onClick={() => deleteCategory(id)}
         >
           Delete
         </button>

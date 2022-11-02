@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/NavBar";
 import { FaPlus } from "react-icons/fa";
-//import CategoryService from "../../services/CategoryService";
 import CategoryRow from "../components/CategoryRow";
 import { getToken, removeUserSession } from "../utils/Storage";
-// import Loading from "../../components/Loading";
 import { Modal } from "react-bootstrap";
-//import MainCategoryService from "../../services/MainCategoryService";
-//import CategoriesToBagService from "../../services/CategoriesToBagService";
+import Loading from "../components/Loading";
 import { NotificationManager } from "react-notifications";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +20,7 @@ import {
   selectionValidation,
   RootState,
   GetAllMainCategory,
+  ResetGetAllMainCategoryState,
 } from "core";
 
 export default function CategoryPage(props: any) {
@@ -30,14 +28,14 @@ export default function CategoryPage(props: any) {
   const [categories, setCategories] = useState<any>([]);
   const [mainCategories, setMainCategories] = useState<any[]>([]);
   const [mainCategory, setMainCategory] = useState<any>("select");
-  const [oldMainCategory, setOldMainCategory] = useState("select");
+  // const [oldMainCategory, setOldMainCategory] = useState("select");
   const [categoryName, setCategoryName] = useState<any>("");
   const [oldCategoryName, setOldCategoryName] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [errors, setErrors] = useState("");
   const [mainCategoryError, setMainCateGoryError] = useState("");
   const [isUpdate, setIsUpdate] = useState(false);
-  const [id, setId] = useState("");
+  const [id, setId] = useState<any>("");
   const [inCategoriesToBag, setInCategoriesToBag] = useState(false);
   const [showCategoryToBagModal, setShowCategoryToBagModal] = useState(false);
   const [categoryToBagImage, setCategoryToBagImage] = useState("");
@@ -50,37 +48,66 @@ export default function CategoryPage(props: any) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  let { data2, error2 } = useSelector(
+    (state: RootState) => state.getAllMainCategoryReducer
+  );
+
+  let { getdata2, geterror2 } = useSelector(
+    (state: RootState) => state.getAllCategoryReducer
+  );
+
   let { data, error } = useSelector(
     (state: RootState) => state.addCategoryReducer
   );
 
-  // async function getData() {
-  //   try {
-  //     setLoading(true);
+  let { dltdata3, dlterror3 } = useSelector(
+    (state: RootState) => state.deleteCategoryReducer
+  );
 
-  //     let ress = await dispatch<any>(GetAllCategory());
-  //     console.log("get all category disptched called/.....");
-  //     NotificationManager.success("get all Category  successfully", "", 2000);
-  //     setCategories(ress.data);
-  //     setpgData(ress.data);
+  let { data4, error4 } = useSelector(
+    (state: RootState) => state.updateCategoryReducer
+  );
 
-  //     let resp = await dispatch<any>(GetAllMainCategory());
-  //     console.log("add category disptched called/.....");
-  //     NotificationManager.success("Category updated successfully", "", 2000);
-  //     setMainCategories(mainCategories);
+  async function getData() {
+    try {
+      setLoading(true);
+      let reqData1: any = {
+        authToken: localStorage.getItem("token"),
+      };
+      await dispatch<any>(GetAllCategory(reqData1));
+      NotificationManager.success("Get All Categories  successfully", "", 2000);
+      setCategories(getdata2);
+      setpgData(getdata2);
 
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setLoading(false);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   getData();
-  // }, []);
+      let reqData2: any = {
+        authToken: localStorage.getItem("token"),
+      };
+      await dispatch<any>(GetAllMainCategory(reqData2));
+      NotificationManager.success(
+        "Get All Main Categories  successfully",
+        "",
+        2000
+      );
+      setMainCategories(data2);
+      setpgData(getdata2);
+      setLoading(false);
+    } catch (geterror2) {
+      dispatch<any>(ResetGetAllMainCategoryState());
+      dispatch<any>(ResetGetCategoryState());
+      NotificationManager.error(geterror2, "", 2000);
+      setLoading(false);
+    }
+  }
+  useEffect(() => {
+    if (getdata2 == undefined) {
+      getData();
+    } else {
+      setCategories(getdata2);
+    }
+  }, [getdata2]);
 
   const filterDataChange = (event: any) => {
+    event.preventDefault();
     const { name, value } = event.target;
     let filteredCategories = categories;
     if (name === "filterMainCategory") {
@@ -128,12 +155,15 @@ export default function CategoryPage(props: any) {
   };
 
   const handleChange = (event: any) => {
+    event.preventDefault();
     setCategoryName(event.target.value);
+    console.log("category change...", categoryName);
   };
 
   const mainCategoryChange = (event: any) => {
+    event.preventDefault();
     setMainCategory(event.target.value);
-    console.log("main catregory ",mainCategory)
+    getData();
   };
 
   const addCategory = async () => {
@@ -158,40 +188,46 @@ export default function CategoryPage(props: any) {
     }
 
     if (isUpdate) {
-      // try {
-      //   setLoading(true);
-      //   let reqData = {
-      //     categoryid:id,
-      //     updatedcategoryname: categoryName,
-      //   };
-      //   await dispatch<any>(UpdateCategory(reqData));
-      //   console.log("add category disptched called/.....");
-      //   NotificationManager.success("Category updated successfully", "", 2000);
-      //   // getData();
-      //   closeModel();
-      //   setCategoryName("");
-      //   setLoading(false);
-      //   setErrors("");
-      //   setIsUpdate(false);
-      // } catch (error) {
-      //   console.log("error message", error)
-      //   navigate("/");
-      //   setLoading(false);
-      // }
+      try {
+        setLoading(true);
+        let reqData: any = {
+          categoryid: id,
+          updatedcategoryname: categoryName,
+          authToken: localStorage.getItem("token"),
+        };
+        //   console.log("reqdata...:", reqData);
+        await dispatch<any>(UpdateCategory(reqData));
+        getData();
+        closeModel();
+        setCategoryName("");
+        setLoading(false);
+        setIsUpdate(false);
+        setErrors("");
+        NotificationManager.success("Category updated successfully", "", 2000);
+      } catch (error4: any) {
+        dispatch<any>(ResetUpdateCategoryState());
+        console.log("error message:::", error4);
+        removeUserSession();
+        navigate("/");
+        setLoading(false);
+      }
     } else {
       try {
         setLoading(true);
 
-        let reqData = {
+        let reqData: any = {
           categoryname: categoryName,
           maincategoryname: mainCategory,
+          authToken: localStorage.getItem("token"),
         };
+        //   console.log("reqdata of add category....", reqData);
         await dispatch<any>(AddCategory(reqData));
-        console.log("add category disptched called.....");
+        // console.log("add category disptched called.....");
         NotificationManager.success("Category added successfully", "", 2000);
-        // getData();
+        getData();
         closeModel();
         setCategoryName("");
+        setOldCategoryName(categoryName);
         setLoading(false);
         setErrors("");
       } catch (error: any) {
@@ -203,43 +239,47 @@ export default function CategoryPage(props: any) {
     }
   };
 
-  const updateCategory = ({
-    id,
-    categoryName,
-    mainCategory,
-  }: // inCategoriesToBag,
-  any) => {
+  const updateCategory = async (category: any) => {
     setIsUpdate(true);
-    setId(id);
+    setId(category.category._id);
     setShowModal(true);
-    setOldCategoryName(categoryName);
-    setCategoryName(categoryName);
-    setMainCategory(mainCategory);
-    setOldMainCategory(mainCategory);
+    setOldCategoryName(category.category.Categoryname);
+    setCategoryName(category.category.Categoryname);
+    setMainCategory(category.category.mainCategory.mainCategory);
     setInCategoriesToBag(inCategoriesToBag);
   };
 
   const deleteCategory = async (id: any) => {
     console.log("id:", id);
-    // if (window.confirm("Are you sure, you want to delete?")) {
-    //   try {
-    //     setLoading(true);
-    //     await CategoryService.deleteCategory(id, getToken());
-    //     NotificationManager.error("Category deleted successfully", "", 2000);
-    //     setCurrentPage(1);
-    //     getData();
-    //     setLoading(false);
-    //   } catch (error) {
-    //     console.error(error);
-    //     if (error.response.status === 401) {
-    //       removeUserSession();
-    //       props.history.push("/dashboard/login");
-    //     } else if (error.response.status === 409) {
-    //       alert("Category is not allowed to delete");
-    //     }
-    //     setLoading(false);
-    //   }
-    // }
+    if (window.confirm("Are you sure, you want to delete?")) {
+      try {
+        setLoading(true);
+
+        let reqData: any = {
+          categoryid: id,
+          authToken: localStorage.getItem("token"),
+        };
+        // console.log("reqDaata:::", reqData);
+        await dispatch<any>(DeleteCategory(reqData));
+        NotificationManager.success("Category deleted successfully", "", 2000);
+        getData();
+        // setCurrentPage(1);
+        setLoading(false);
+      } catch (dlterror3: any) {
+        setLoading(false);
+        console.error(dlterror3);
+        if (dlterror3.response.status === 401) {
+          dispatch<any>(ResetDeleteCategoryState());
+          NotificationManager.error(dlterror3, "", 2000);
+          removeUserSession();
+          navigate("/");
+        } else if (dlterror3.response.status === 409) {
+          dispatch<any>(ResetDeleteCategoryState());
+          NotificationManager.error(dlterror3, "", 2000);
+          alert("Category is not allowed to delete");
+        }
+      }
+    }
   };
 
   const closeModel = () => {
@@ -324,90 +364,93 @@ export default function CategoryPage(props: any) {
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(25);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
 
-  // const pages = [];
-  // for (let i = 1; i <= Math.ceil(pgdata.length / itemsPerPage); i++) {
-  //     pages.push(i);
-  // }
-
+  const pages: any[] = [];
+  for (let i = 1; i <= Math.ceil(25 / itemsPerPage); i++) {
+    pages.push(i);
+  }
+  //   let i = 1; i <= Math.ceil(pgdata.length / itemsPerPage); i++
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = pgdata.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems: any =
+    pgdata === undefined
+      ? null
+      : pgdata.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleClick = (number: any) => {
     setCurrentPage(number);
   };
 
-  // const renderPageNumbers = pages.map((number) => {
-  //     if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
-  //         return (
-  //             <li
-  //                 key={number}
-  //                 onClick={() => handleClick(number)}
-  //                 className={`page-item  ${currentPage === number ? "active" : null}`}
-  //             >
-  //                 <div className="page-link">{number}</div>
-  //             </li>
-  //         );
-  //     } else {
-  //         return null;
-  //     }
-  // });
+  const renderPageNumbers = pages.map((number) => {
+    if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
+      return (
+        <li
+          key={number}
+          onClick={() => handleClick(number)}
+          className={`page-item  ${currentPage === number ? "active" : null}`}
+        >
+          <div className="page-link">{number}</div>
+        </li>
+      );
+    } else {
+      return null;
+    }
+  });
 
-  // const handleNextBtnClick = () => {
-  //     if (currentPage !== pages[pages.length - 1]) {
-  //         setCurrentPage(currentPage + 1);
+  const handleNextBtnClick = () => {
+    if (currentPage !== pages[pages.length - 1]) {
+      setCurrentPage(currentPage + 1);
 
-  //         if (currentPage + 1 > maxPageNumberLimit) {
-  //             setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
-  //             setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
-  //         }
-  //     }
-  // };
+      if (currentPage + 1 > maxPageNumberLimit) {
+        setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+        setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+      }
+    }
+  };
 
-  // const handlePreviousBtnClick = () => {
-  //     if (currentPage !== pages[0]) {
-  //         setCurrentPage(currentPage - 1);
+  const handlePreviousBtnClick = () => {
+    if (currentPage !== pages[0]) {
+      setCurrentPage(currentPage - 1);
 
-  //         if ((currentPage - 1) % pageNumberLimit === 0) {
-  //             setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
-  //             setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
-  //         }
-  //     }
-  // };
+      if ((currentPage - 1) % pageNumberLimit === 0) {
+        setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+        setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+      }
+    }
+  };
 
-  let pageIncrementBtn = null;
-  // if (pages.length > maxPageNumberLimit) {
-  //     pageIncrementBtn = (
-  //         <li className="page-item">
-  //             <span className="page-link" onClick={handleNextBtnClick}>
-  //                 &hellip;
-  //             </span>
-  //         </li>
-  //     );
-  // }
+  let pageIncrementBtn;
+  if (pages.length > maxPageNumberLimit) {
+    pageIncrementBtn = (
+      <li className="page-item">
+        <span className="page-link" onClick={handleNextBtnClick}>
+          &hellip;
+        </span>
+      </li>
+    );
+  }
 
-  let pageDecrementBtn = null;
-  // if (minPageNumberLimit >= pageNumberLimit) {
-  //     pageDecrementBtn = (
-  //         <li className="page-item">
-  //             <span className="page-link" onClick={handlePreviousBtnClick}>
-  //                 &hellip;
-  //             </span>
-  //         </li>
-  //     );
-  // }
+  let pageDecrementBtn;
+  if (minPageNumberLimit >= pageNumberLimit) {
+    pageDecrementBtn = (
+      <li className="page-item">
+        <span className="page-link" onClick={handlePreviousBtnClick}>
+          &hellip;
+        </span>
+      </li>
+    );
+  }
   // *************** END OF PAGINATION ***************
 
   const { filterMainCategory, filterCategoryName } = filterData;
 
-  // if (loading) {
-  //     return (
-  //         <>
-  //             <Navbar />
-  //             <Loading />
-  //         </>
-  //     );
-  // }
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <Loading />
+      </>
+    );
+  }
 
   return (
     <>
@@ -457,17 +500,20 @@ export default function CategoryPage(props: any) {
                     onChange={filterDataChange}
                   >
                     <option value="select"> Select Maincategory</option>
-                    {mainCategories.map((mainCategory) => {
-                      return (
-                        <option
-                          value={mainCategory._id}
-                          className="text-capitalize"
-                          key={mainCategory._id}
-                        >
-                          {}
-                        </option>
-                      );
-                    })}
+                    {data2 === undefined
+                      ? null
+                      : data2.map(({ mainCategory, _id }, index) => {
+                          return (
+                            <option
+                              value={mainCategory}
+                              className="text-capitalize"
+                              key={_id}
+                              id={index}
+                            >
+                              {mainCategory}
+                            </option>
+                          );
+                        })}
                   </select>
                 </div>
               </div>
@@ -486,55 +532,60 @@ export default function CategoryPage(props: any) {
                     </tr>
                   </thead>
                   <tbody>
-                    {currentItems.map((category, index) => {
-                      return (
-                        <CategoryRow
-                          category={category}
-                          index={(currentPage - 1) * itemsPerPage + index}
-                          key={index}
-                          deleteCategory={deleteCategory}
-                          updateCategory={updateCategory}
-                          openCategoryToBagModal={openCategoryToBagModal}
-                          deleteCategoryToBag={deleteCategoryToBag}
-                        />
-                      );
-                    })}
+                    {getdata2 === undefined
+                      ? null
+                      : getdata2?.map((category, index) => {
+                          return (
+                            <CategoryRow
+                              category={category}
+                              index={(currentPage - 1) * itemsPerPage + index}
+                              id={category._id}
+                              // key={index}
+                              deleteCategory={deleteCategory}
+                              updateCategory={updateCategory}
+                              openCategoryToBagModal={openCategoryToBagModal}
+                              deleteCategoryToBag={deleteCategoryToBag}
+                            />
+                          );
+                        })}
                   </tbody>
                 </table>
 
                 {/* *************** PAGINATION *************** */}
-                {/* <div className="pt-2">
-                                    <ul className="pagination">
-                                        <li
-                                            className={`page-item ${currentPage === pages[0] ? "disabled" : null
-                                                }`}
-                                        >
-                                            <span
-                                                className="page-link"
-                                                onClick={handlePreviousBtnClick}
-                                            >
-                                                Previous
-                                            </span>
-                                        </li>
+                <div className="pt-2">
+                  <ul className="pagination">
+                    <li
+                      className={`page-item ${
+                        currentPage === pages[0] ? "disabled" : null
+                      }`}
+                    >
+                      <span
+                        className="page-link"
+                        onClick={handlePreviousBtnClick}
+                      >
+                        Previous
+                      </span>
+                    </li>
 
-                                        {pageDecrementBtn}
+                    {pageDecrementBtn}
 
-                                        {renderPageNumbers}
+                    {renderPageNumbers}
 
-                                        {pageIncrementBtn}
+                    {pageIncrementBtn}
 
-                                        <li
-                                            className={`page-item ${currentPage === pages[pages.length - 1]
-                                                ? "disabled"
-                                                : null
-                                                }`}
-                                        >
-                                            <span className="page-link" onClick={handleNextBtnClick}>
-                                                Next
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </div> */}
+                    <li
+                      className={`page-item ${
+                        currentPage === pages[pages.length - 1]
+                          ? "disabled"
+                          : null
+                      }`}
+                    >
+                      <span className="page-link" onClick={handleNextBtnClick}>
+                        Next
+                      </span>
+                    </li>
+                  </ul>
+                </div>
                 {/* *************** END OF PAGINATION *************** */}
               </div>
             </div>
@@ -562,17 +613,20 @@ export default function CategoryPage(props: any) {
                   onChange={mainCategoryChange}
                 >
                   <option value="select">Select Maincategory</option>
-                  {mainCategories.map((mainCategory) => {
-                    return (
-                      <option
-                        //  value={mainCategory._id}
-                        className="text-capitalize"
-                        //  key={mainCategory._id}
-                      >
-                        {}
-                      </option>
-                    );
-                  })}
+                  {data2 === undefined
+                    ? null
+                    : data2.map(({ mainCategory, _id }, index) => {
+                        return (
+                          <option
+                            value={mainCategory}
+                            className="text-capitalize"
+                            key={index}
+                            id={_id}
+                          >
+                            {mainCategory}
+                          </option>
+                        );
+                      })}
                 </select>
                 <p className="text-danger mb-0 font-weight-bold">
                   {mainCategoryError}
@@ -596,37 +650,7 @@ export default function CategoryPage(props: any) {
           {isUpdate && (
             <div>
               <div className="row">
-                <div className="col-6">
-                  <div className="form-group">
-                    <label
-                      className="form-control-label"
-                      htmlFor="oldMainCategory"
-                    >
-                      Old Main Category
-                    </label>
-                    <select
-                      name="oldMainCategory"
-                      id="oldMainCategory"
-                      className="form-control login-form-control"
-                      value={oldMainCategory}
-                      disabled
-                    >
-                      <option value="select">Select Maincategory</option>
-                      {mainCategories.map((mainCategory) => {
-                        return (
-                          <option
-                            // value={mainCategory._id}
-                            className="text-capitalize"
-                            // key={mainCategory._id}
-                          >
-                            {}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </div>
-                </div>
-                <div className="col-6">
+                <div className="col">
                   <div className="form-group">
                     <label
                       className="form-control-label"
@@ -634,26 +658,13 @@ export default function CategoryPage(props: any) {
                     >
                       Main Category
                     </label>
-                    <select
+                    <input
                       name="mainCategory"
                       id="mainCategory"
                       className="form-control login-form-control"
                       value={mainCategory}
-                      onChange={mainCategoryChange}
-                    >
-                      <option value="select">Select Maincategory</option>
-                      {mainCategories.map((mainCategory) => {
-                        return (
-                          <option
-                            // value={mainCategory._id}
-                            className="text-capitalize"
-                            //  key={mainCategory._id}
-                          >
-                            {}
-                          </option>
-                        );
-                      })}
-                    </select>
+                      disabled
+                    ></input>
                     <p className="text-danger mb-0 font-weight-bold">
                       {mainCategoryError}
                     </p>
@@ -661,24 +672,10 @@ export default function CategoryPage(props: any) {
                 </div>
               </div>
               <div className="row">
-                <div className="col-6">
+                <div className="col">
                   <div className="form-group">
                     <label className="form-control-label" htmlFor="category">
-                      Old Category Title
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control login-form-control"
-                      id="oldcategory"
-                      value={oldCategoryName}
-                      disabled
-                    />
-                  </div>
-                </div>
-                <div className="col-6">
-                  <div className="form-group">
-                    <label className="form-control-label" htmlFor="category">
-                      New Category Title
+                      Change Category Title
                     </label>
                     <input
                       type="text"

@@ -30,7 +30,7 @@ export const AddCategory = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<AddCategoryAction>) => {
-    console.log("Add Category called .....", requestData);
+    // console.log("Add Category called .....", requestData);
     try {
       const data = await postRequestGraphQLAuth(
         query,
@@ -39,26 +39,29 @@ export const AddCategory = (user: Props) => {
       );
 
       const response = data.addProductCategory;
-      console.log("Value of response is", response);
-      if ((response && response.statusCode === 200) || response.statusCode === 201) {
+      // console.log("Value of response is", response);
+      if (
+        (response && response.statusCode === 200) ||
+        response.statusCode === 201
+      ) {
         dispatch({
           type: AddCategoryActionType.ADD_CATEGORY_SUCCESS,
           payload: response.data,
         });
-        return { status : true, resultData : response.data }
+        return { status: true, resultData: response.data };
       } else {
         dispatch({
           type: AddCategoryActionType.ADD_CATEGORY_FAILED,
           payload: response.message,
         });
-        return { status : false, resultData : response.message }
+        return { status: false, resultData: response.message };
       }
     } catch (error) {
       dispatch({
         type: AddCategoryActionType.ADD_CATEGORY_FAILED,
         payload: error,
       });
-      return { status : false, resultData : error }
+      return { status: false, resultData: error };
     }
   };
 };

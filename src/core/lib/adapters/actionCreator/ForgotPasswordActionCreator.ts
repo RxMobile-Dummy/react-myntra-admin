@@ -22,12 +22,11 @@ export const ForgotPassword = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<ForgotPasswordAction>) => {
-    console.log("Forgot password called .....");
+    // console.log("Forgot password called .....");
     try {
       const data = await postRequestGraphQL(query, requestData);
-      console.log("response data:::::", data);
       const response = data.forgotadminPassword;
-      console.log("Value of response is", response);
+      // console.log("Value of response is", response);
       if (response && response.statusCode === 200) {
         dispatch({
           type: ForgotPasswordActionType.FORGOT_PASSWORD_SUCCESS,

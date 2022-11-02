@@ -84,7 +84,7 @@ export const postRequestGraphQL = async (query: any, body: any) => {
       },
     }
   );
-  console.log("res ::::::", JSON.stringify(data.data.data));
+  // console.log("res ::::::", JSON.stringify(data.data.data));
   // console.log("res ::::::", JSON.stringify(data.data.data));
   return data.data.data;
 };
@@ -107,7 +107,7 @@ export const postRequestGraphQLAuth = async (
       },
     }
   );
-  console.log("res ::::::", JSON.stringify(data.data.data));
+  // console.log("res ::::::", JSON.stringify(data.data.data));
   // console.log("res ::::::", JSON.stringify(data.data.data));
   return data.data.data;
 };
