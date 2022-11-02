@@ -25,7 +25,7 @@ export const DeleteCategory = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<DeleteCategoryAction>) => {
-    console.log("Category called .....", requestData);
+    console.log("Dispatch Category called .....");
     try {
       const data = await postRequestGraphQLAuth(
         query,
@@ -35,10 +35,10 @@ export const DeleteCategory = (user: Props) => {
 
       const response = data.deleteProductCategoryById;
       console.log("Value of response is", response);
-      if (response && response.statusCode === 200) {
+      if (response && response.statusCode === 201) {
         dispatch({
           type: DeleteCategoryActionType.DELETE_CATEGORY_SUCCESS,
-          payload: response.message,
+          payload: response.data,
         });
       } else {
         dispatch({

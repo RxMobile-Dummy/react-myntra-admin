@@ -1,11 +1,11 @@
 import { Dispatch } from "redux";
 import { AddMainCategoryActionType } from "../../useCases/actionType/addMainCategoryActionsTypes";
-import { postRequestGraphQL, postRequestGraphQLAuth } from "../../Network/ApiCall";
+import { postRequestGraphQLAuth } from "../../Network/ApiCall";
 import { AddMainCategoryAction } from "../../useCases/actions/addMainCategoryAction";
 
 interface Props {
   maincategoryName: string;
-  authToken:string
+  authToken: string;
 }
 
 export const AddMainCategory = (user: Props) => {
@@ -25,16 +25,20 @@ export const AddMainCategory = (user: Props) => {
 
   const requestData = {
     maincategoryName: user.maincategoryName,
-    authToken: user.authToken
+    authToken: user.authToken,
   };
 
   return async (dispatch: Dispatch<AddMainCategoryAction>) => {
-    console.log("Add Main Category called .....", requestData);
+    // console.log("Add Main Category called .....", requestData);
     try {
-      const data = await postRequestGraphQLAuth(query, requestData, user.authToken);
+      const data = await postRequestGraphQLAuth(
+        query,
+        requestData,
+        user.authToken
+      );
 
       const response = data.addMainCategory;
-      console.log("Value of response is", response);
+      // console.log("Value of response is", response);
       if (response && response.statusCode === 200) {
         dispatch({
           type: AddMainCategoryActionType.ADD_MAIN_CATEGORY_SUCCESS,

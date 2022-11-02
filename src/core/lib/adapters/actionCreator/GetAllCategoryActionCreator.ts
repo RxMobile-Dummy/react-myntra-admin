@@ -1,7 +1,6 @@
 import { Dispatch } from "redux";
 import { GetCategoryActionType } from "../../useCases/actionType/getAllCategoryActionType";
 import { postRequestGraphQLAuth } from "../../Network/ApiCall";
-import { getRequest } from "../../Network/ApiCall";
 import { GetCategoryAction } from "../../useCases/actions/getAllCategoryAction";
 
 interface Props {
@@ -18,8 +17,7 @@ export const GetAllCategory = (user: Props) => {
         Categoryname
         mainCategory {
           mainCategory
-          _id
-        }        
+        }
       }
     }
   }`;
@@ -29,7 +27,7 @@ export const GetAllCategory = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<GetCategoryAction>) => {
-    console.log("Get Category called .....");
+    // console.log("Get Category called .....");
     try {
       const data = await postRequestGraphQLAuth(
         query,
@@ -38,8 +36,8 @@ export const GetAllCategory = (user: Props) => {
       );
 
       const response = data.getAllProductCategories;
-      console.log("Value of response is", response);
-      if (response && response.statusCode === 200) {
+      // console.log("Value of response is", response);
+      if (response && response.statusCode === 201) {
         dispatch({
           type: GetCategoryActionType.GET_CATEGORY_SUCCESS,
           payload: response.data,

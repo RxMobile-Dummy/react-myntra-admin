@@ -19,7 +19,8 @@ export const AddCategory = (user: Props) => {
         Categoryname
         mainCategory {
           mainCategory
-        }        
+        }
+        
       }
     }
   }`;
@@ -40,7 +41,7 @@ export const AddCategory = (user: Props) => {
 
       const response = data.addProductCategory;
       console.log("Value of response is", response);
-      if (response && response.statusCode === 200) {
+      if (response && response.statusCode === 201) {
         dispatch({
           type: AddCategoryActionType.ADD_CATEGORY_SUCCESS,
           payload: response.data,

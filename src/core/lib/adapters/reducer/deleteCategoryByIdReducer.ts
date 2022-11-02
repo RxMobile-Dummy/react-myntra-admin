@@ -2,13 +2,13 @@ import { DeleteCategoryActionType } from "../../useCases/actionType/deleteCatego
 import { DeleteCategoryAction } from "../../useCases/actions/deleteCategoryByIdAction";
 
 type UserState = {
-  data3: any;
-  error3: string | undefined;
+  dltdata3: any;
+  dlterror3: string | undefined;
 };
 
 const initialState = {
-  data3: undefined,
-  error3: undefined,
+  dltdata3: undefined,
+  dlterror3: undefined,
 };
 
 const deleteCategoryReducer = (
@@ -20,18 +20,18 @@ const deleteCategoryReducer = (
     case DeleteCategoryActionType.DELETE_CATEGORY_SUCCESS:
       return {
         ...state,
-        data3: action.payload,
+        dltdata3: action.payload,
       };
     case DeleteCategoryActionType.DELETE_CATEGORY_FAILED:
       return {
         ...state,
-        error3: action.payload,
+        dlterror3: action.payload,
       };
     case DeleteCategoryActionType.DELETE_CATEGORY_RESET:
       return {
         ...state,
-        data3: action.payload,
-        error3: action.payload,
+        dltdata3: action.payload,
+        dlterror3: action.payload,
       };
     default:
       return state;

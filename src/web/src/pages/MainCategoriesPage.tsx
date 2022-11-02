@@ -148,7 +148,7 @@ export default function MainCategoriesPage(props: any) {
   const handleChange = (event: any) => {
     event.preventDefault();
     setMainCategoryName(event.target.value);
-    console.log(mainCategoryName);
+    // console.log(mainCategoryName);
   };
 
   const addMainCategory = async () => {
@@ -168,12 +168,12 @@ export default function MainCategoriesPage(props: any) {
           authToken: localStorage.getItem("token"),
         };
         await dispatch<any>(UpdateMainCategory(reqData));
+        getData();
         closeModel();
         setMainCategoryName("");
         setLoading(false);
         setIsUpdate(false);
         setErrors("");
-        getData();
         NotificationManager.success(
           "Maincategory updated successfully",
           "",
@@ -181,27 +181,27 @@ export default function MainCategoriesPage(props: any) {
         );
       } catch (error5: any) {
         console.log("error message:::", error5);
+        dispatch<any>(ResetUpdateMainCategoryState());
         removeUserSession();
         navigate("/");
         setLoading(false);
       }
-      console.log("if section: update");
     } else {
       try {
-        // setLoading(true);
         let reqData: any = {
           maincategoryName: mainCategoryName,
           authToken: localStorage.getItem("token"),
         };
         await dispatch<any>(AddMainCategory(reqData));
         console.log("main category name:", mainCategoryName);
+        getData();
         closeModel();
         setMainCategoryName("");
         setLoading(false);
         setIsUpdate(false);
         setErrors("");
         setFilterMainCategoryName(mainCategoryName);
-        console.log();
+        
         NotificationManager.success(
           "Maincategory updated successfully",
           "",
@@ -232,7 +232,7 @@ export default function MainCategoriesPage(props: any) {
           productid: id,
           authToken: localStorage.getItem("token"),
         };
-        console.log("reqDaata:::", reqData);
+        // console.log("reqDaata:::", reqData);
         await dispatch<any>(DeleteMainCategory(reqData));
         NotificationManager.success(
           "Maincategory deleted successfully",

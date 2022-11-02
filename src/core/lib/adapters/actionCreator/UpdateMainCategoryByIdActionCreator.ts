@@ -27,7 +27,7 @@ export const UpdateMainCategory = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<UpdateMainCategoryAction>) => {
-    console.log("Update Category called .....", requestData);
+    // console.log("Update Category called .....", requestData);
     try {
       const data = await postRequestGraphQLAuth(
         query,
@@ -35,7 +35,7 @@ export const UpdateMainCategory = (user: Props) => {
         user.authToken
       );
       const response = data.updateMainCategoryById;
-      console.log("Value of response is", response);
+      // console.log("Value of response is", response);
       if (response && response.statusCode === 201) {
         dispatch({
           type: UpdateMainCategoryActionType.UPDATE_MAIN_CATEGORY_SUCCESS,
