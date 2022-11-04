@@ -2,13 +2,13 @@ import { GetCategoryActionType } from "../../useCases/actionType/getAllCategoryA
 import { GetCategoryAction } from "../../useCases/actions/getAllCategoryAction";
 
 type UserState = {
-  data2: any;
-  error2: string | undefined;
+  getdata2: any;
+  geterror2: string | undefined;
 };
 
 const initialState = {
-  data2: undefined,
-  error2: undefined,
+  getdata2: undefined,
+  geterror2: undefined,
 };
 
 const getAllCategoryReducer = (
@@ -20,18 +20,18 @@ const getAllCategoryReducer = (
     case GetCategoryActionType.GET_CATEGORY_SUCCESS:
       return {
         ...state,
-        data2: action.payload,
+        getdata2: action.payload,
       };
     case GetCategoryActionType.GET_CATEGORY_FAILED:
       return {
         ...state,
-        error2: action.payload,
+        geterror2: action.payload,
       };
     case GetCategoryActionType.GET_CATEGORY_RESET:
       return {
         ...state,
-        data2: action.payload,
-        error2: action.payload,
+        getdata2: action.payload,
+        geterror2: action.payload,
       };
     default:
       return state;

@@ -8,10 +8,14 @@ import { getToken, removeUserSession } from "../utils/Storage";
 import {
   AddMainCategory,
   GetAllMainCategory,
+  GetMainCategoryById,
   DeleteMainCategory,
-  ResetDeleteMainCategoryState,
+  UpdateMainCategory,
   ResetAddMainCategoryState,
   ResetGetAllMainCategoryState,
+  ResetGetMainCategoryByIdState,
+  ResetDeleteMainCategoryState,
+  ResetUpdateMainCategoryState,
   RootState,
 } from "core";
 import { useSelector, useDispatch } from "react-redux";
@@ -40,13 +44,21 @@ export default function MainCategoriesPage(props: any) {
     (state: RootState) => state.getAllMainCategoryReducer
   );
 
+  let { data3, error3 } = useSelector(
+    (state: RootState) => state.getMainCategoryByIdReducer
+  );
+
   let { data4, error4 } = useSelector(
     (state: RootState) => state.deleteMainCategoryReducer
   );
 
+  let { data5, error5 } = useSelector(
+    (state: RootState) => state.updateMainCategoryReducer
+  );
+
   // console.log("data:::", data);
-  console.log("data2:::", data2);
-  console.log("data4:::", data4);
+  // console.log("data2:::", data2);
+  // console.log("data3:::", data3);
 
   async function getData() {
     try {
@@ -56,15 +68,12 @@ export default function MainCategoriesPage(props: any) {
       };
       await dispatch<any>(GetAllMainCategory(reqData));
       NotificationManager.success(
-        "get all main Category  successfully",
+        "Get All Main Categories  successfully",
         "",
         2000
       );
-
       // setMainCategories(data2);
-      // console.log("setmaincategories", mainCategories);
       // setpgData(data2);
-      // console.log("setpgdata::", pgdata);
       setLoading(false);
     } catch (error2) {
       console.error(error2);
@@ -74,6 +83,34 @@ export default function MainCategoriesPage(props: any) {
     }
   }
 
+  // async function getDataById(id: any) {
+  //   try {
+  //     setLoading(true);
+  //     let reqData: any = {
+  //       productid: id,
+  //       authToken: localStorage.getItem("token"),
+  //     };
+  //     console.log("reqdata:::", reqData);
+  //     await dispatch<any>(GetMainCategoryById(reqData));
+  //     NotificationManager.success(
+  //       "Get Main Category by Id successfully",
+  //       "",
+  //       2000
+  //     );
+
+  //     setMainCategories(data3);
+  //     // console.log("setmaincategories", mainCategories);
+  //     // setpgData(data3);
+  //     // console.log("setpgdata::", pgdata);
+  //     setLoading(false);
+  //   } catch (error3) {
+  //     console.error(error3);
+  //     dispatch<any>(ResetGetMainCategoryByIdState());
+  //     NotificationManager.error(error3, "", 2000);
+  //     setLoading(false);
+  //   }
+  // }
+
   useEffect(() => {
     getData();
     let token = localStorage.getItem("token");
@@ -82,24 +119,27 @@ export default function MainCategoriesPage(props: any) {
 
   const filterMainCategoryNameChange = (event: any) => {
     event.preventDefault();
-    console.log("event:", event);
+    // console.log("event:", event);
     let value = event.target.value;
-
-    let filteredMainCategories = mainCategories;
+    setMainCategories(data2);
+    let filteredMainCategories: any = [...mainCategories];
+    console.log("filteredMainCategories", filteredMainCategories);
     if (value.length > 0) {
-      filteredMainCategories = filteredMainCategories.filter(
-        (mainCategory: any) => {
-          let tempSearch = value.toLowerCase();
-          let tempName = mainCategory.mainCategoryName
-            .toLowerCase()
-            .slice(0, tempSearch.length);
-
-          if (tempSearch === tempName) {
-            return mainCategory;
-          }
-          return null;
+    filteredMainCategories = filteredMainCategories.filter(
+      (mainCategory: any) => {
+        let tempSearch = value.toLowerCase();
+        let tempName = mainCategory.mainCategory
+          .toLowerCase()
+          .slice(0, tempSearch.length);
+        console.log("tempname::", tempName);
+        if (tempSearch === tempName) {
+          
+          // getDataById("634ff13b1c59d27be45e6b18");
+          return mainCategory;
         }
-      );
+        return null;
+      }
+    );
     }
     setpgData(filteredMainCategories);
     setFilterMainCategoryName(value);
@@ -120,45 +160,48 @@ export default function MainCategoriesPage(props: any) {
     }
 
     if (isUpdate) {
-      // try {
-      //   setLoading(true);
-      //   let reqData: any = {
-      //     mainCategoryname: mainCategoryName,
-      //   };
-      //   await dispatch<any>(UpdateMainCategory(reqData));
-      //   closeModel();
-      //   setMainCategoryName("");
-      //   setLoading(false);
-      //   setIsUpdate(false);
-      //   setErrors("");
-      //   NotificationManager.success(
-      //     "Maincategory updated successfully",
-      //     "",
-      //     2000
-      //   );
-      // } catch (error: any) {
-      //   console.log("error message:::", error);
-      //   removeUserSession();
-      //   navigate("/dashboard/login");
-      //   setLoading(false);
-      // }
-      console.log("if section: update");
+      try {
+        setLoading(true);
+        let reqData: any = {
+          productid: id,
+          upatedname: mainCategoryName,
+          authToken: localStorage.getItem("token"),
+        };
+        await dispatch<any>(UpdateMainCategory(reqData));
+        getData();
+        closeModel();
+        setMainCategoryName("");
+        setLoading(false);
+        setIsUpdate(false);
+        setErrors("");
+        NotificationManager.success(
+          "Maincategory updated successfully",
+          "",
+          2000
+        );
+      } catch (error5: any) {
+        console.log("error message:::", error5);
+        dispatch<any>(ResetUpdateMainCategoryState());
+        removeUserSession();
+        navigate("/");
+        setLoading(false);
+      }
     } else {
       try {
-        // setLoading(true);
         let reqData: any = {
           maincategoryName: mainCategoryName,
           authToken: localStorage.getItem("token"),
         };
         await dispatch<any>(AddMainCategory(reqData));
         console.log("main category name:", mainCategoryName);
+        getData();
         closeModel();
         setMainCategoryName("");
         setLoading(false);
         setIsUpdate(false);
         setErrors("");
         setFilterMainCategoryName(mainCategoryName);
-        console.log();
+        
         NotificationManager.success(
           "Maincategory updated successfully",
           "",
@@ -186,10 +229,12 @@ export default function MainCategoriesPage(props: any) {
       try {
         setLoading(true);
         let reqData: any = {
+          productid: id,
           authToken: localStorage.getItem("token"),
         };
+        // console.log("reqDaata:::", reqData);
         await dispatch<any>(DeleteMainCategory(reqData));
-        NotificationManager.error(
+        NotificationManager.success(
           "Maincategory deleted successfully",
           "",
           2000
@@ -198,15 +243,15 @@ export default function MainCategoriesPage(props: any) {
         setLoading(false);
       } catch (error4: any) {
         setLoading(false);
-        console.error(error);
+        console.error(error4);
         if (error4.response.status === 401) {
           dispatch<any>(ResetDeleteMainCategoryState());
-          NotificationManager.error(error2, "", 2000);
+          NotificationManager.error(error4, "", 2000);
           removeUserSession();
           navigate("/");
         } else if (error4.response.status === 409) {
           dispatch<any>(ResetDeleteMainCategoryState());
-          NotificationManager.error(error2, "", 2000);
+          NotificationManager.error(error4, "", 2000);
           alert("Main Category is not allowed to delete");
         }
       }
@@ -347,12 +392,13 @@ export default function MainCategoriesPage(props: any) {
                 <tbody>
                   {data2 === undefined
                     ? null
-                    : data2.map(({ mainCategory }, index) => {
+                    : data2.map(({ mainCategory, _id }, index) => {
                         return (
                           <MainCategoryRow
                             mainCategory={mainCategory}
                             index={index}
                             key={index}
+                            id={_id}
                             deleteCategory={deleteCategory}
                             updateCategory={updateCategory}
                           />

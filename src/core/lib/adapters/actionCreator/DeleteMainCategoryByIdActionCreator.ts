@@ -18,14 +18,13 @@ export const DeleteMainCategory = (user: Props) => {
       }
     }
   }`;
-
   const requestData = {
     productid: user.productid,
     authToken: user.authToken,
   };
 
   return async (dispatch: Dispatch<DeleteMainCategoryAction>) => {
-    console.log("DElete Main Category called .....", requestData);
+    // console.log("DElete Main Category called .....", requestData);
     try {
       const data = await postRequestGraphQLAuth(
         query,
@@ -34,7 +33,7 @@ export const DeleteMainCategory = (user: Props) => {
       );
 
       const response = data.deleteMainCategoryById;
-      console.log("Value of response is", response);
+      // console.log("Value of response is", response);
       if (response && response.statusCode === 201) {
         dispatch({
           type: DeleteMainCategoryActionType.DELETE_MAIN_CATEGORY_SUCCESS,

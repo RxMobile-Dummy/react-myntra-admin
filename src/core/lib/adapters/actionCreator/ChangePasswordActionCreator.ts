@@ -26,13 +26,11 @@ export const ChangePassword = (user : Props) => {
   }
 
   return async (dispatch: Dispatch<ChangePasswordAction>) => {
-    console.log("Change password called .....");
+    // console.log("Change password called .....");
     try {
-      console.log("userAuth",user.authToken)
     const data = await postRequestGraphQLAuth(query, requestData, user.authToken)
-    console.log("change dataaa::::",data)
     const response = data.changeadminPassword
-    console.log("Value of response is", response)
+    // console.log("Value of response is", response)
     if(response && response.statusCode === 200){
       dispatch({
         type: ChangePasswordActionType.CHANGE_PASSWORD_SUCCESS,

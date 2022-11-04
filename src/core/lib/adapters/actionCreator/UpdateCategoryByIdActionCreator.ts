@@ -27,7 +27,7 @@ export const UpdateCategory = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<UpdateCategoryAction>) => {
-    console.log("Update Category called .....", requestData);
+    // console.log("Update Category called .....", requestData);
     try {
       const data = await postRequestGraphQLAuth(
         query,
