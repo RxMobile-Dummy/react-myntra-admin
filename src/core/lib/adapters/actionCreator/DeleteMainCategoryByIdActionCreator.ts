@@ -40,17 +40,20 @@ export const DeleteMainCategory = (user: Props) => {
           type: DeleteMainCategoryActionType.DELETE_MAIN_CATEGORY_SUCCESS,
           payload: response.message,
         });
+        return { status : true, resultData : response.message }
       } else {
         dispatch({
           type: DeleteMainCategoryActionType.DELETE_MAIN_CATEGORY_FAILED,
           payload: response.message,
         });
+        return { status : false, resultData : response.message }
       }
     } catch (error) {
       dispatch({
         type: DeleteMainCategoryActionType.DELETE_MAIN_CATEGORY_FAILED,
         payload: error,
       });
+      return { status : false, resultData : error }
     }
   };
 };

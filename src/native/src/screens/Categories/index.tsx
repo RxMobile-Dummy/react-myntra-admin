@@ -12,7 +12,7 @@ import { Props } from './ICategories';
 import styles from './styles';
 import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 import { useDispatch, useSelector } from 'react-redux';
-import { AddCategory, GetAllCategory, GetAllMainCategory, RootState } from 'core';
+import { AddCategory, GetAllCategory, GetAllMainCategory, RootState, UpdateCategory } from 'core';
 import showToast from '../../components/Toast';
 
 const Categories: React.FC<Props> = ({ navigation }) => {
@@ -33,6 +33,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
   const [bagData, setBagData] = useState<any>([])
   const [allCategory, setAllCategory] = useState<any>([])
   const [cTIndex, setCTIndex] = useState(0)
+  const [isEdit, setIsEdit] = useState(false)
 
 
   const getAllMainCategory = async () => {
@@ -106,6 +107,35 @@ const Categories: React.FC<Props> = ({ navigation }) => {
     )
   }
 
+  const onEdit = (item : any, ind : number) => {
+    console.log("item", item)
+    setAddIsVisible(true)
+    setIsEdit(true)
+    setCTIndex(ind)
+    setCategory(item.mainCategory.mainCategory)
+    setCTitle(item.Categoryname)
+  }
+
+  const onEditPress = async () => {
+
+    let editReq = {
+      categoryid : allCategory[cTIndex]._id,
+      updatedcategoryname : cTitle,
+      authToken : user.token
+    }
+    console.log("On edit press", editReq)
+    let editResponse = await dispatch<any>(UpdateCategory(editReq))
+    console.log("On Edit response is", editResponse.status)
+    if(editResponse.status){
+      showToast({type : "success", message : "Category edited successfully"})
+      // getAllCategory()
+      setAddIsVisible(false)
+    }
+    else{
+      showToast({type : "error", message : "Something went wrong"})
+      setAddIsVisible(false)
+    }
+  }
 
   return (
     <Animated.View style={styles.container}>
@@ -152,32 +182,15 @@ const Categories: React.FC<Props> = ({ navigation }) => {
             <View style={styles.tbCol2}>
               <Text style={styles.tbDetail}>Category</Text>
             </View>
+            <View style={styles.line} />
+            <View style={styles.tbCol3}>
+              <Text style={styles.tbDetail}>Edit</Text>
+            </View>
+            <View style={styles.line} />
+            <View style={styles.tbCol4}>
+              <Text style={styles.tbDetail}>Delete</Text>
+            </View>
           </View>
-          {/* {
-            bagData.length > 0 &&
-            bagData.map((item, ind) => {
-              if (item.mnTitle == "") {
-
-              }
-              else {
-                return (
-                  <View style={styles.subTb}>
-                    <View style={styles.tbCol1}>
-                      <Text style={styles.subTbDetail}>{ind + 1}</Text>
-                    </View>
-                    <View style={styles.subLine} />
-                    <View style={styles.tbCol2}>
-                      <Text style={styles.mnTxt}>{item.mnTitle}</Text>
-                    </View>
-                    <View style={styles.subLine} />
-                    <View style={styles.tbCol2}>
-                      <Text style={styles.mnTxt}>{item.ctTitle}</Text>
-                    </View>
-                  </View>
-                )
-              }
-            })
-          } */}
           <FlatList
             data={bagData}
             renderItem = {({item , index}) => (
@@ -187,11 +200,19 @@ const Categories: React.FC<Props> = ({ navigation }) => {
               </View>
               <View style={styles.subLine} />
               <View style={styles.tbCol2}>
-                <Text style={styles.mnTxt}>{item.mainCategory.mainCategory}</Text>
+                <Text style={styles.mnTxt}>{item.mainCategory == null ? "" : item.mainCategory.mainCategory}</Text>
               </View>
               <View style={styles.subLine} />
               <View style={styles.tbCol2}>
                 <Text style={styles.mnTxt}>{item.Categoryname}</Text>
+              </View>
+              <View style={styles.subLine} />
+              <View style={styles.tbCol3}>
+              <Icon name = "edit" type = "feather" onPress = {() => onEdit(item, index)} />
+              </View>
+              <View style={styles.subLine} />
+              <View style={styles.tbCol4}>
+              <Icon name = "delete" type = "antdesign" />
               </View>
             </View>
             )}
@@ -254,7 +275,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
               <TouchableOpacity onPress={() => setAddIsVisible(false)} style={styles.close}>
                 <Text style={styles.closeTxt}>Close</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => onSave()} style={styles.save}>
+              <TouchableOpacity onPress={() => isEdit ? onEditPress() :  onSave()} style={styles.save}>
                 <Text style={styles.closeTxt}>Save Changes</Text>
               </TouchableOpacity>
             </View>

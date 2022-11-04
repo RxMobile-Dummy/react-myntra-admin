@@ -13,6 +13,10 @@ import getAllMainCategoryReducer from "./getAllMainCategoryReducer";
 import getMainCategoryByIdReducer from "./getMainCategoryByIdReducer";
 import deleteMainCategoryReducer from "./deleteMainCategoryByIdReducer";
 import updateMainCategoryReducer from "./updateMainCategoryByIdReducer";
+import getProductCategoryByIdReducer from "./getProductCategoryByIdReducer";
+import getProductBrandReducer from "./GetProductBrandReducer";
+import addProductBrandReducer from "./addProductBrandReducer";
+import updatedBrandReducer from "./updateBrandReducer";
 
 const reducers = combineReducers({
   auth: loginReducer,
@@ -29,6 +33,10 @@ const reducers = combineReducers({
   getMainCategoryByIdReducer: getMainCategoryByIdReducer,
   deleteMainCategoryReducer: deleteMainCategoryReducer,
   updateMainCategoryReducer: updateMainCategoryReducer,
+  getProductCategoryByIdReducer : getProductCategoryByIdReducer,
+  getProductBrandReducer : getProductBrandReducer,
+  addProductBrand : addProductBrandReducer,
+  updatedBrandReducer : updatedBrandReducer
 });
 
 export default reducers;

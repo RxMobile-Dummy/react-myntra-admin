@@ -15,3 +15,8 @@ export * from "./addCategoryAction";
 export * from "./getAllCategoryAction";
 export * from "./deleteCategoryByIdAction";
 export * from "./updateCategoryByIdAction";
+
+export * from "./getProductCategoryByIdAction";
+export * from "./getProductBrandAction"
+export * from "./addProductBrandAction"
+export * from "./updateBrandAction"

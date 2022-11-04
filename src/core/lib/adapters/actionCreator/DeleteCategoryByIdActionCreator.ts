@@ -35,22 +35,25 @@ export const DeleteCategory = (user: Props) => {
 
       const response = data.deleteProductCategoryById;
       console.log("Value of response is", response);
-      if (response && response.statusCode === 200) {
+      if ((response && response.statusCode === 200) || response.statusCode === 201) {
         dispatch({
           type: DeleteCategoryActionType.DELETE_CATEGORY_SUCCESS,
           payload: response.message,
         });
+        return { status : true, resultData : response.message }
       } else {
         dispatch({
           type: DeleteCategoryActionType.DELETE_CATEGORY_FAILED,
           payload: response.message,
         });
+        return { status : false, resultData : response.message }
       }
     } catch (error) {
       dispatch({
         type: DeleteCategoryActionType.DELETE_CATEGORY_FAILED,
         payload: error,
       });
+      return { status : false, resultData : error }
     }
   };
 };

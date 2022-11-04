@@ -39,11 +39,11 @@ const styles = StyleSheet.create({
   icon: {
     marginRight: 5,
   },
-  
+
   placeholderStyle: {
     fontSize: 16,
   },
-  
+
   selectedTextStyle: {
     fontSize: 16,
   },
@@ -58,206 +58,233 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  ctTxt : { 
-    fontSize: 16, 
-    marginTop: normalize(10), 
-    color: Colors.grayDark, 
-    fontWeight: "700" 
+  ctTxt : {
+    fontSize: 16,
+    marginTop: normalize(10),
+    color: Colors.grayDark,
+    fontWeight: "700"
   },
 
-  touchContainer : { 
-    width: "100%", 
-    height: normalize(45), 
-    borderWidth: .6, 
-    borderRadius: normalize(6), 
-    borderColor: Colors.grayDark, 
-    marginTop: normalize(8), 
-    alignItems: "center", 
-    paddingLeft: normalize(10), 
-    flexDirection: "row" 
+  touchContainer : {
+    width: "100%",
+    height: normalize(45),
+    borderWidth: .6,
+    borderRadius: normalize(6),
+    borderColor: Colors.grayDark,
+    marginTop: normalize(8),
+    alignItems: "center",
+    paddingLeft: normalize(10),
+    flexDirection: "row"
   },
 
-  iconDown : { 
-    position: "absolute", 
-    right: 10 
+  iconDown : {
+    position: "absolute",
+    right: 10
   },
 
-  tbHeader : { 
-    marginTop: normalize(15), 
-    width: "100%", 
-    backgroundColor: Colors.black, 
-    flexDirection: "row", 
-    height: normalize(45), 
-    borderTopLeftRadius: normalize(6), 
-    borderTopRightRadius: normalize(6) 
+  tbHeader : {
+    marginTop: normalize(15),
+    width: "100%",
+    backgroundColor: Colors.black,
+    flexDirection: "row",
+    height: normalize(45),
+    borderTopLeftRadius: normalize(6),
+    borderTopRightRadius: normalize(6)
+  },
+
+  tbSubDetails : {
+    width: "100%",
+    backgroundColor: Colors.white,
+    flexDirection: "row",
+    height: normalize(45),
+    borderColor: Colors.grayDark,
+    borderBottomWidth: .8,
+    borderLeftWidth: .8,
+    borderRightWidth: .8,
   },
 
   tb2Header : {
-    width: "100%", 
-    backgroundColor: "red", 
-    flexDirection: "row", 
-    height: normalize(45), 
+    width: "100%",
+    backgroundColor: "red",
+    flexDirection: "row",
+    height: normalize(45),
   },
 
-  tbCol1 : { 
-    width: normalize(50), 
-    justifyContent: "center", 
-    alignItems: "center", 
+  tbCol1 : {
+    width: normalize(50),
+    justifyContent: "center",
+    alignItems: "center",
   },
 
-  tbDetail : { 
-    fontSize: normalize(14), 
-    color: Colors.white, 
-    fontWeight: "800" 
+  tbCol3 : {
+    width: normalize(80),
+    justifyContent: "center",
+    alignItems: "center",
   },
 
-  line : { 
-    height: normalize(45), 
-    width: .4, 
-    backgroundColor: Colors.graylight 
+  tbDetail : {
+    fontSize: normalize(14),
+    color: Colors.white,
+    fontWeight: "800"
   },
 
-  tbCol2 : { 
-    width: normalize(110), 
-    justifyContent: "center", 
-    alignItems: "center", 
+  tbSubTxtDetail : {
+    fontSize: normalize(14),
+    color: Colors.black,
+  },
+  line : {
+    height: normalize(45),
+    width: .4,
+    backgroundColor: Colors.graylight
   },
 
-  subTb : { 
-    width: "100%", 
-    backgroundColor: Colors.white, 
-    borderColor: Colors.grayDark, 
-    borderBottomWidth: .8, 
-    borderLeftWidth: .8, 
-    borderRightWidth: .8, 
-    flexDirection: "row", 
-    height: normalize(45) 
+  lineDivider : {
+    height: normalize(45),
+    width: .4,
+    backgroundColor: Colors.black,
   },
 
-  subTbDetail : { 
-    fontSize: normalize(14), 
-    color: Colors.black, 
-    fontWeight: "800" 
+  tbCol2 : {
+    width: normalize(110),
+    justifyContent: "center",
+    alignItems: "center",
   },
 
-  subLine : { 
-    height: normalize(45), 
-    width: .4, 
-    backgroundColor: Colors.black 
+  subTb : {
+    width: "100%",
+    backgroundColor: Colors.white,
+    borderColor: Colors.grayDark,
+    borderBottomWidth: .8,
+    borderLeftWidth: .8,
+    borderRightWidth: .8,
+    flexDirection: "row",
+    height: normalize(45)
   },
 
-  mnTxt : { 
-    fontSize: normalize(14), 
-    color: Colors.black,  
+  subTbDetail : {
+    fontSize: normalize(14),
+    color: Colors.black,
+    fontWeight: "800"
   },
 
-  smContainer : { 
-    height: normalize(250), 
-    backgroundColor: Colors.white, 
-    width: "92%", 
-    alignSelf: "center", 
-    borderRadius: normalize(6), 
-    padding: normalize(15) 
+  subLine : {
+    height: normalize(45),
+    width: .4,
+    backgroundColor: Colors.black
   },
 
-  liTxt : { 
-    fontSize: normalize(16), 
-    color: Colors.grayDark, 
-    fontWeight: "bold", 
-    marginBottom: normalize(15) 
+  mnTxt : {
+    fontSize: normalize(14),
+    color: Colors.black,
   },
 
-  smTouch : { 
-    width: "100%", 
-    justifyContent: "center", 
-    height: normalize(30), 
+  smContainer : {
+    height: normalize(250),
+    backgroundColor: Colors.white,
+    width: "92%",
+    alignSelf: "center",
+    borderRadius: normalize(6),
+    padding: normalize(15)
   },
 
-  title : { 
-    fontSize: normalize(14), 
-    color: Colors.grayDark 
+  liTxt : {
+    fontSize: normalize(16),
+    color: Colors.grayDark,
+    fontWeight: "bold",
+    marginBottom: normalize(15)
+  },
+
+  smTouch : {
+    width: "100%",
+    justifyContent: "center",
+    height: normalize(30),
+  },
+
+  title : {
+    fontSize: normalize(14),
+    color: Colors.grayDark
   },
 
   sm2Container : {
-    height: normalize(380), 
-    width: "92%", 
-    alignSelf: "center", 
-    backgroundColor: Colors.white, 
-    borderRadius: normalize(6) 
+    height: normalize(380),
+    width: "92%",
+    alignSelf: "center",
+    backgroundColor: Colors.white,
+    borderRadius: normalize(6)
   },
 
-  sm2Sub : { 
-    height: normalize(50), 
-    backgroundColor: Colors.pink, 
-    justifyContent: "center", 
-    paddingLeft: "5%" 
+  sm2Sub : {
+    height: normalize(50),
+    backgroundColor: Colors.pink,
+    justifyContent: "center",
+    paddingLeft: "5%"
   },
 
-  sm2Txt : { 
-    fontSize: normalize(14), 
-    color: Colors.white, 
-    fontWeight: "700" 
+  sm2Txt : {
+    fontSize: normalize(14),
+    color: Colors.white,
+    fontWeight: "700"
   },
 
-  sm2 : { 
-    width: "90%", 
-    alignSelf: "center", 
-    marginTop: normalize(12) 
+  sm2 : {
+    width: "90%",
+    alignSelf: "center",
+    marginTop: normalize(12)
   },
 
-  sm2Menu : { 
-    width: "90%", 
-    height: normalize(160), 
-    marginLeft: normalize(15), 
-    marginTop: normalize(35) 
+  sm2Menu : {
+    width: "90%",
+    height: normalize(160),
+    marginLeft: normalize(15),
+    marginTop: normalize(35)
   },
 
-  menu : { 
-    width: "100%", 
-    height: normalize(45), 
-    borderWidth: .6, 
-    borderRadius: normalize(6), 
-    borderColor: Colors.grayDark, 
-    marginTop: normalize(8), 
-    alignItems: "center", 
-    paddingLeft: normalize(10), 
-    flexDirection: "row" 
+  menu : {
+    width: "100%",
+    height: normalize(45),
+    borderWidth: .6,
+    borderRadius: normalize(6),
+    borderColor: Colors.grayDark,
+    marginTop: normalize(8),
+    alignItems: "center",
+    paddingLeft: normalize(10),
+    flexDirection: "row"
   },
 
-  smCenter : { 
-    justifyContent: "center", 
-    padding: normalize(10), 
+  smCenter : {
+    justifyContent: "center",
+    padding: normalize(10),
   },
 
-  bottom : { 
-    position: "absolute", 
-    bottom: normalize(15), 
-    right: normalize(5), 
-    flexDirection: "row" 
+  bottom : {
+    position: "absolute",
+    bottom: normalize(15),
+    right: normalize(5),
+    flexDirection: "row"
   },
 
-  close : { 
-    width: normalize(80), 
-    height: normalize(35), 
-    backgroundColor: "#6c757d", 
-    borderRadius: normalize(4), 
-    justifyContent: "center", 
-    alignItems: "center" 
+  close : {
+    width: normalize(80),
+    height: normalize(35),
+    backgroundColor: "#6c757d",
+    borderRadius: normalize(4),
+    justifyContent: "center",
+    alignItems: "center"
   },
 
-  closeTxt : { 
-    fontSize: normalize(14), 
-    color: Colors.white 
+  closeTxt : {
+    fontSize: normalize(14),
+    color: Colors.white
   },
 
-  save : { 
-    marginLeft: normalize(15), 
-    width: normalize(130), 
-    height: normalize(35), 
-    backgroundColor: Colors.pink, 
-    borderRadius: normalize(4), 
-    justifyContent: "center", 
-    alignItems: "center" 
+  save : {
+    marginLeft: normalize(15),
+    width: normalize(130),
+    height: normalize(35),
+    backgroundColor: Colors.pink,
+    borderRadius: normalize(4),
+    justifyContent: "center",
+    alignItems: "center"
   }
 })
 
