@@ -72,7 +72,8 @@ const LoginScreen: React.FC<Props> = (props) => {
         deviceId : "",
         role : "admin",
       }
-    let loginResponse =  await dispatch<any>(Login(loginVariables))
+      let loginResponse =  await dispatch<any>(Login(loginVariables))
+      console.log(">>>>>>>>>>>>>>>>",loginResponse)
     if(loginResponse.status){
       showToast({type : "success", message : "Admin user login successfully"})
       setIsLoading(false)

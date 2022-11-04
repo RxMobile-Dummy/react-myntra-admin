@@ -10,3 +10,7 @@ export * from "./addCategoryActionType";
 export * from "./getAllCategoryActionType";
 export * from "./deleteCategoryByIdActionType";
 export * from "./updateCategoryByIdActionType";
+export * from "./getProductCategoryById"
+export * from "./getProductBrandActionType"
+export * from "./AddProductBrandActionTypes"
+export * from "./updateBrandByID"
