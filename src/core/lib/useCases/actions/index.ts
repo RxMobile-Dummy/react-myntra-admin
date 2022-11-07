@@ -18,7 +18,7 @@ export * from "./deleteCategoryByIdAction";
 export * from "./updateCategoryByIdAction";
 
 export * from "./getProductCategoryByIdAction";
-export * from "./getProductBrandAction";
-export * from "./addProductBrandAction";
-export * from "./updateBrandAction";
-export * from "./deleteProductBrandByIdAction";
+export * from "./getProductBrandAction"
+export * from "./addProductBrandAction"
+export * from "./updateBrandAction"
+export * from './deleteProductBrandByIdAction'

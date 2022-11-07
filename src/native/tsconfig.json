@@ -1,10 +1,11 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json",
-  "compilerOptions": {
-    "jsx": "react",
-
-    "skipLibCheck": true
-  },
+    "compilerOptions": {
+      "jsx": "react",
+      "module": "es6",
+      "target": "es6",
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true
+    },
   "include": [
     "src",
     "./node_modules/redux-persist/types"

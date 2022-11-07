@@ -5,14 +5,12 @@ import Animated from 'react-native-reanimated';
 import InputField from '../../components/InputField';
 import { Colors } from '../../Constants/Color';
 import { normalize } from '../../utils/commonStyle';
-import { Props } from './IMainCategory';
 import styles from './styles';
-import Modal from "react-native-modal"
 import { FlatList } from 'react-native-gesture-handler';
 import Button from '../../components/Button';
 import SmallModal from '../../components/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { AddMainCategory, RootState, GetAllMainCategory, UpdateMainCategory, DeleteMainCategory } from 'core';
+import { AddMainCategory, RootState, GetAllMainCategory, UpdateMainCategory, DeleteMainCategory, isEmpty } from 'core';
 import showToast from '../../components/Toast';
 import Loader from '../../components/Loader';
 
@@ -49,6 +47,11 @@ const MainCategory = () => {
   }
 
   const onSaveChanges = async () => {
+    if(isEmpty(mnTitle)){
+      showToast({type : "error", message : "Please enter main category name"})
+      setVisible(false)
+    }
+    else{
       let mainCategory = {
         maincategoryName : mnTitle,
         authToken : user.token
@@ -67,6 +70,7 @@ const MainCategory = () => {
         setVisible(false)
         setMnTitle("")
       }
+    }
   }
 
   const onEdit =  (item : any, ind) => {
@@ -77,7 +81,6 @@ const MainCategory = () => {
   }
 
   const onEditMainCategory = async () => {
-    console.log("Item isssss", allCategory[ctIndex], ctIndex)
     let updateReq = {
       authToken : user.token,
       productid : allCategory[ctIndex]._id,
@@ -89,6 +92,7 @@ const MainCategory = () => {
       showToast({type : "success", message : "Main category updated successfully"})
       setVisible(false)
       setIsEdit(false)
+      setMnTitle("")
       getAllMainCategory()
      }
      else{
@@ -126,6 +130,12 @@ const MainCategory = () => {
     );
   }
 
+  const onAdd = () => {
+    setIsEdit(false)
+    setMnTitle("")
+    setVisible(false)
+  }
+
   const renderItem = (item : any , ind : number) => {
     return(
       <View style={styles.detailHeader}>
@@ -138,11 +148,11 @@ const MainCategory = () => {
       </View>
       <View style={styles.darkLine} />
       <View style={styles.subHeader2}>
-        <Icon name = "edit" type = "feather" onPress = {() => onEdit(item, ind)} />
+        <Icon name = "edit" type = "feather" onPress = {() => onEdit(item, ind)} tvParallaxProperties={undefined} />
       </View>
       <View style={styles.darkLine} />
       <View style={styles.subHeader3}>
-      <Icon name = "delete" type = "antdesign" onPress = {() => onDelete(item)} />
+      <Icon name = "delete" type = "antdesign" onPress = {() => onDelete(item)}  tvParallaxProperties={undefined}/>
       </View>
     </View>
     )
@@ -214,7 +224,7 @@ const MainCategory = () => {
             />
           </View>
           <View style={styles.bottom}>
-            <TouchableOpacity onPress={() => setVisible(false)} style={styles.mdClose}>
+            <TouchableOpacity onPress={() => onAdd()} style={styles.mdClose}>
               <Text style={styles.mdCloseTxt}>Close</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => isEdit ? onEditMainCategory() : onSaveChanges()} style={styles.mdSave}>

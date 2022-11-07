@@ -11,10 +11,11 @@ import { normalize } from '../../utils/commonStyle';
 import styles from './styles';
 import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 import { useDispatch, useSelector } from 'react-redux';
-import { AddProductBrand, GetAllMainCategory, GetMainCategoryById, GetProductBrandActionCreator, GetProductCategoryByIDQuery, RootState, UpdateBrand, } from 'core';
+import { AddProductBrand, DeleteBrand, GetAllMainCategory, GetMainCategoryById, GetProductBrandActionCreator, GetProductCategoryByIDQuery, RootState, UpdateBrand, } from 'core';
 import showToast from '../../components/Toast';
 import Loader from '../../components/Loader';
-
+import { useIsFocused } from "@react-navigation/native";
+import { Props } from './IBrands';
 
 const MainCategory = [
   {
@@ -57,6 +58,7 @@ const categoryData = [
 
 const Brands: React.FC<Props> = ({ navigation }) => {
   const dispatch = useDispatch()
+  const isFocused = useIsFocused();
   const { user } = useSelector((state: RootState) => state.auth);
 
   const [mnCategory, setMnCategory] = useState("Select Main Category")
@@ -104,9 +106,11 @@ const Brands: React.FC<Props> = ({ navigation }) => {
   }
 
   useEffect(() => {
-    allProductBrands()
-    allMainCategory()
-  },[])
+    if(isFocused){
+      allProductBrands()
+      allMainCategory()
+    }
+  },[isFocused])
 
   const hideMenu = async (name: any) => {
     console.log("Name is", name)
@@ -220,6 +224,37 @@ const Brands: React.FC<Props> = ({ navigation }) => {
     setBrandName(item.brandname)
   }
 
+  const onDeleteBrandById = (item : any) => {
+    console.log("Delete item is", item)
+    Alert.alert(
+      "Are you sure want to remove this main category?",
+      "",
+      [
+        {
+          text: "No",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => onDeleteBrand(item)}
+      ]
+    );
+  }
+
+  const onDeleteBrand = async (item : any) => {
+     let brandRequest = {
+      authToken : user.token,
+      brandid : item._id,
+      }
+       let deleteBrandResponse = await dispatch<any>(DeleteBrand(brandRequest))
+       console.log("Delete response", deleteBrandResponse)
+       if(deleteBrandResponse.status){
+        showToast({type : "success", message : "Brand deleted successfully"})
+        allProductBrands()
+       }
+       else{
+        showToast({type : "error", message : deleteBrandResponse.resultData})
+       }
+  }
 
   return (
     <Animated.View style={styles.container}>
@@ -232,7 +267,7 @@ const Brands: React.FC<Props> = ({ navigation }) => {
             bgColor="#ff3f6c"
             children={
               <View style={styles.btnContainer}>
-                <Icon name="plus" type="antdesign" color={Colors.white} size={normalize(18)} />
+                <Icon name="plus" type="antdesign" color={Colors.white} size={normalize(18)} tvParallaxProperties={undefined} />
                 <Text style={styles.btnTxt}>Add Brand</Text>
               </View>
             }
@@ -305,7 +340,7 @@ const Brands: React.FC<Props> = ({ navigation }) => {
             </View>
             <View style={styles.lineDivider} />
             <View style={styles.tbCol2}>
-              <Text style={styles.tbSubTxtDetail}>Category</Text>
+              <Text style={styles.tbSubTxtDetail}>{item.category.Categoryname}</Text>
             </View>
             <View style={styles.lineDivider} />
             <View style={styles.tbCol2}>
@@ -313,11 +348,11 @@ const Brands: React.FC<Props> = ({ navigation }) => {
             </View>
             <View style={styles.lineDivider} />
             <View style={styles.tbCol1}>
-            <Icon name = "edit" type = "feather" onPress = {() => onEditClick(item, index)} />
+            <Icon name = "edit" type = "feather" onPress = {() => onEditClick(item, index)} tvParallaxProperties={undefined} />
             </View>
             <View style={styles.lineDivider} />
             <View style={styles.tbCol3}>
-            <Icon name = "delete" type = "antdesign" />
+            <Icon name = "delete" type = "antdesign" onPress={() => onDeleteBrandById(item)} tvParallaxProperties={undefined} />
             </View>
           </View>
               )}
@@ -360,7 +395,7 @@ const Brands: React.FC<Props> = ({ navigation }) => {
                 anchor={<TouchableOpacity onPress={() => setVisible(true)} style={styles.menu}>
                   <Text style={styles.title}>{category}</Text>
                   <View style={{ position: "absolute", right: 10 }}>
-                    <Icon type='material' name="keyboard-arrow-down" size={30} />
+                    <Icon type='material' name="keyboard-arrow-down" size={30} tvParallaxProperties={undefined} />
                   </View>
                 </TouchableOpacity>}
               >
@@ -384,7 +419,7 @@ const Brands: React.FC<Props> = ({ navigation }) => {
                 anchor={<TouchableOpacity onPress={() => setSubIsVisible(true)} style={styles.menu}>
                   <Text style={styles.title}>{subCa}</Text>
                   <View style={{ position: "absolute", right: 10 }}>
-                    <Icon type='material' name="keyboard-arrow-down" size={30} />
+                    <Icon type='material' name="keyboard-arrow-down" size={30} tvParallaxProperties={undefined} />
                   </View>
                 </TouchableOpacity>}
               >
