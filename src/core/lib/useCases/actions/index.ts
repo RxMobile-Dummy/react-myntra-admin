@@ -1,5 +1,6 @@
 export * from "./registerAction";
 export * from "./loginAction";
+export * from "./logoutAction";
 
 export * from "./forgotPasswordAction";
 export * from "./resetPasswordAction";
@@ -17,7 +18,7 @@ export * from "./deleteCategoryByIdAction";
 export * from "./updateCategoryByIdAction";
 
 export * from "./getProductCategoryByIdAction";
-export * from "./getProductBrandAction"
-export * from "./addProductBrandAction"
-export * from "./updateBrandAction"
-export * from './deleteProductBrandByIdAction'
+export * from "./getProductBrandAction";
+export * from "./addProductBrandAction";
+export * from "./updateBrandAction";
+export * from "./deleteProductBrandByIdAction";

@@ -18,6 +18,7 @@ import { Provider } from "react-redux";
 import RegisterPage from "./pages/RegisterPage";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import { NotificationContainer } from "react-notifications";
+import { Logout } from "./components/Logout";
 
 function App() {
   return (
@@ -30,7 +31,10 @@ function App() {
         <Route path="/forget-password" element={<ForgetPasswordPage />}></Route>
         <Route path="/admin" element={<AdminHomePage />} />
         <Route path="/dashboard/add-product" element={<AddProductPage />} />
-        <Route path="/dashboard/main-categories" element={<MainCategoriesPage />}/>
+        <Route
+          path="/dashboard/main-categories"
+          element={<MainCategoriesPage />}
+        />
         <Route path="/dashboard/categories" element={<CategoryPage />} />
         <Route path="/dashboard/brands" element={<BrandsPage />} />
         <Route path="/dashboard/users" element={<UsersPage />} />

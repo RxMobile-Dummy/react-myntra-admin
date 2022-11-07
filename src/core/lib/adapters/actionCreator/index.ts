@@ -1,5 +1,6 @@
 export * from "./loginActionCreator";
 export * from "./registerActionCreator";
+export { isLoggedIn, Logout, ResetLogoutState } from "./LogoutActionCreator"; //to remove the ambiguity error, due to repetion of isLoggedIn funtion
 
 export * from "./ForgotPasswordActionCreator";
 export * from "./ResetPasswordActionCreator";
