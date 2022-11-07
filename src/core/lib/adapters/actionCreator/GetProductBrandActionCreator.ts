@@ -15,11 +15,14 @@ export const GetProductBrandActionCreator = (user: Props) => {
       message
       statusCode
       data {
+        _id
         brandname
         mainCategory {
           mainCategory
         }
-        _id
+        category {
+          Categoryname
+        }
       }
     }
   }`;
@@ -29,7 +32,7 @@ export const GetProductBrandActionCreator = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<GetProductBrandAction>) => {
-    console.log("Get Category by id called .....");
+    // console.log("Get Category by id called .....");
     try {
       const data = await postRequestGraphQLAuth(
         query,
@@ -38,28 +41,29 @@ export const GetProductBrandActionCreator = (user: Props) => {
       );
 
       const response = data.getAllProductBrands;
-      console.log("Value of response is", response);
-      if ((response && response.statusCode === 200) || response.statusCode === 201) {
+      // console.log("Value of getbrand response is", response);
+      if (
+        (response && response.statusCode === 200) ||
+        response.statusCode === 201
+      ) {
         dispatch({
           type: getProductBrandActionType.GET_PRODUCT_BRAND_SUCCESS,
           payload: response.data,
         });
-        return { status : true, resultData : response.data }
+        return { status: true, resultData: response.data };
       } else {
         dispatch({
           type: getProductBrandActionType.GET_PRODUCT_BRAND_FAILED,
           payload: response.message,
         });
-        return { status : false, resultData : response.data }
-
+        return { status: false, resultData: response.data };
       }
     } catch (error) {
       dispatch({
         type: getProductBrandActionType.GET_PRODUCT_BRAND_FAILED,
         payload: error,
       });
-      return { status : false, resultData : error }
+      return { status: false, resultData: error };
     }
   };
 };
-

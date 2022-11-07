@@ -99,7 +99,7 @@ export default function CategoryPage(props: any) {
     }
   }
   useEffect(() => {
-    if (getdata2 == undefined) {
+    if (getdata2 === undefined) {
       getData();
     } else {
       setCategories(getdata2);
@@ -157,7 +157,7 @@ export default function CategoryPage(props: any) {
   const handleChange = (event: any) => {
     event.preventDefault();
     setCategoryName(event.target.value);
-    console.log("category change...", categoryName);
+    // console.log("category change...", categoryName);
   };
 
   const mainCategoryChange = (event: any) => {

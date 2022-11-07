@@ -4,8 +4,8 @@ import { postRequestGraphQLAuth } from "../../Network/ApiCall";
 import { UpdateBrandAction } from "../../useCases/actions/updateBrandAction";
 
 interface Props {
-    brandid: string;
-    updatedname: string;
+  brandid: string;
+  updatedname: string;
   authToken: string;
 }
 
@@ -26,7 +26,7 @@ export const UpdateBrand = (user: Props) => {
   };
 
   return async (dispatch: Dispatch<UpdateBrandAction>) => {
-    console.log("Update Category called .....", requestData);
+    // console.log("Update Category called .....", requestData);
     try {
       const data = await postRequestGraphQLAuth(
         query,
@@ -35,27 +35,29 @@ export const UpdateBrand = (user: Props) => {
       );
 
       const response = data.updateProductBrandById;
-      console.log("Value of response is", response);
-      if ((response && response.statusCode === 200) || response.statusCode === 201) {
+      // console.log("Value of response is", response);
+      if (
+        (response && response.statusCode === 200) ||
+        response.statusCode === 201
+      ) {
         dispatch({
           type: UpdateBrandByID.UPDATE_BRAND_SUCCESS,
           payload: response.data,
         });
-        return { status : true, resultData : response.data }
+        return { status: true, resultData: response.data };
       } else {
         dispatch({
           type: UpdateBrandByID.UPDATE_BRAND_FAILED,
           payload: response.message,
         });
-        return { status : false, resultData : response.message }
+        return { status: false, resultData: response.message };
       }
     } catch (error) {
       dispatch({
         type: UpdateBrandByID.UPDATE_BRAND_FAILED,
         payload: error,
       });
-      return { status : false, resultData : error }
+      return { status: false, resultData: error };
     }
   };
 };
-
