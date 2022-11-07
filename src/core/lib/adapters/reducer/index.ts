@@ -18,6 +18,8 @@ import getProductBrandReducer from "./GetProductBrandReducer";
 import addProductBrandReducer from "./addProductBrandReducer";
 import updatedBrandReducer from "./updateBrandReducer";
 import deleteProductBrandReducer from "./deleteProductBrandByIdReducer";
+import { LogoutAdmin } from "../actionCreator";
+import LogoutAdminReducers from "./LogoutAdminReducers";
 
 const reducers = combineReducers({
   auth: loginReducer,
@@ -39,6 +41,7 @@ const reducers = combineReducers({
   addProductBrand: addProductBrandReducer,
   updatedBrandReducer: updatedBrandReducer,
   deleteProductBrandReducer: deleteProductBrandReducer,
+  logoutAdminReducer : LogoutAdminReducers
 });
 
 export default reducers;

@@ -22,18 +22,6 @@ const ForgetPasswordScreen = (props : IForgetPassword) => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
-    console.log("Forget password is", data)
-    if(data !== undefined){
-      if(data){
-        props.navigation.navigate("ChangePassword",{
-          email : email
-        })
-      }
-    }
-  },[data])
-
-
   const onForgetPassword = async () => {
     setIsLoading(true)
     if(emailValidation(email)){
@@ -57,7 +45,7 @@ const ForgetPasswordScreen = (props : IForgetPassword) => {
     }
     else{
       setIsLoading(false)
-      showToast({type : "error", message : "Something went wrong"})
+      showToast({type : "error", message : forgetResponse.resultData})
     }
     }
   }

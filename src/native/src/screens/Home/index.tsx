@@ -8,7 +8,6 @@ import { Colors } from '../../Constants/Color';
 import LinearGradient from 'react-native-linear-gradient';
 import { Icon } from 'react-native-elements';
 import { useSelector } from 'react-redux';
-import { RootState } from 'path-redux/lib/store/reducer';
 
 
 const Home: React.FC<Props> = ({ navigation }) => {
@@ -19,6 +18,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
       icon_name: "home",
       type: "entypo",
       empty: false,
+      title : "P",
       onPress : () => navigation.navigate("Products")
     },
     {
@@ -26,6 +26,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
       icon_name: "home",
       type: "entypo",
       empty: false,
+      title : "M",
       onPress : () => navigation.navigate("Main Category")
     },
     {
@@ -33,12 +34,14 @@ const Home: React.FC<Props> = ({ navigation }) => {
       icon_name: "home",
       type: "entypo",
       empty: false,
+      title : "C",
       onPress : () => navigation.navigate("Categories")
     },
     {
       name: "Brands",
       icon_name: "home",
       type: "entypo",
+      title : "B",
       empty: false,
       onPress : () => navigation.navigate("Brands")
     },
@@ -46,12 +49,12 @@ const Home: React.FC<Props> = ({ navigation }) => {
       name: "Offers",
       icon_name: "home",
       type: "entypo",
+      title : "O",
       empty: false,
       onPress : () => navigation.navigate("Offers")
     }
   ]
 
-  const state = useSelector((state: RootState) => state.auth);
 
   // console.log("State is", state)
 
@@ -68,7 +71,8 @@ const Home: React.FC<Props> = ({ navigation }) => {
      <TouchableOpacity onPress={() => item.onPress()} activeOpacity={.7} style={styles.item}>
       <LinearGradient colors={["#FEEDF4", "#FDEFE6"]} style={styles.linear}>
         <View style={styles.item}>
-          <Icon name={item.icon_name} type={item.type} size={normalize(35)} color={Colors.pink} />
+          {/* <Icon name={item.icon_name} type={item.type} size={normalize(35)} color={Colors.pink} /> */}
+          <Text style={{fontSize : normalize(28), color : Colors.pink, fontWeight : "bold"}}>{item.title}</Text>
           <Text style={{ paddingTop: normalize(8), fontSize: normalize(14), color: Colors.pink }}>{item.name}</Text>
         </View>
       </LinearGradient>

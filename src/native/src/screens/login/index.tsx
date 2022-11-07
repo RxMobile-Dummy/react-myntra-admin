@@ -23,13 +23,12 @@ import showToast from '../../components/Toast';
 import Loader from '../../components/Loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LoginScreen: React.FC<Props> = (props) => {
+const LoginScreen: React.FC<Props> = (props : any) => {
 
   const dispatch = useDispatch()
   //const state = useSelector()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState("")
   const [isLoading,setIsLoading] = useState(false)
 
   const state = useSelector((state: RootState) => state.auth.registerData);
@@ -73,7 +72,6 @@ const LoginScreen: React.FC<Props> = (props) => {
         role : "admin",
       }
       let loginResponse =  await dispatch<any>(Login(loginVariables))
-      console.log(">>>>>>>>>>>>>>>>",loginResponse)
     if(loginResponse.status){
       showToast({type : "success", message : "Admin user login successfully"})
       setIsLoading(false)
@@ -83,7 +81,7 @@ const LoginScreen: React.FC<Props> = (props) => {
       props.navigation.navigate("HomeDash")
     }
     else{
-      showToast({type : "error", message : "Something went wrong"})
+      showToast({type : "error", message : loginResponse.data})
       setIsLoading(false)
     }
     }

@@ -18,10 +18,9 @@ const DrawerMenu = () => {
   return (
     <Drawer.Navigator
        drawerContent={props => <CustomDrawer {...props} />}
-       
       screenOptions={{
         drawerLabelStyle: {
-          marginLeft: -25,
+          // marginLeft: -25,
         },
         headerStyle: {
           backgroundColor: Colors.tertiary,
@@ -37,9 +36,9 @@ const DrawerMenu = () => {
         name="Home"
         component={Home}
         options={{
-          drawerIcon: ({ color, size }) => {
-            return <Icon name="home" size={size} color={color} />;
-          },
+          // drawerIcon: ({ color, size }) => {
+          //   return <Icon name="home" size={size} color={color} />;
+          // },
         }}
       />
 
@@ -47,18 +46,18 @@ const DrawerMenu = () => {
         name="Products"
         component={Products}
         options={{
-          drawerIcon: ({ color, size }) => {
-            return <Icon name="home" size={size} color={color} />;
-          },
+          // drawerIcon: ({ color, size }) => {
+          //   return <Icon name="home" size={size} color={color} />;
+          // },
         }}
       />
       <Drawer.Screen
         name="Main Category"
         component={MainCategory}
         options={{
-          drawerIcon: ({ color, size }) => {
-            return <Icon name="home" size={size} color={color} />;
-          },
+          // drawerIcon: ({ color, size }) => {
+          //   return <Icon name="home" size={size} color={color} />;
+          // },
         }}
       />
 
@@ -66,11 +65,11 @@ const DrawerMenu = () => {
         name="Categories"
         component={Categories}
         options={{
-          drawerIcon: ({ color, size }) => {
-            return (
-              <Icon name="home" size={size} color={color} />
-            );
-          },
+          // drawerIcon: ({ color, size }) => {
+          //   return (
+          //     <Icon name="home" size={size} color={color} />
+          //   );
+          // },
         }}
       />
 
@@ -78,11 +77,11 @@ const DrawerMenu = () => {
         name="Brands"
         component={Brands}
         options={{
-          drawerIcon: ({ color, size }) => {
-            return (
-              <Icon name="home" size={size} color={color} />
-            );
-          },
+          // drawerIcon: ({ color, size }) => {
+          //   return (
+          //     <Icon name="home" size={size} color={color} />
+          //   );
+          // },
         }}
       />
 
@@ -90,11 +89,11 @@ const DrawerMenu = () => {
         name="Offers"
         component={Offers}
         options={{
-          drawerIcon: ({ color, size }) => {
-            return (
-              <Icon name="local-offer" type='material-icons' size={size} color={color} />
-            );
-          },
+          // drawerIcon: ({ color, size }) => {
+          //   return (
+          //     <Icon name="local-offer" type='material-icons' size={size} color={color} />
+          //   );
+          // },
         }}
       />
     </Drawer.Navigator>
