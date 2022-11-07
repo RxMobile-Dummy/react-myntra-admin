@@ -34,7 +34,7 @@ export const Login = (user: Props) => {
       message
       statusCode
       data {
-        _id
+        
         fullName
         email
         token
@@ -43,6 +43,7 @@ export const Login = (user: Props) => {
         dob
         deviceId
         role
+        _id
       }
     }
   }`;
