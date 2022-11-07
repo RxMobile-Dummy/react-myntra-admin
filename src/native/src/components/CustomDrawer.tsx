@@ -9,17 +9,29 @@ import {
 import {Images} from '../../assets/images';
 import {Colors} from '../Constants/Color';
 import { Icon } from 'react-native-elements';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { isLoggedIn } from 'core';
+import { isLoggedIn, LogoutAdmin, RootState } from 'core';
+import showToast from './Toast';
 
 const CustomDrawer = (props : any) => {
 
   const dispatch = useDispatch()
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const onSignout = async () => {
-   await AsyncStorage.setItem("token", "")
-   dispatch<any>(isLoggedIn(false))
+    let logoutRequest = {
+      adminId : user._id,
+      authToken : user.token,
+      // authToken : user.token
+    }
+    let logoutResponse = await dispatch<any>(LogoutAdmin(logoutRequest))
+    console.log("Logout is", logoutResponse)
+    if(logoutResponse.status){
+      showToast({type : "success", message : "Admin logout successfully"})
+      dispatch<any>(isLoggedIn(false))
+      await AsyncStorage.setItem("token", "")
+   }
   }
 
   return (
@@ -29,28 +41,17 @@ const CustomDrawer = (props : any) => {
         contentContainerStyle={styles.conContainer}>
         <View style={styles.imgBg}>
           <Image source={Images.UserProfile} style={styles.profile} />
-          <Text style={styles.userName}>Dhaval Patel</Text>
+          <Text style={styles.userName}>{user.fullName}</Text>
         </View>
         <View style={styles.drawerItem}>
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
       <View style={styles.bottomBar}>
-        <TouchableOpacity style={styles.shareBtn}>
-          <View style={styles.shareView}>
-            {/* <Ionicons
-              name="share-social-outline"
-              size={22}
-              color={Colors.grayDark}
-            /> */}
-            <Icon name="home" size={22} color={Colors.grayDark} tvParallaxProperties={undefined} />
-            <Text style={styles.shareText}>Tell a friend</Text>
-          </View>
-        </TouchableOpacity>
         <TouchableOpacity onPress={() => onSignout()} style={styles.shareBtn}>
           <View style={styles.shareView}>
             {/* <Ionicons name="exit-outline" size={22} color={Colors.grayDark} /> */}
-            <Icon name="home" size={22} color={Colors.grayDark} tvParallaxProperties={undefined} />
+            {/* <Icon name="home" size={22} color={Colors.grayDark} tvParallaxProperties={undefined} /> */}
             <Text style={styles.shareText}>Signout</Text>
           </View>
         </TouchableOpacity>

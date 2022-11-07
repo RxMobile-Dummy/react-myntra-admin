@@ -62,9 +62,6 @@ const Products: React.FC<Props> = ({ navigation }) => {
   return (
     <Animated.View style={styles.container}>
       <KeyboardAwareScrollView bounces={false} scrollIndicatorInsets={{ right: 1 }} enableOnAndroid={true} style={{ ...commonStyles.scrollviewContainer }}>
-        <View style={styles.subHeader}>
-          <Text style={styles.headerTxt}>Product Details</Text>
-        </View>
         <View style={styles.center}>
           <FlatList
             data={data}
@@ -186,7 +183,7 @@ const Products: React.FC<Props> = ({ navigation }) => {
             }
           />
           </View>
-          
+
         </View>
       </KeyboardAwareScrollView>
     </Animated.View>

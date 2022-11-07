@@ -13,7 +13,7 @@ import InputField from '../../components/InputField';
 import { normalize } from '../../utils/commonStyle';
 import Button from '../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { ChangePassword, confirmPasswordValidation, emailValidation, passwordValidation, ResetForgotPasswordState, ResetPassword, RootState } from "core"
+import { ChangePassword, confirmPasswordValidation, emailValidation, isEmpty, passwordValidation, ResetForgotPasswordState, ResetPassword, RootState } from "core"
 import showToast from '../../components/Toast';
 import Loader from '../../components/Loader';
 import { styles } from "./ChangePasswordStyle"
@@ -27,26 +27,21 @@ const ChangePasswordScreen = (props: any) => {
         (state: RootState) => state.resetPasswordReducer
       );
 
-    useEffect(() => {
-        console.log("Change password", props.route.params.email)
-        if(resetData !== undefined){
-            if(resetData){
-                props.navigation.navigate("Login")
-            }
-        }
-    }, [resetData])
-
     const [otp, setOTP] = useState("");
     const [password, setPassword] = useState('');
     const [passwordChange, setPasswordChange] = useState('');
     const [isLoading, setIsLoading] = useState(false)
-
 
     const onChangePassword = async () => {
         setIsLoading(true)
         let email = props.route.params.email
         if (emailValidation(email)) {
             showToast({ type: "error", message: emailValidation(email) })
+            setIsLoading(false)
+            return
+        }
+        else if(isEmpty(otp)){
+            showToast({ type: "error", message: "OTP is required" })
             setIsLoading(false)
             return
         }

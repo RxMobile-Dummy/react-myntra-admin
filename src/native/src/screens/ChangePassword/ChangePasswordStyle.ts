@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
         paddingTop: normalize(15),
         paddingBottom: normalize(20),
         width: '100%',
-        height : Dimensions.get("window").height /2
+        height : Dimensions.get("window").height / 1.9
       },
       lgTxt: {
         fontSize: normalize(12),
@@ -82,7 +82,7 @@ export const styles = StyleSheet.create({
       },
       bottom : {
         position : "absolute",
-        bottom : 6,
+        bottom : normalize(10),
         justifyContent : "center",
         alignItems : "center",
         alignSelf : "center"

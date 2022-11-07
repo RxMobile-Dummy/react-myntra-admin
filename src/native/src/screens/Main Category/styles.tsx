@@ -35,7 +35,9 @@ header : {
   width: "100%",
   backgroundColor: Colors.black,
   flexDirection: "row",
-  height: normalize(45)
+  height: normalize(45),
+  borderTopLeftRadius : normalize(6),
+  borderTopRightRadius : normalize(6)
 },
 titleDiv : {
   width: "15%",

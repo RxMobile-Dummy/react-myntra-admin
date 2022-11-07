@@ -6,23 +6,29 @@ import Button from '../../components/Button';
 import InputField from '../../components/InputField';
 import SmallModal from '../../components/Modal';
 import { Colors } from '../../Constants/Color';
-import { String } from '../../Constants/String';
 import { normalize } from '../../utils/commonStyle';
 import { Props } from './ICategories';
 import styles from './styles';
-import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
+import { Menu } from 'react-native-material-menu';
 import { useDispatch, useSelector } from 'react-redux';
-import { AddCategory, GetAllCategory, GetAllMainCategory, RootState, UpdateCategory } from 'core';
+import { AddCategory, DeleteCategory, GetAllCategory, GetAllMainCategory, RootState, UpdateCategory } from 'core';
 import showToast from '../../components/Toast';
+import { useIsFocused } from "@react-navigation/native";
 
-const Categories: React.FC<Props> = ({ navigation }) => {
+const Categories: React.FC<Props> = (props : any) => {
   const dispatch = useDispatch()
+  const isFocused = useIsFocused();
   const { user } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    getAllMainCategory()
-    getAllCategory()
-  },[])
+    console.log("User is", user)
+    if(isFocused){
+      console.log("Inside")
+      getAllMainCategory()
+      getAllCategory()
+    }
+
+  },[isFocused])
 
   const [mnCategory, setMnCategory] = useState("")
   const [isVisible, setIsVisible] = useState(false)
@@ -32,7 +38,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
   const [cTitle, setCTitle] = useState("")
   const [bagData, setBagData] = useState<any>([])
   const [allCategory, setAllCategory] = useState<any>([])
-  const [cTIndex, setCTIndex] = useState(0)
+  const [cTIndex, setCTIndex] = useState("")
   const [isEdit, setIsEdit] = useState(false)
 
 
@@ -41,7 +47,6 @@ const Categories: React.FC<Props> = ({ navigation }) => {
       authToken : user.token
     }
    let allMainCategory = await dispatch<any>(GetAllMainCategory(userToekn))
-   console.log("All main category",allMainCategory.resultData )
    if(allMainCategory.status){
     setAllCategory(allMainCategory.resultData)
     showToast({type : "success" , message : "All main category fetch successfully"})
@@ -56,7 +61,6 @@ const Categories: React.FC<Props> = ({ navigation }) => {
       authToken : user.token
     }
     let allCategory = await dispatch<any>(GetAllCategory(userToekn))
-    console.log("All category",allCategory.resultData )
     if(allCategory.status){
       showToast({type : "success", message : "All category fetch successfully"})
       setBagData(allCategory.resultData)
@@ -70,8 +74,6 @@ const Categories: React.FC<Props> = ({ navigation }) => {
     setCategory(name)
     setVisible(false)
   };
-
-  const showMenu = () => setVisible(true);
 
   const onCategorySelect = (name: string) => {
     setCategory(name)
@@ -107,8 +109,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
     )
   }
 
-  const onEdit = (item : any, ind : number) => {
-    console.log("item", item)
+  const onEdit = (item : any, ind : string) => {
     setAddIsVisible(true)
     setIsEdit(true)
     setCTIndex(ind)
@@ -117,18 +118,16 @@ const Categories: React.FC<Props> = ({ navigation }) => {
   }
 
   const onEditPress = async () => {
-
     let editReq = {
-      categoryid : allCategory[cTIndex]._id,
+      categoryid : cTIndex,
       updatedcategoryname : cTitle,
       authToken : user.token
     }
-    console.log("On edit press", editReq)
     let editResponse = await dispatch<any>(UpdateCategory(editReq))
-    console.log("On Edit response is", editResponse.status)
     if(editResponse.status){
       showToast({type : "success", message : "Category edited successfully"})
-      // getAllCategory()
+       getAllCategory()
+      setIsEdit(false)
       setAddIsVisible(false)
     }
     else{
@@ -137,13 +136,51 @@ const Categories: React.FC<Props> = ({ navigation }) => {
     }
   }
 
+  const onAddCategory = () => {
+    setAddIsVisible(true)
+    setCTitle("")
+    setIsEdit(false)
+    setCategory("Select Main Category")
+  }
+
+  const onDeleteCategory = async (item : any) => {
+    let deleteCategoryRequest = {
+      authToken : user.token,
+      categoryid : item._id
+    }
+    const deleteCategoryResponse = await dispatch<any>(DeleteCategory(deleteCategoryRequest))
+    if(deleteCategoryResponse.status){
+      showToast({type : "success", message : "Category deleted successfully"})
+      getAllCategory()
+    }
+    else{
+      showToast({type : "error", message : "something went wrong"})
+    }
+  }
+
+  const onDelete = (item : any) => {
+    // console.log("Item is", item)
+    Alert.alert(
+      "Are you sure want to remove this main category?",
+      "",
+      [
+        {
+          text: "No",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => onDeleteCategory(item)}
+      ]
+    );
+  }
+
   return (
     <Animated.View style={styles.container}>
-      <ScrollView style={{ marginBottom: normalize(20) }}>
+      <ScrollView style={{ marginBottom: normalize(30) }}>
         <View style={styles.center}>
           <Button
             height={normalize(45)}
-            onPress={() => setAddIsVisible(true)}
+            onPress={() => onAddCategory()}
             bgColor="#ff3f6c"
             children={
               <View style={styles.btnContainer}>
@@ -208,11 +245,11 @@ const Categories: React.FC<Props> = ({ navigation }) => {
               </View>
               <View style={styles.subLine} />
               <View style={styles.tbCol3}>
-              <Icon name = "edit" type = "feather" onPress = {() => onEdit(item, index)} />
+              <Icon name = "edit" type = "feather" onPress = {() => onEdit(item, item._id)} tvParallaxProperties={undefined} />
               </View>
               <View style={styles.subLine} />
               <View style={styles.tbCol4}>
-              <Icon name = "delete" type = "antdesign" />
+              <Icon name = "delete" type = "antdesign" onPress = {() => onDelete(item)} tvParallaxProperties={undefined} />
               </View>
             </View>
             )}
