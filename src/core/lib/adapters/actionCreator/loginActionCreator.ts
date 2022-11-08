@@ -34,6 +34,7 @@ export const Login = (user: Props) => {
       message
       statusCode
       data {
+        
         fullName
         email
         token
@@ -41,6 +42,8 @@ export const Login = (user: Props) => {
         gender
         dob
         deviceId
+        _id
+        role
         _id
       }
     }

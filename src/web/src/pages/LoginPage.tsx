@@ -5,7 +5,7 @@ import Navbar from "../components/NavBar";
 import { Login, RootState, ResetLoginState } from "core";
 import { useNavigate, Link } from "react-router-dom";
 import { NotificationManager } from "react-notifications";
-import { setUserSession, setUserData } from "../utils/Storage";
+import { setUserSession, setUserData, isUserSessions } from "../utils/Storage";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -17,23 +17,24 @@ export default function LoginPage() {
   const [errors, setErrors] = useState(null);
 
   let { loginData, error } = useSelector((state: RootState) => state.auth);
+  // console.log("Login Data :: ", loginData);
 
   useEffect(() => {
     if (loginData) {
-      //  console.log("data:::us: ", loginData);
       setUserSession(loginData.token, loginData._id);
       setUserData(loginData);
-      navigate("/dashboard/add-product");
+      // navigate("/dashboard/add-product");
     } else if (error) {
-      // console.log("error:::us: ", error);
-      // console.log("error:::us: ");
-
       NotificationManager.error(error, "", 2000);
-
       dispatch<any>(ResetLoginState());
     }
   }, [loginData, error]);
 
+  // useEffect(() => {
+  //   if (isUserSessions()) {
+  //     navigate("/");
+  //   }
+  // });
   const handleChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setEmail(event.target.value);
@@ -57,8 +58,9 @@ export default function LoginPage() {
     let loginResponse = await dispatch<any>(Login(paramData));
     if (loginResponse.status) {
       localStorage.setItem("token", loginResponse.data.token);
-      // console.log("Login response", loginResponse.data)
+      // console.log("Login response", loginResponse.data);
       // console.log("Token data", token)
+      navigate("/dashboard/add-product");
     }
   };
 

@@ -1,5 +1,6 @@
 export * from "./registerAction";
 export * from "./loginAction";
+export * from "./logoutAction";
 
 export * from "./forgotPasswordAction";
 export * from "./resetPasswordAction";
@@ -21,5 +22,3 @@ export * from "./getProductBrandAction"
 export * from "./addProductBrandAction"
 export * from "./updateBrandAction"
 export * from './deleteProductBrandByIdAction'
-
-export * from "./LogoutAdminAction"
