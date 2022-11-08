@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
     color: Colors.white
   },
   center : {
-    width : "90%", 
-    alignSelf : "center", 
+    width : "90%",
+    alignSelf : "center",
   },
   labelTxt : {
     fontSize : normalize(14),
@@ -48,39 +48,41 @@ const styles = StyleSheet.create({
     justifyContent : "center",
     alignItems : "center"
   },
-  upload : { 
-    width: "40%", 
-    paddingLeft : normalize(10), 
-    height: normalize(30), 
+  upload : {
+    width: "50%",
+    flexDirection : "row",
+    // paddingLeft : normalize(10),
+    height: normalize(30),
     justifyContent :"center",
-    borderWidth: .8, 
-    borderColor: Colors.grayDark, 
-    marginTop : normalize(10), 
-    borderRadius : normalize(6) 
+    alignItems : "center",
+    borderWidth: .8,
+    borderColor: Colors.grayDark,
+    marginTop : normalize(10),
+    borderRadius : normalize(6)
   },
-  checkContainer : { 
-    flexDirection: "row", 
-    alignItems: "center", 
-    marginTop: normalize(10),  
+  checkContainer : {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: normalize(10),
   },
-  check : { 
-    height: normalize(20), 
-    width: normalize(20), 
-    justifyContent: "center", 
-    alignItems: "center", 
-    borderRadius: normalize(4), 
-    borderWidth: .8, 
-    borderColor: Colors.grayDark, 
-    marginRight: normalize(6) 
+  check : {
+    height: normalize(20),
+    width: normalize(20),
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: normalize(4),
+    borderWidth: .8,
+    borderColor: Colors.grayDark,
+    marginRight: normalize(6)
   },
   touchContainer: {
-    justifyContent : "center", 
-    alignItems : "center", 
+    justifyContent : "center",
+    alignItems : "center",
     flex : 1
   },
   touchTxt : {
-    fontSize : normalize(14), 
-    color : Colors.white, 
+    fontSize : normalize(14),
+    color : Colors.white,
     fontWeight : "bold"
   }
 });

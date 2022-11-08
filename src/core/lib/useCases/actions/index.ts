@@ -22,3 +22,6 @@ export * from "./getProductBrandAction"
 export * from "./addProductBrandAction"
 export * from "./updateBrandAction"
 export * from './deleteProductBrandByIdAction'
+
+
+export * from "./AddProductAction"
