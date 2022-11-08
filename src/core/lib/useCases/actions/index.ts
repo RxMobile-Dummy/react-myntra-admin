@@ -23,3 +23,4 @@ export * from "./updateBrandAction"
 export * from './deleteProductBrandByIdAction'
 
 export * from "./LogoutAdminAction"
+export * from "./AddProductAction"

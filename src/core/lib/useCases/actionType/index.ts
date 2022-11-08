@@ -22,3 +22,4 @@ export * from "./AddProductBrandActionTypes";
 export * from "./updateBrandByID";
 export * from "./deleteProductBrandByIdActionType";
 export * from "./logoutAdminActionType"
+export * from "./AddProductActionType"

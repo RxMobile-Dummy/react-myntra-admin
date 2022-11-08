@@ -134,34 +134,12 @@ const Brands: React.FC<Props> = ({ navigation }) => {
     setSubIsVisible(false)
   }
 
-  const showMenu = () => setVisible(true);
-
   const onCategorySelect = (name: any) => {
     console.log("Name is", name)
     setMnCategory(name.mainCategory)
     setIsVisible(false)
   }
 
-  const onSave = () => {
-    let category = { ctTitle: "", mnTitle: "" }
-    let data = [...bagData, category]
-    // setCTIndex(cTIndex + 1)
-    setBagData(data)
-    setAddIsVisible(false)
-  }
-
-
-  const onAdd = (ctTitle: string) => {
-    let data = [...bagData].reduce((acc: any, cur: any, ind) => {
-      if (ind === cTIndex) {
-          cur.ctTitle = ctTitle,
-          cur.mnTitle = category
-      }
-      acc.push(cur)
-      return acc
-    }, [])
-    setBagData(data)
-  }
 
   const onCategory = (name : string) => {
     setCategory(name)
@@ -180,9 +158,10 @@ const Brands: React.FC<Props> = ({ navigation }) => {
     console.log("Updated brand", updateBrand)
     if(updateBrand.status){
       showToast({type : "success", message : "Brand name updated successfully"})
-      setAddIsVisible(false)
-      setCategory("")
+      setMnCategory("Select Main category")
+      setCategory("Select Category")
       setBrandName("")
+      setAddIsVisible(false)
       allProductBrands()
       setIsEdit(false)
       setIsLoading(false)
@@ -220,6 +199,7 @@ const Brands: React.FC<Props> = ({ navigation }) => {
     setAddIsVisible(true)
     setIsEdit(true)
     setCTIndex(index)
+    setSuCa(item.category.Categoryname)
     setCategory(item.mainCategory.mainCategory)
     setBrandName(item.brandname)
   }
@@ -256,6 +236,13 @@ const Brands: React.FC<Props> = ({ navigation }) => {
        }
   }
 
+  const AddButton = () => {
+    setMnCategory("Select Main Category")
+    setCategory("Select Category")
+    setBrandName("")
+    setAddIsVisible(true)
+  }
+
   return (
     <Animated.View style={styles.container}>
       {isLoading && <Loader/>}
@@ -263,7 +250,7 @@ const Brands: React.FC<Props> = ({ navigation }) => {
         <View style={styles.center}>
           <Button
             height={normalize(45)}
-            onPress={() => setAddIsVisible(true)}
+            onPress={() => AddButton()}
             bgColor="#ff3f6c"
             children={
               <View style={styles.btnContainer}>
