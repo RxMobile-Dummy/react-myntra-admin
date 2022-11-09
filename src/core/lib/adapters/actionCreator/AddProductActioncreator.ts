@@ -4,16 +4,16 @@ import { postRequestGraphQLAuth } from "../../Network/ApiCall";
 import { AddProductAction } from "../../useCases/actions/AddProductAction";
 
 interface Props {
-    productdetails: string,
-    productname: string,
-    productImage: any,
-    deliverable: any,
-    returnable: any,
-    brand: any,
-    category: any,
-    maincategory: any,
-    productSize: any
-    authToken: string;
+  maincategory: string;
+  category: string;
+  brand: string;
+  productname: string;
+  productdetails: string;
+  productImage: string[];
+  productSize: string;
+  deliverable: string;
+  returnable: boolean;
+  authToken: string;
 }
 
 export const AddProduct = (user: Props) => {
@@ -25,20 +25,20 @@ export const AddProduct = (user: Props) => {
   }`;
 
   const requestData = {
-    productdetails: user.productdetails,
+    maincategory: user.maincategory,
+    category: user.category,
+    brand: user.brand,
     productname: user.productname,
+    productdetails: user.productdetails,
     productImage: user.productImage,
+    productSize: user.productSize,
     deliverable: user.deliverable,
     returnable: user.returnable,
-    brand: user.brand,
-    category: user.category,
-    maincategory: user.maincategory,
-    productSize: user.productSize,
-    authToken: user.authToken
+    authToken: user.authToken,
   };
 
   return async (dispatch: Dispatch<AddProductAction>) => {
-    // console.log("Add Main Category called .....", requestData);
+    console.log("Add Product called .....", requestData);
     try {
       const data = await postRequestGraphQLAuth(
         query,
@@ -46,17 +46,17 @@ export const AddProduct = (user: Props) => {
         user.authToken
       );
 
-      const response = data.addMainCategory;
-      // console.log("Value of response is", response);
+      const response = data.addProduct;
+      console.log("Value of response is", response);
       if (
         (response && response.statusCode === 200) ||
         response.statusCode === 201
       ) {
         dispatch({
           type: AddProductActionType.ADD_PRODUCT_SUCCESS,
-          payload: response.data,
+          payload: response.message,
         });
-        return { status: true, resultData: response.data };
+        return { status: true, resultData: response.message };
       } else {
         dispatch({
           type: AddProductActionType.ADD_PRODUCT_FAILED,
@@ -73,4 +73,3 @@ export const AddProduct = (user: Props) => {
     }
   };
 };
-

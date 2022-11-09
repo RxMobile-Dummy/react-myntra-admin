@@ -98,7 +98,7 @@ export default function BrandsPage(props: any) {
     );
     // console.log("All main category", allMaincategoryResponse.resultData);
     setMainCategories(allMaincategoryResponse.resultData);
-    console.log(mainCategories)
+    // console.log(mainCategories)
   };
   const allCategory = async () => {
     let userToken: any = {
